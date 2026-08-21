@@ -170,13 +170,13 @@ A diagram that requires horizontal scrolling on a standard viewport has failed.
 For math, proration, or allocation scenarios, use a worked-example table with column headers for each category and rows for each line item. Include a totals row. Add a brief annotation below explaining the formula or logic.
 
 ```markdown
-| Item | BenefitsPay eligible | Amount | BenefitsPay covers | Customer pays |
+| Item | AcmePay eligible | Amount | AcmePay covers | Customer pays |
 |---|---|---|---|---|
 | Milk (1 gal) | Yes | $4.50 | $4.50 | $0.00 |
 | Chips | No | $3.99 | $0.00 | $3.99 |
 | **Total** | | **$8.49** | **$4.50** | **$3.99** |
 
-BenefitsPay benefits apply to eligible items first. The remaining balance is charged
+AcmePay benefits apply to eligible items first. The remaining balance is charged
 to the customer's selected payment method.
 ```
 

@@ -33,7 +33,7 @@ This should be the path to the markdown file to audit.
 
 2. **Read the framework**
 
-   - Read and understand: `~/projects/readme-payments-api-docs/_extras/style-guides/diataxis/README.md`
+   - Read and understand: `~/projects/example-docs-repo/_extras/style-guides/diataxis/README.md`
    - Focus on: four types, classification axes, boundary rules
    - Use `Read` tool
    - Note: Multiple files can be read in parallel if needed
@@ -526,7 +526,7 @@ Handle these error conditions gracefully:
 
 ## Diataxis Framework Reference
 
-**Full framework**: `~/projects/readme-payments-api-docs/_extras/style-guides/diataxis/README.md`
+**Full framework**: `~/projects/example-docs-repo/_extras/style-guides/diataxis/README.md`
 
 ### Quick Reference
 
@@ -553,11 +553,11 @@ Handle these error conditions gracefully:
 
 **For complete details** (type definitions, classification decision tree, content patterns, anti-patterns, language requirements, content migration rules):
 
-Read: `~/projects/readme-payments-api-docs/_extras/style-guides/diataxis/README.md`
+Read: `~/projects/example-docs-repo/_extras/style-guides/diataxis/README.md`
 
 ## Reference
 
-- Framework source: `~/projects/readme-payments-api-docs/_extras/style-guides/diataxis/README.md`
+- Framework source: `~/projects/example-docs-repo/_extras/style-guides/diataxis/README.md`
 - Schema directory: `_shared/schemas/diataxis-audit-mapping/`
   - JSON schema: `_shared/schemas/diataxis-audit-mapping/schema.json`
   - Schema documentation: `_shared/schemas/diataxis-audit-mapping/README.md`

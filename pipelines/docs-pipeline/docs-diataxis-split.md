@@ -92,10 +92,10 @@ For each entry in `target_documents[]` from the JSON mapping, convert the target
 - type `explanation`, title `"Recurring Charges and the Billing Engine"` → `intro-to-billing_recurring-charges.md`
 - type `reference`, title `"Integration Options"` → `intro-to-billing_integration-options.md`
 
-**Examples** (guide prefix `benefitspay`):
-- type `explanation`, title `"Understanding BenefitsPay Payments"` → `benefitspay_understanding-payments.md`
-- type `how-to`, title `"How to Integrate BenefitsPay with the Platform"` → `benefitspay_integrate-with-platform.md`
-- type `reference`, title `"BenefitsPay API Reference"` → `benefitspay_api-reference.md`
+**Examples** (guide prefix `acmepay`):
+- type `explanation`, title `"Understanding AcmePay Payments"` → `acmepay_understanding-payments.md`
+- type `how-to`, title `"How to Integrate AcmePay with the Platform"` → `acmepay_integrate-with-platform.md`
+- type `reference`, title `"AcmePay API Reference"` → `acmepay_api-reference.md`
 
 Store each filename as you go — you'll need these for the overview doc.
 
@@ -105,11 +105,11 @@ Run these checks on the proposed filename (stem only, no `.md`):
 
 | Check | Rule | Example fail |
 |---|---|---|
-| Lowercase + dashes only | No uppercase, underscores, or spaces | `BenefitsPay-Payments`, `benefitspay_payments` |
+| Lowercase + dashes only | No uppercase, underscores, or spaces | `AcmePay-Payments`, `acmepay_payments` |
 | Area prefix present | At least one segment before the first dash | `payments.md` (no prefix) |
-| Length | 2–4 dash-separated segments total | `benefitspay-a.md`, `benefitspay-payment-api-endpoint-list.md` |
-| No gerunds | No word ending in `-ing` in any segment | `benefitspay-understanding-payments.md` |
-| No bare type words | Descriptor is not solely `introduction` or `explanation` | `benefitspay-introduction.md`, `benefitspay-explanation.md` |
+| Length | 2–4 dash-separated segments total | `acmepay-a.md`, `acmepay-payment-api-endpoint-list.md` |
+| No gerunds | No word ending in `-ing` in any segment | `acmepay-understanding-payments.md` |
+| No bare type words | Descriptor is not solely `introduction` or `explanation` | `acmepay-introduction.md`, `acmepay-explanation.md` |
 
 If any check fails, propose a corrected filename and confirm with the user before writing. Do not write the file with an invalid name.
 
@@ -152,8 +152,8 @@ For each `sections[]` entry in this target document:
 
 At the top of each typed doc, below the H1 but before the first section heading, add a one-line reader signpost appropriate to the doc type:
 
-- **Explanation**: `> New to BenefitsPay? This doc explains the concepts. Ready to implement? See [How to Integrate — title](./how-to-filename).`
-- **How-to**: `> New to BenefitsPay? Read [Understanding BenefitsPay — title](./explanation-filename) first. For endpoint specs, see [API Reference — title](./reference-filename).`
+- **Explanation**: `> New to AcmePay? This doc explains the concepts. Ready to implement? See [How to Integrate — title](./how-to-filename).`
+- **How-to**: `> New to AcmePay? Read [Understanding AcmePay — title](./explanation-filename) first. For endpoint specs, see [API Reference — title](./reference-filename).`
 - **Reference**: `> For step-by-step instructions, see [How to Integrate — title](./how-to-filename).`
 - **Tutorial**: `> When you're ready to go beyond the tutorial, see [How to Integrate — title](./how-to-filename).`
 
@@ -294,7 +294,7 @@ What's next:
 
 ## Overview Doc Reference
 
-The overview doc follows the same pattern as `benefitspay-overview.md`. Refer to it as a style reference:
+The overview doc follows the same pattern as `acmepay-overview.md`. Refer to it as a style reference:
 
 ```
 docs/output/docs/{AREA_PREFIX}/index.md

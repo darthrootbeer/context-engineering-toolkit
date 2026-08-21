@@ -28,7 +28,7 @@ This should be a path to a **folder** or a single `.md` **file**, with an option
 
 **Required:** The `[folder-or-file-path]` parameter is mandatory. If not provided, stop and ask: "Please provide a folder or file path: `/docs-link-check [path]`"
 
-**Primary use case:** folder path — when a large guide has been split into multiple pieces (e.g., `output/benefitspay/`), run against the directory and the skill discovers all `.md` files automatically.
+**Primary use case:** folder path — when a large guide has been split into multiple pieces (e.g., `output/acmepay/`), run against the directory and the skill discovers all `.md` files automatically.
 
 ---
 
@@ -42,7 +42,7 @@ This should be a path to a **folder** or a single `.md` **file**, with an option
   - **Directory**: Glob all `.md` files inside it (non-recursive is fine; use `**/*.md` if subdirs are expected). Abort if zero `.md` files found: "No markdown files found in: [path]"
   - **File**: Use that single file. Abort if it doesn't exist: "File not found: [path]"
 - For each draft file, derive `INPUT_BASENAME`:
-  - Get filename stem (no extension, no leading path): e.g., `benefitspay-overview.md` → `benefitspay-overview`
+  - Get filename stem (no extension, no leading path): e.g., `acmepay-overview.md` → `acmepay-overview`
 - Store the full draft file list and their basenames.
 
 ### 2. Read draft files

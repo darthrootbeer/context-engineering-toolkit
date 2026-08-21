@@ -22,7 +22,7 @@ The user provided: $ARGUMENTS
 ## Constants
 
 ```
-REFERENCE_DOC=~/projects/readme-payments-api-docs/docs/BenefitsPay/benefitspay-guide/index.md
+REFERENCE_DOC=~/projects/example-docs-repo/docs/AcmePay/acmepay-guide/index.md
 ```
 
 ---
@@ -191,7 +191,7 @@ Created: {DOCS_DIR}/index.md
 
 ## Reference
 
-The overview doc follows the same pattern as `benefitspay-overview.md` in `readme-payments-api-docs`. Key characteristics:
+The overview doc follows the same pattern as `acmepay-overview.md` in `example-docs-repo`. Key characteristics:
 
 - Short (15–25 body lines). Its job is to route, not inform.
 - Opening paragraph orients the reader to the product capability, not to the docs themselves.

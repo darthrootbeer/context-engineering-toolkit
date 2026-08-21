@@ -54,18 +54,18 @@ For each `.md` in `DOCS_DIR`, check the filename stem against these rules:
 
 | Check | Rule | Example fail |
 |---|---|---|
-| Lowercase + dashes only | No uppercase, underscores, or spaces | `BenefitsPay-Payments`, `benefitspay_payments` |
+| Lowercase + dashes only | No uppercase, underscores, or spaces | `AcmePay-Payments`, `acmepay_payments` |
 | Area prefix present | At least one segment before the first dash | `payments.md` |
-| Length | 2–4 dash-separated segments total | `benefitspay-a.md`, `benefitspay-payment-api-endpoint-list.md` |
-| No gerunds | No segment ending in `-ing` | `benefitspay-understanding-payments.md` |
-| No bare type words | Stem is not solely `{area}-introduction` or `{area}-explanation` | `benefitspay-introduction.md` |
+| Length | 2–4 dash-separated segments total | `acmepay-a.md`, `acmepay-payment-api-endpoint-list.md` |
+| No gerunds | No segment ending in `-ing` | `acmepay-understanding-payments.md` |
+| No bare type words | Stem is not solely `{area}-introduction` or `{area}-explanation` | `acmepay-introduction.md` |
 
 If any file fails, stop and list all offenders:
 ```
 ❌ Filename convention failed — fix before publishing:
 
-  benefitspay-understanding-payments.md  → gerund ("understanding") in descriptor
-  benefitspay-introduction.md            → bare type word as descriptor
+  acmepay-understanding-payments.md  → gerund ("understanding") in descriptor
+  acmepay-introduction.md            → bare type word as descriptor
 
 Rename and re-run.
 ```
@@ -225,7 +225,7 @@ If errors are found, fix them before continuing:
 - **MD025 (multiple H1):** The H1 strip above should prevent this. If it persists, check for a leftover `# ` line.
 - **MD001 (heading increment):** Fix heading levels so they increment by one (e.g., `##` → `###`, not `##` → `####`).
 - **MD040 (code fence language):** Add a language tag to bare code fences. Use `text` for plain output, `json` for JSON, etc.
-- **MD051 (link fragment):** Fix broken anchor links. Markdown anchors strip `/` chars entirely (e.g., `/api/benefitspay/categories/` → `apibenefitspaycategories`).
+- **MD051 (link fragment):** Fix broken anchor links. Markdown anchors strip `/` chars entirely (e.g., `/api/acmepay/categories/` → `apiacmepaycategories`).
 
 Show the lint results. If clean, continue. If errors remain after auto-fix, stop and list them.
 

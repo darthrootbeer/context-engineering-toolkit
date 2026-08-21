@@ -179,7 +179,7 @@ def gql(query, variables=None):
     with urllib.request.urlopen(req) as r:
         return json.loads(r.read())
 
-ISSUE_ID = "<TICKET-ID>"  # e.g. "DOC-1204"
+ISSUE_ID = "<TICKET-ID>"  # e.g. "DOC-102"
 
 # 1. Create parent comment
 parent = gql(
@@ -215,7 +215,7 @@ Below you'll find prioritized recommendations sorted by impact — Strong where 
 
 ## Who reads these docs
 
-[2–4 sentences. Name the personas (by role), what they're trying to do, and where they typically enter the doc set. Be specific — "payment engineer building their first BenefitsPay integration" not "developers."]
+[2–4 sentences. Name the personas (by role), what they're trying to do, and where they typically enter the doc set. Be specific — "payment engineer building their first AcmePay integration" not "developers."]
 
 ---
 

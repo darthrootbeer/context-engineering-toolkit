@@ -24,7 +24,7 @@ This should be a path to a **folder** (all `.md` files inside) or a single `.md`
 ## Constants
 
 ```
-STYLE_GUIDE=~/projects/readme-payments-api-docs/_extras/style-guides/write-like-a-human/style-guide_write-like-a-human.md
+STYLE_GUIDE=~/projects/example-docs-repo/_extras/style-guides/write-like-a-human/style-guide_write-like-a-human.md
 ```
 
 ---

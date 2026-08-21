@@ -42,8 +42,8 @@ docs/{Category}/
 
 Required pattern: `[Product/Feature] [Guide Type]`
 
-Good: "BenefitsPay Integration Guide", "HSA/FSA Payment Guide", "Backend-to-Backend Integration Guide"
-Bad: "Introduction to BenefitsPay", "Getting Started with BenefitsPay", "BenefitsPay Overview" (too vague or instructional)
+Good: "AcmePay Integration Guide", "HSA/FSA Payment Guide", "Backend-to-Backend Integration Guide"
+Bad: "Introduction to AcmePay", "Getting Started with AcmePay", "AcmePay Overview" (too vague or instructional)
 
 ### Required Sections (always present, always in this order)
 
@@ -67,9 +67,9 @@ Each entry must:
 
 Example:
 ```markdown
-- **[Understanding BenefitsPay Payments](./benefitspay-payments.md)**. How BenefitsPay differs from dollar-based payment methods: the item-based voucher model, the payment lifecycle, and straddle rules.
-- **[How to Integrate BenefitsPay with The Product](./benefitspay-integration.md)**. Step-by-step instructions for each phase of the integration: syncing APL data, retrieving benefits, building the cart, capturing payment, and processing refunds.
-- **[BenefitsPay API Reference](./benefitspay-api-reference.md)**. Complete endpoint specifications, capture action codes, error codes, transaction limits, and receipt requirements.
+- **[Understanding AcmePay Payments](./acmepay-payments.md)**. How AcmePay differs from dollar-based payment methods: the item-based voucher model, the payment lifecycle, and straddle rules.
+- **[How to Integrate AcmePay with The Product](./acmepay-integration.md)**. Step-by-step instructions for each phase of the integration: syncing APL data, retrieving benefits, building the cart, capturing payment, and processing refunds.
+- **[AcmePay API Reference](./acmepay-api-reference.md)**. Complete endpoint specifications, capture action codes, error codes, transaction limits, and receipt requirements.
 ```
 
 ## Core Content Rules
@@ -95,8 +95,8 @@ Example:
 - Direct and efficient. Every sentence earns its place.
 - No marketing language, no filler phrases
 
-Good: "Your BenefitsPay integration builds on your existing benefits-program integration."
-Bad: "Welcome to the BenefitsPay Integration Guide! We're excited to help you get started."
+Good: "Your AcmePay integration builds on your existing benefits-program integration."
+Bad: "Welcome to the AcmePay Integration Guide! We're excited to help you get started."
 
 ### Language
 

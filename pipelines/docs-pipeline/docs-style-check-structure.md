@@ -24,7 +24,7 @@ This should be a path to a **folder** (all `.md` files inside) or a single `.md`
 ## Constants
 
 ```
-STYLE_GUIDES_DIR=~/projects/readme-payments-api-docs/_extras/style-guides/diataxis
+STYLE_GUIDES_DIR=~/projects/example-docs-repo/_extras/style-guides/diataxis
 ```
 
 | `diataxis_type` | Style guide file |

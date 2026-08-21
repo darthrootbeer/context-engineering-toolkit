@@ -17,7 +17,7 @@ The user provided: $ARGUMENTS
 
 - `$ARGUMENTS[0]` — Path to the original source document (e.g., `docs/input/configure-webhooks.md`)
 - `$ARGUMENTS[1]` — Output directory where new docs live (e.g., `docs/output/`)
-- `$ARGUMENTS[2]` — Optional ticket ID (e.g., `DOC-1176`) — used to pull style change comments
+- `$ARGUMENTS[2]` — Optional ticket ID (e.g., `DOC-101`) — used to pull style change comments
 
 ## Usage
 

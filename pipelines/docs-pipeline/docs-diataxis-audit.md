@@ -27,7 +27,7 @@ This should be the path to the markdown file to audit.
    - Check that `[file-path]` is provided in $ARGUMENTS
    - If not provided, stop: "Please provide the file path to audit: `/docs-diataxis-audit [file-path]`"
    - Determine `INPUT_BASENAME` for output naming:
-     - **If running inside a workspace** (directory name starts with `workspace-`): Extract the guide name slug from the workspace folder name. The slug is everything after the ticket number portion. Example: `workspace-doc-1318-intro-to-the product` → `INPUT_BASENAME = "intro-to-the product"`
+     - **If running inside a workspace** (directory name starts with `workspace-`): Extract the guide name slug from the workspace folder name. The slug is everything after the ticket number portion. Example: `workspace-doc-1318-intro-to-billing` → `INPUT_BASENAME = "intro-to-billing"`
      - **Otherwise**: Get filename from `basename [file-path]`, remove extension (`.md`, `.markdown`). Example: `docs/source/guide.md` → `INPUT_BASENAME = "guide"`
    - All output files (audit report, mapping JSON, SVGs) are prefixed with `{INPUT_BASENAME}_`. This ensures every artifact is traceable to its guide, even when moved or referenced outside the workspace.
 
@@ -191,7 +191,7 @@ This should be the path to the markdown file to audit.
    **Date**: [today's date]
    **Framework**: Diátaxis (diataxis.fr)
 
-   This report was produced as part of the The Product documentation team's structured conversion process for `[original-filename.md]`. It applies the Diataxis framework to classify every section of the source document by reader intent, surface structural problems that affect how readers use the doc, and recommend how to split it into a set of focused, purpose-built documents.
+   This report was produced as part of the product documentation team's structured conversion process for `[original-filename.md]`. It applies the Diataxis framework to classify every section of the source document by reader intent, surface structural problems that affect how readers use the doc, and recommend how to split it into a set of focused, purpose-built documents.
 
    Below you'll find a content type breakdown across all [N] sections, a list of boundary violations with their reader impact, and section-level restructuring recommendations for [N] output documents.
 

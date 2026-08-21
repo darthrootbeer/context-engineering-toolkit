@@ -54,7 +54,7 @@ For each `.md` in `DOCS_DIR`, check the filename stem against these rules:
 
 | Check | Rule | Example fail |
 |---|---|---|
-| Lowercase + dashes only | No uppercase, underscores, or spaces | `BenefitsPay-Payments`, `wic_payments` |
+| Lowercase + dashes only | No uppercase, underscores, or spaces | `BenefitsPay-Payments`, `benefitspay_payments` |
 | Area prefix present | At least one segment before the first dash | `payments.md` |
 | Length | 2–4 dash-separated segments total | `benefitspay-a.md`, `benefitspay-payment-api-endpoint-list.md` |
 | No gerunds | No segment ending in `-ing` | `benefitspay-understanding-payments.md` |

@@ -93,7 +93,7 @@ For every glossary term that appears in the doc's prose zones, check whether it 
 
 | Wrong | Right | Rule |
 |---|---|---|
-| `Ebt`, `ebt` | `benefits-card` | Acronyms are always uppercase |
+| `Api`, `api` | `API` | Acronyms are always uppercase |
 | `Product Name`, `product name` | `ProductName` | PascalCase product name example |
 | `Type-A` in prose | `Type A` | Forward slash or space, not hyphen, in prose |
 | `field name` | `field_name` in backticks | API fields use snake_case in backticks |

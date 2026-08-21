@@ -84,18 +84,18 @@ For each entry in `original_document.sections[]`:
 
 #### 4a. Determine all filenames first
 
-**Guide name prefix:** If running inside a workspace (directory name starts with `workspace-`), extract the guide name slug from the workspace folder name. The slug is everything after the ticket number portion. Example: `workspace-doc-1318-intro-to-the product` → `GUIDE_PREFIX = "intro-to-the product"`. All output files are prefixed with `{GUIDE_PREFIX}_`.
+**Guide name prefix:** If running inside a workspace (directory name starts with `workspace-`), extract the guide name slug from the workspace folder name. The slug is everything after the ticket number portion. Example: `workspace-doc-1318-intro-to-billing` → `GUIDE_PREFIX = "intro-to-billing"`. All output files are prefixed with `{GUIDE_PREFIX}_`.
 
 For each entry in `target_documents[]` from the JSON mapping, convert the target document `title` to a kebab-case slug. Do not add a Diataxis type prefix — the type is recorded in the `diataxis_type` frontmatter field instead. Prepend the guide name prefix.
 
-**Examples** (guide prefix `intro-to-the product`):
-- type `explanation`, title `"benefits-card Payments and the The Product Ecosystem"` → `intro-to-the product_ebt-payments.md`
-- type `reference`, title `"Integration Options"` → `intro-to-the product_integration-options.md`
+**Examples** (guide prefix `intro-to-billing`):
+- type `explanation`, title `"Recurring Charges and the Billing Engine"` → `intro-to-billing_recurring-charges.md`
+- type `reference`, title `"Integration Options"` → `intro-to-billing_integration-options.md`
 
 **Examples** (guide prefix `benefitspay`):
-- type `explanation`, title `"Understanding BenefitsPay Payments"` → `wic_understanding-payments.md`
-- type `how-to`, title `"How to Integrate BenefitsPay with The Product"` → `wic_integrate-with-the product.md`
-- type `reference`, title `"BenefitsPay API Reference"` → `wic_api-reference.md`
+- type `explanation`, title `"Understanding BenefitsPay Payments"` → `benefitspay_understanding-payments.md`
+- type `how-to`, title `"How to Integrate BenefitsPay with the Platform"` → `benefitspay_integrate-with-platform.md`
+- type `reference`, title `"BenefitsPay API Reference"` → `benefitspay_api-reference.md`
 
 Store each filename as you go — you'll need these for the overview doc.
 
@@ -105,7 +105,7 @@ Run these checks on the proposed filename (stem only, no `.md`):
 
 | Check | Rule | Example fail |
 |---|---|---|
-| Lowercase + dashes only | No uppercase, underscores, or spaces | `BenefitsPay-Payments`, `wic_payments` |
+| Lowercase + dashes only | No uppercase, underscores, or spaces | `BenefitsPay-Payments`, `benefitspay_payments` |
 | Area prefix present | At least one segment before the first dash | `payments.md` (no prefix) |
 | Length | 2–4 dash-separated segments total | `benefitspay-a.md`, `benefitspay-payment-api-endpoint-list.md` |
 | No gerunds | No word ending in `-ing` in any segment | `benefitspay-understanding-payments.md` |
@@ -180,7 +180,7 @@ The overview doc is always produced regardless of what types exist in the mappin
 
 Locate these in the source document:
 - **Guide title**: H1 of the source doc (or `original_document.name` from JSON mapping)
-- **Opening orientation paragraph**: First substantive prose paragraph after the H1 (the "what this guide covers" framing). If none exists, synthesize one: `"This guide covers everything you need to [action] using the The Product API."`
+- **Opening orientation paragraph**: First substantive prose paragraph after the H1 (the "what this guide covers" framing). If none exists, synthesize one: `"This guide covers everything you need to [action] using the product API."`
 - **Audience section**: Content of any section titled "Audience", "Who this is for", or similar. Use verbatim if clean; trim to 1–2 sentences if long.
 - **Prerequisites section**: Content of any section titled "Prerequisites", "Before you start", or similar. If none exists, synthesize from context: what the source doc assumes the reader already has in place.
 

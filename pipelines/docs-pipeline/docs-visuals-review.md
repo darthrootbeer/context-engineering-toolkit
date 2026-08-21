@@ -209,7 +209,7 @@ Do not use `linearis embeds upload` or `### Attachments` sections for diagram fi
 ```markdown
 # Visual Aid Audit: [input name]
 
-This report was produced as part of the The Product documentation team's structured conversion process for [brief description of the doc or doc set]. It reviews each document as its target reader would and identifies where visual aids would most improve comprehension.
+This report was produced as part of the product documentation team's structured conversion process for [brief description of the doc or doc set]. It reviews each document as its target reader would and identifies where visual aids would most improve comprehension.
 
 Below you'll find prioritized recommendations sorted by impact — Strong where a visual clearly outperforms prose, Medium where it helps but prose is adequate — followed by a "Not recommended" section logging what was deliberately skipped.
 

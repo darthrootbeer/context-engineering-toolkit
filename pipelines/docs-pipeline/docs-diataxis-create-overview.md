@@ -83,8 +83,8 @@ If found, read it and extract:
 
 If no source doc exists, synthesize these from the output docs:
 - **Guide title**: Humanize the area prefix (e.g., `webhooks` → "Webhooks", `configure-webhooks` → "Configure Webhooks")
-- **Opening paragraph**: Synthesize from the typed docs' titles and purposes: `"This guide covers everything you need to [action implied by how-to title] using the The Product API."`
-- **Audience**: `"Payment engineers and payment product managers integrating with the The Product API."`
+- **Opening paragraph**: Synthesize from the typed docs' titles and purposes: `"This guide covers everything you need to [action implied by how-to title] using the product API."`
+- **Audience**: `"Payment engineers and payment product managers integrating with the product API."`
 - **Prerequisites**: `"An active The Product integration. If you haven't set that up yet, start with [getting started with The Product](https://docs.example-docs.app/docs/get-started)."`
 
 ---
@@ -109,7 +109,7 @@ The one-sentence description names the reader's purpose, not just the doc type:
 
 ### 5. Write the overview doc
 
-**Filename:** `{GUIDE_PREFIX}_overview.md` during drafting (in the workspace), where `GUIDE_PREFIX` is the guide name slug from the workspace folder name (e.g., `intro-to-the product` from `workspace-doc-1318-intro-to-the product`). At publish time, `/docs-publish` renames this to `index.md` in the guide's subdirectory.
+**Filename:** `{GUIDE_PREFIX}_overview.md` during drafting (in the workspace), where `GUIDE_PREFIX` is the guide name slug from the workspace folder name (e.g., `intro-to-billing` from `workspace-doc-1318-intro-to-billing`). At publish time, `/docs-publish` renames this to `index.md` in the guide's subdirectory.
 
 If no workspace context exists (standalone run), fall back to `index.md`.
 

@@ -16,6 +16,7 @@ What's here now is a first batch. This is what's planned next, so it's clear wha
 **Further development on the documentation pipeline.** The version in `pipelines/docs-pipeline/` is a first cleaned pass, not the finished shape. Ongoing work on it will land here as it develops.
 
 **A handful of additional skills**, pending a lighter genericization pass:
+- An AI-writing-tell detector — scans prose for patterns that read as machine-written and proposes rewrites, backed by a pattern registry with a cited source per rule, dated retirements for tells that stopped working, a documented false-positive case per rule, and a scheduled refresh step that diffs several outside source authorities to keep the pattern list current. Two small genericization items: a hardcoded personal file path and a house-style config tuned to one person's preferences.
 - A structured multi-perspective review skill (runs a draft or decision past several distinct reviewer lenses and synthesizes the results)
 - A session close-out skill (makes sure external systems reflect the current state of work before a session ends)
 - A context hand-off skill (writes a compact, resumable summary of in-progress work so a fresh session can pick it up without the original conversation)

@@ -1,0 +1,61 @@
+# Domain Glossary
+# Used by: docs-grammar-spelling
+#
+# Structure:
+#
+# - canonical: ExactTermHere
+#   docs_facing: true          # false = internal-only; flag if found in customer docs
+#   aliases:
+#     - alternate spelling
+#     - abbreviation
+#   usage:
+#     capitalization: |
+#       Describe when to capitalize, abbreviate, or use code formatting.
+#     mistakes:
+#       - "wrong form" → "correct form": explanation
+#
+# Add one entry per term. Keep alphabetical.
+
+terms:
+
+  - canonical: API
+    docs_facing: true
+    aliases:
+      - api
+    usage:
+      capitalization: Always uppercase. Never "Api" or "api".
+      mistakes:
+        - '"api key"' → '"API key"': API is an acronym; always uppercase.
+
+  - canonical: webhook
+    docs_facing: true
+    aliases:
+      - web hook
+      - Web Hook
+    usage:
+      capitalization: Lowercase in prose ("a webhook", "webhook events"). Not "Webhook" unless starting a sentence.
+      mistakes:
+        - '"web hook"' → '"webhook"': One word, no space.
+
+  - canonical: sandbox
+    docs_facing: true
+    aliases:
+      - Sandbox
+      - test environment
+    usage:
+      capitalization: Lowercase in prose unless part of a UI label. In backticks when used as an identifier ("`sandbox`").
+      mistakes:
+        - '"Sandbox environment"' → '"sandbox environment"': Not a proper noun.
+
+  # Add your product-specific terms below this line.
+  # Example:
+  #
+  # - canonical: PaymentIntent
+  #   docs_facing: true
+  #   aliases:
+  #     - payment intent
+  #     - payment-intent
+  #   usage:
+  #     capitalization: PascalCase when referring to the API object. Lowercase in generic prose ("the payment intent was created").
+  #     mistakes:
+  #       - '"payment intent"' → '"PaymentIntent"': Use PascalCase for the API object name.

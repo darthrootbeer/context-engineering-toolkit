@@ -225,7 +225,7 @@ If errors are found, fix them before continuing:
 - **MD025 (multiple H1):** The H1 strip above should prevent this. If it persists, check for a leftover `# ` line.
 - **MD001 (heading increment):** Fix heading levels so they increment by one (e.g., `##` → `###`, not `##` → `####`).
 - **MD040 (code fence language):** Add a language tag to bare code fences. Use `text` for plain output, `json` for JSON, etc.
-- **MD051 (link fragment):** Fix broken anchor links. Markdown anchors strip `/` chars entirely (e.g., `/api/benefitspay/categories/` → `apiwiccategories`).
+- **MD051 (link fragment):** Fix broken anchor links. Markdown anchors strip `/` chars entirely (e.g., `/api/benefitspay/categories/` → `apibenefitspaycategories`).
 
 Show the lint results. If clean, continue. If errors remain after auto-fix, stop and list them.
 

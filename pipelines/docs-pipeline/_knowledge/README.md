@@ -19,3 +19,7 @@ This folder holds the knowledge sources the pipeline skills load at runtime. Pop
 ## Keeping knowledge current
 
 The SME review skill checks the `extracted:` frontmatter date on `product-kb/index.md`. If it is more than 90 days old, every SME review report will include a staleness warning. Update the date when you refresh the KB files.
+
+## Note on this copy of the pipeline
+
+The `product-kb/` files listed above are intentionally not included in this repo — they hold a specific product's proprietary API surface and domain model, which is exactly the kind of content this knowledge folder is designed to hold *for your own project*, not something to ship generically. Populate `product-kb/` with your own product's equivalent before running `docs-sme-review`. Everything else in this folder (the glossary, the style guides) is generic and ready to use or adapt.

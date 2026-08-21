@@ -17,7 +17,7 @@ The user provided: $ARGUMENTS
 
 - `$ARGUMENTS[0]` — Path to the original source document (e.g., `docs/input/configure-webhooks.md`)
 - `$ARGUMENTS[1]` — Output directory where new docs live (e.g., `docs/output/`)
-- `$ARGUMENTS[2]` — Optional Linear ticket ID (e.g., `DOC-1176`) — used to pull style change comments
+- `$ARGUMENTS[2]` — Optional ticket ID (e.g., `DOC-1176`) — used to pull style change comments
 
 ## Usage
 
@@ -95,7 +95,7 @@ Read each sub-issue's title and description. Build a `TICKET_MAP` — a mapping 
 - "visual" / "diagram" / "flowchart" → visual aids ticket
 - "terminology" / "align" / "structure" → terminology/structure ticket
 - "cross-link" / "link audit" / "overlap" → link-check ticket
-- "feedback" / "sammy" / "suggested changes" → feedback ticket
+- "feedback" / "reviewer" / "suggested changes" → feedback ticket
 
 If a sub-issue matches a category, use its identifier in that section's `**Related:**` line. If no sub-issue matches, fall back to the parent TICKET_ID. If TICKET_ID was not provided, omit `**Related:**` lines entirely.
 
@@ -195,7 +195,7 @@ This document records all significant changes made during the conversion of `[or
 | `[filename.md]` | [one-line description] | [type] |
 | ... | ... | ... |
 
-**Related:** [SPLIT-TICKET-ID](https://linear.app/example-docs/issue/SPLIT-TICKET-ID)  ← use the sub-issue whose title matches "split" / "diataxis"; fall back to TICKET_ID
+**Related:** [SPLIT-TICKET-ID]({YOUR_ISSUE_TRACKER}/SPLIT-TICKET-ID)  ← use the sub-issue whose title matches "split" / "diataxis"; fall back to TICKET_ID
 
 ---
 
@@ -208,7 +208,7 @@ The following sections were extracted from the original doc and placed in a diff
 | [section name (lines N–N)] | [original doc section/context] | [new doc → new section heading] | [one sentence] |
 | ... | ... | ... | ... |
 
-**Related:** [SPLIT-TICKET-ID](https://linear.app/example-docs/issue/SPLIT-TICKET-ID)  ← same as Diataxis split section
+**Related:** [SPLIT-TICKET-ID]({YOUR_ISSUE_TRACKER}/SPLIT-TICKET-ID)  ← same as Diataxis split section
 
 ---
 
@@ -221,19 +221,19 @@ The following sections were extracted from the original doc and placed in a diff
 | [description] | [section in original] | [one sentence] |
 | ... | ... | ... |
 
-**Related:** [SPLIT-TICKET-ID](https://linear.app/example-docs/issue/SPLIT-TICKET-ID)  ← same as Diataxis split section
+**Related:** [SPLIT-TICKET-ID]({YOUR_ISSUE_TRACKER}/SPLIT-TICKET-ID)  ← same as Diataxis split section
 
 ---
 
 ## Style and formatting changes
 
-These changes do not affect meaning. They bring the documents into compliance with The Product's style guide and ReadMe's markdown rendering requirements.
+These changes do not affect meaning. They bring the documents into compliance with your team's style guide and your docs platform's markdown rendering requirements.
 
 - [change 1]
 - [change 2]
 - [change 3]
 
-*All style and formatting changes: [STYLE-TICKET-ID](https://linear.app/example-docs/issue/STYLE-TICKET-ID)*  ← use the sub-issue whose title matches "style" / "formatting"; fall back to TICKET_ID
+*All style and formatting changes: [STYLE-TICKET-ID]({YOUR_ISSUE_TRACKER}/STYLE-TICKET-ID)*  ← use the sub-issue whose title matches "style" / "formatting"; fall back to TICKET_ID
 
 ---
 
@@ -249,7 +249,7 @@ These changes do not affect meaning. They bring the documents into compliance wi
 
 [Repeat for each diagram added.]
 
-*All visual aid additions: [VISUAL-TICKET-ID](https://linear.app/example-docs/issue/VISUAL-TICKET-ID)*  ← use the sub-issue whose title matches "visual" / "diagram"; fall back to TICKET_ID
+*All visual aid additions: [VISUAL-TICKET-ID]({YOUR_ISSUE_TRACKER}/VISUAL-TICKET-ID)*  ← use the sub-issue whose title matches "visual" / "diagram"; fall back to TICKET_ID
 ```
 
 ---
@@ -298,6 +298,6 @@ Evidence used:
 - Omit any section where nothing applies. A shorter, accurate document beats a longer one with empty sections.
 - The "Content moved" section only covers intentional relocations — not 1:1 content carried from original to new doc under the same heading.
 - Style changes that are trivial or obvious (e.g., whitespace, minor punctuation) don't need to be listed. Focus on changes an SME would notice or care about.
-- Gold standard output: `docs/output/_process/editorial-changes.md` in `workspace - doc-1801 - webhooks`
+- Gold standard output: `docs/output/_process/editorial-changes.md` in a completed guide-conversion workspace.
 - Trigger: after the split is complete, style pass done, visual aids added — before review/PR
 - Do NOT run for minor edits or partial rewrites — only for structural splits producing multiple output files

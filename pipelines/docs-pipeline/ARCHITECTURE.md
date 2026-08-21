@@ -62,16 +62,16 @@ The workspace is a git repo. Every stage commits its output. So you can always s
 │            3a  Structure check                                  │
 │            3b  Voice check                                      │
 │            3c  Human check (de-AI)                              │
-│            3d  Grammar & spelling                               │
+│            3d  Grammar & spelling                                │
 │  ─────────────────────────────────────────────────────────────  │
-│  Stage 4   Reviews                                              │
+│  Stage 4   Reviews                                               │
 │            4a  Visuals review                                   │
 │            4b  Links review                                     │
 │            4c  SME review                                       │
 │            4d  Changes summary                                  │
 │  ─────────────────────────────────────────────────────────────  │
 │  Stage 5   Decision Checkpoint                                  │
-│  Stage 6   Publish                                              │
+│  Stage 6   Publish                                               │
 │  Post      Work Verify                                          │
 └─────────────────────────────────────────────────────────────────┘
 ```

@@ -1,0 +1,211 @@
+---
+name: plan-this
+description: Turn the current conversation context into a stored, executable plan. Writes a self-contained plan file to disk with an agent-ready instruction header, then prints the file path. Run any time you want to capture a plan now and execute it later — with any model or instance. Use when the user says "plan this", "store this plan", "I'll do this later", "create a plan for", or invokes /plan-this.
+argument-hint: [optional title or focus — defaults to reading context]
+allowed-tools: [Read, Write, Bash, Glob]
+---
+
+# /plan-this
+
+Capture what the current conversation has established and write it to disk as a self-contained, agent-ready plan. The plan file is the deliverable — structured so any Claude Code instance (or any other capable agent) can pick it up cold and execute it without needing this conversation's history.
+
+---
+
+## Arguments
+
+The user invoked this skill with: `$ARGUMENTS`
+
+- If $ARGUMENTS provides a title or topic focus, use it to name and scope the plan.
+- If $ARGUMENTS is empty, infer the plan subject from the conversation context.
+
+---
+
+## Configuration
+
+This skill needs one thing from the host project: where plans live. Set it once per project, either as an environment variable or a fixed path in this file:
+
+```bash
+PLANS_DIR="${PLANS_DIR:-./plans}"
+```
+
+Adjust the default to match your repo's conventions — a `plans/` folder at the repo root, a `_plans/` folder inside a docs or notes directory, whatever already exists. If the project has more than one place plans could live (e.g. a product-work vault and a config/infra vault), ask the user which one applies before writing — one question, wait for the answer — rather than guessing.
+
+---
+
+## Phase 1 — Determine the plan number and file path
+
+### 1a. Get the next plan number
+
+```bash
+ls "$PLANS_DIR" 2>/dev/null | grep -E '^plan-[0-9]+' | sort -t- -k2 -n | tail -1
+```
+
+Extract the highest number and increment by 1. If no plans exist yet, start at 1.
+
+Format: `plan-NNN` (zero-padded to 3 digits: `plan-001`, `plan-042`).
+
+### 1b. Build the file path
+
+```
+File: $PLANS_DIR/plan-NNN-slug.md
+```
+
+The slug is 2–5 lowercase words from the plan title, hyphenated. Example: `plan-007-ticket-flow-hook-upgrades`.
+
+---
+
+## Phase 2 — Synthesize the plan content
+
+Extract from the current conversation:
+
+1. **What problem is being solved** — the "why" in one paragraph
+2. **What the end state looks like** — what will be true when this is done
+3. **All discrete tasks** — every action required, in execution order
+4. **Dependencies** — which tasks must complete before others can start
+5. **Files to create or modify** — exact paths
+6. **Commands to run** — exact shell commands, copy-paste ready
+7. **Verification steps** — how to confirm each task completed correctly
+8. **Known risks or blockers** — anything that could cause the plan to fail
+
+---
+
+## Phase 3 — Write the plan file
+
+Write the plan to disk. Format:
+
+```markdown
+---
+plan: NNN
+title: [full plan title]
+created: YYYY-MM-DD
+status: pending
+source: [conversation | manual]
+subject: [one-line subject]
+---
+
+<!-- ============================================================
+AGENT INSTRUCTIONS — READ THIS BEFORE ANYTHING ELSE
+You are a Claude Code instance picking up a stored plan.
+This file is self-contained. You do not need the original conversation.
+Follow the tasks below in order. Mark each task complete in this file
+as you finish it by changing [ ] to [x]. After all tasks are complete,
+update status: to "complete" in the frontmatter.
+
+Prerequisites to check before starting:
+- [ ] You are in the correct working directory for this plan
+- [ ] Any required tokens/services are available (listed in each task)
+
+If you hit a blocker: document it in the Blockers section at the bottom
+of this file and stop. Do not skip tasks or work around blockers silently.
+============================================================ -->
+
+# [Plan Title]
+
+**What this solves:** [one paragraph — the problem and why it matters]
+
+**Done when:** [concrete end state — what will be true when complete]
+
+---
+
+## Tasks
+
+### Task 1 — [imperative verb + subject]
+**Status:** [ ] pending
+**Depends on:** nothing
+**Estimated effort:** [small / medium / large]
+
+[Full description of what to do]
+
+**Files affected:**
+- `[path]` — [what changes]
+
+**Commands:**
+```bash
+[exact commands, copy-paste ready]
+```
+
+**Verify:**
+```bash
+[how to confirm this task is done]
+```
+
+---
+
+### Task 2 — [imperative verb + subject]
+**Status:** [ ] pending
+**Depends on:** Task 1
+**Estimated effort:** [small / medium / large]
+
+[Full description]
+
+**Files affected:**
+- `[path]` — [what changes]
+
+**Commands:**
+```bash
+[exact commands]
+```
+
+**Verify:**
+```bash
+[verification]
+```
+
+---
+
+[... repeat for all tasks ...]
+
+---
+
+## Known Risks
+
+- [Risk 1] — [mitigation or fallback]
+- [Risk 2] — [mitigation or fallback]
+
+## Blockers
+
+_(empty — document any blockers here if you hit them during execution)_
+
+---
+
+*Plan generated by /plan-this on [YYYY-MM-DD]. Source: [conversation summary in one sentence].*
+```
+
+Write the completed file with all tasks fully populated — no placeholder text, no "TBD". Every task must be complete enough to execute without the original conversation.
+
+---
+
+## Phase 4 — Verify the write, then confirm
+
+**Confirm the file actually landed before printing a success message.** The whole value of this skill is that the plan is retrievable later from a fresh session. A success message printed over a file that was never written, or written empty, is discovered only when the plan is needed and gone.
+
+```bash
+wc -c "[full plan path]" && grep -c '^- \[ \]' "[full plan path]"
+```
+
+Both checks must pass before printing anything:
+
+- **Byte count > 500** — a real plan with frontmatter and the agent-instructions block is always larger than this. A tiny file means the write truncated.
+- **Task count ≥ 1** — a plan with no `- [ ]` task lines isn't executable, which defeats the purpose of storing it.
+
+If either check fails, do not print the success message. Say plainly what went wrong, and retry the write once. If the retry also fails, report the path attempted and stop — do not claim the plan is saved if it isn't there.
+
+Once both checks pass, print to screen:
+
+```
+Plan saved: plan-NNN — [title]
+
+[full file path]
+```
+
+Then add one line: `[N tasks] — ready to execute in a fresh session or with any Claude Code instance.`
+
+---
+
+## Rules
+
+- **Never truncate tasks.** If the plan has 12 tasks, write all 12 with full detail. Summarizing defeats the purpose.
+- **Never use placeholder text.** Every field must contain the actual content — not "[describe here]" or "TBD".
+- **The agent instructions header is mandatory.** Every plan file starts with it, verbatim structure, even for simple plans.
+- **One plan per invocation.** If the conversation covers multiple unrelated topics, scope the plan to the primary focus and note what was excluded.
+- **Status tracking in the file.** Tasks use `[ ]` / `[x]` checkboxes that can be updated by any agent executing the plan. The file is the source of truth for execution state.

@@ -84,6 +84,46 @@ keyword_signals:
     turned out to predict a good or bad fit), add it here with a `why`
     rather than only noting it once and losing the pattern.
 
+qualifications_match:
+  # A different question from everything above. Those sections check FIT —
+  # would this company treat you the way you need to be treated. This
+  # section checks ELIGIBILITY — are you actually qualified for what's
+  # being asked. A posting can pass every fit check and still be a bad
+  # target if the required experience doesn't line up with your real
+  # skills. Keep this honest — the point is catching a real mismatch
+  # early, not talking yourself into (or out of) a posting.
+  core_skills_and_evidence:
+    # What you'd check a posting's required/standout language against —
+    # your actual documented strengths, not aspirational skills.
+    - "Example: a real, evidenced skill you can point to concrete work for"
+    - "Example: another one"
+
+  known_gaps:
+    # Real, specific gaps — not vague self-doubt, named domains you don't
+    # have hands-on depth in. A posting leaning heavily on these in its
+    # REQUIRED experience (not just a nice-to-have) is a real signal.
+    - "Example: a specific technical domain or credential you genuinely lack"
+
+  working_philosophy:
+    # A different kind of signal than a skill gap: what KIND of role you're
+    # good at and want, independent of any single posting's specific
+    # domain. Useful when a posting's requirements reflect an underlying
+    # role-design choice, not just an unfamiliar subject.
+    stance: "Example: describe how you actually prefer to work — e.g. 'I'm a generalist who gathers information from experts rather than becoming the expert myself,' or the opposite, whatever's true for you."
+    why: "Explain why this is a deliberate choice, not a confidence gap or something you're avoiding."
+    what_to_check: "Describe what to look for in a posting's language that would signal it's asking for the OTHER working style than yours — not just an unfamiliar domain, but a fundamentally different way of approaching the role."
+
+  how_to_apply: >
+    For any real posting: pull its "required experience" and "what will
+    make you stand out" (or equivalent) sections verbatim, then check each
+    line against core_skills_and_evidence and known_gaps above. A
+    required-experience list heavy with known_gaps items is a real fit
+    problem worth flagging — distinct from and in addition to any
+    autonomy/culture checks elsewhere in this file. A standout-
+    qualifications list that closely matches core_skills_and_evidence is
+    worth surfacing as a strong reason to apply even when other parts of
+    the posting are imperfect.
+
 soft_flags:
   # Worth surfacing next to a posting. None of these disqualify on their
   # own — they're context for the human making the final call.

@@ -92,6 +92,15 @@ qualifications_match:
   # target if the required experience doesn't line up with your real
   # skills. Keep this honest — the point is catching a real mismatch
   # early, not talking yourself into (or out of) a posting.
+  years_of_experience:
+    # A posting's required-experience section almost always states a
+    # minimum year count (e.g. "5+ years"). Nothing else in this file
+    # checks that automatically — worth stating your real total so a
+    # posting's minimum can be checked directly instead of guessed at.
+    total_years: 0
+    note: "State how you calculated this — which roles/dates count, and whether any of your career history doesn't count toward this specific total (e.g. a role in an unrelated field before you moved into this line of work)."
+    how_to_apply: "Compare directly against a posting's stated minimum. Flag only if a posting asks for more years than you have, or asks for years specifically in a narrow sub-domain your total experience doesn't automatically cover."
+
   core_skills_and_evidence:
     # What you'd check a posting's required/standout language against —
     # your actual documented strengths, not aspirational skills.

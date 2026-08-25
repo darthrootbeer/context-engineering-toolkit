@@ -1,4 +1,9 @@
-# Never commit a real criteria file — only the example/placeholder ships.
+# Never commit a real criteria file or reasoning file — only the
+# example/placeholder versions ship.
 criteria.yaml
 *.criteria.yaml
 !criteria.example.yaml
+
+search.md
+*.search.md
+!search.example.md

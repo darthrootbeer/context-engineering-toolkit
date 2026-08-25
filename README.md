@@ -16,7 +16,7 @@ Every piece in here started as a real problem: a rule that kept getting skipped,
 
 **`patterns/`** — written technique docs for ideas that are more valuable described in prose than shipped as literal runnable code, either because the real implementation is too specific to one project to be useful as-is, or because the idea itself is the point. Covers: how to make an "always do X first" instruction actually reliable instead of hoped-for (block-and-tell hooks), how to keep an agent's standing instructions from becoming an unmaintainable single file as they grow (rules-index architecture), and how to give an agent memory that survives months of use without turning into an unreadable dump (typed, size-bounded memory).
 
-**`tools/`** — small standalone utilities. Currently a Word-to-Markdown converter with line-by-line content verification, so a batch document conversion can be trusted without manually diffing every file afterward.
+**`tools/`** — small standalone utilities. A Word-to-Markdown converter with line-by-line content verification, so a batch document conversion can be trusted without manually diffing every file afterward. A job-fit screener that scores a real job posting against your own personal fit criteria — culture, autonomy, and actual eligibility, not just keyword matching — using Claude to make the judgment calls a plain keyword scan can't.
 
 ## How the pieces relate
 

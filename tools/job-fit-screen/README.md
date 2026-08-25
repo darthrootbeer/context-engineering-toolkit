@@ -46,8 +46,11 @@ See `criteria.example.yaml` for the full annotated template. In short:
 | `hard_blocks` | Instant disqualifiers | Posting is dropped entirely, no scoring |
 | `requirements` | Must-haves | Strong reject on miss, but scored/flagged, not silently dropped — a human can still override |
 | `autonomy_filter` | A judgment call too nuanced for yes/no | Scored on positive/negative signal matches |
+| `keyword_signals` | Weighted language patterns to scan for in a posting's own text | Fast first pass — `strong_positive` / `positive` / `negative` / `strong_negative` phrase lists, each with a `why` |
 | `soft_flags` | Worth noting, not disqualifying | Surfaced alongside the posting for you to weigh |
 | `availability` | Notice period, work authorization | Used to flag postings that need special handling (e.g. non-local employer) |
+
+`keyword_signals` is different in kind from the other sections — those are *criteria* (facts to check, sometimes needing outside research). `keyword_signals` is *language patterns* worth scanning for directly in the posting text itself, weighted by how strong a signal each phrase is. It grows over time: every real posting you screen either confirms an existing phrase's weight or teaches you a new one — add it to the list rather than losing the pattern in a one-off read.
 
 This shape is deliberately generic — it's built from one person's real job search, but nothing in the structure assumes any specific industry, role, or set of values. Your criteria file is what makes it yours.
 

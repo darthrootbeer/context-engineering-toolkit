@@ -48,6 +48,42 @@ autonomy_filter:
   negative_signals:
     - "A phrase or pattern in a posting that's a bad sign"
 
+keyword_signals:
+  # A different kind of criterion than everything above: literal LANGUAGE
+  # PATTERNS worth scanning for directly in a posting's own text, rather
+  # than facts you'd have to research (Glassdoor, a recruiter call, etc).
+  # Weight each phrase by how strong a signal it is. This is a fast first
+  # pass over posting text, not a substitute for the deeper criteria above —
+  # a posting can score well on keywords and still fail a hard_block or the
+  # autonomy_filter.
+  #
+  # Same caveat as hard_blocks' match_hints: these need context-aware
+  # matching (an LLM, or careful negation-handling), not naive substring
+  # search. "We don't micromanage" and "we require close daily oversight"
+  # could both contain the word "oversight" — the sentence around a phrase
+  # is what actually carries the meaning, not the phrase alone.
+  strong_positive:
+    - phrase: "example: a phrase that's a very strong good sign for you"
+      why: "Explain why this phrase specifically, and what it maps to among your criteria above."
+
+  positive:
+    - phrase: "example: a phrase that's a mild good sign"
+      why: "Explain why."
+
+  negative:
+    - phrase: "example: a phrase that's a mild bad sign"
+      why: "Explain why."
+
+  strong_negative:
+    - phrase: "example: a phrase that's a very strong bad sign, maybe even a backstop for one of your hard_blocks"
+      why: "Explain why."
+
+  usage_note: >
+    Seed list only — this grows as you actually screen real postings.
+    When a posting's wording teaches you something new (a phrase that
+    turned out to predict a good or bad fit), add it here with a `why`
+    rather than only noting it once and losing the pattern.
+
 soft_flags:
   # Worth surfacing next to a posting. None of these disqualify on their
   # own — they're context for the human making the final call.

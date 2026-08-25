@@ -1,6 +1,6 @@
 # job-fit-screen
 
-A tool for scoring a real job posting against your own personal fit criteria — the things that actually predict whether a job will make you happy, not just whether you're qualified for it.
+A tool for scoring a real job posting against your own personal fit criteria — whether the company would treat you the way you need to be treated, *and* whether you're actually qualified for what's being asked. Both questions matter; a posting that's a perfect culture fit is still a bad target if the required experience doesn't line up with your real skills.
 
 ## Status
 
@@ -47,10 +47,13 @@ See `criteria.example.yaml` for the full annotated template. In short:
 | `requirements` | Must-haves | Strong reject on miss, but scored/flagged, not silently dropped — a human can still override |
 | `autonomy_filter` | A judgment call too nuanced for yes/no | Scored on positive/negative signal matches |
 | `keyword_signals` | Weighted language patterns to scan for in a posting's own text | Fast first pass — `strong_positive` / `positive` / `negative` / `strong_negative` phrase lists, each with a `why` |
+| `qualifications_match` | Whether you're actually eligible, separate from fit | Checks a posting's required/standout experience against your real `core_skills_and_evidence` and `known_gaps` |
 | `soft_flags` | Worth noting, not disqualifying | Surfaced alongside the posting for you to weigh |
 | `availability` | Notice period, work authorization | Used to flag postings that need special handling (e.g. non-local employer) |
 
 `keyword_signals` is different in kind from the other sections — those are *criteria* (facts to check, sometimes needing outside research). `keyword_signals` is *language patterns* worth scanning for directly in the posting text itself, weighted by how strong a signal each phrase is. It grows over time: every real posting you screen either confirms an existing phrase's weight or teaches you a new one — add it to the list rather than losing the pattern in a one-off read.
+
+`qualifications_match` is different again — every other section answers "would this company treat me right," this one answers "am I actually qualified." A posting can pass every fit check above and still be a poor target if its required experience leans hard into skills you don't have.
 
 This shape is deliberately generic — it's built from one person's real job search, but nothing in the structure assumes any specific industry, role, or set of values. Your criteria file is what makes it yours.
 

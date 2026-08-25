@@ -1,0 +1,4 @@
+# Never commit a real criteria file — only the example/placeholder ships.
+criteria.yaml
+*.criteria.yaml
+!criteria.example.yaml

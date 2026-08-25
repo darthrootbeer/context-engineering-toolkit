@@ -11,6 +11,8 @@ What's here now is a first batch. This is what's planned next, so it's clear wha
 - A project-state bootstrap script for standing up a new tracked project consistently
 - An export-cleanup script for migrating notes out of a legacy note-taking tool
 
+**A new tool: `job-fit-screen`.** Scaffolding is in place (`tools/job-fit-screen/`) — a generic scorer that checks a real job posting against a personal fit-criteria file (hard blocks, must-haves, red flags, softer signals). The criteria file shape is deliberately generic and ships only as an annotated placeholder; real criteria stay private, outside this repo. Scoring logic isn't built yet.
+
 **A fourth pattern doc: always-read-first / write-back state files.** A convention for keeping a piece of live state (a machine's current status, a project's current phase) trustworthy across many separate agent sessions touching it — read the state file before acting, write back immediately after any change, and enforce both halves with hooks rather than hoping the instruction gets followed every time.
 
 **Further development on the documentation pipeline.** The version in `pipelines/docs-pipeline/` is a first cleaned pass, not the finished shape. Ongoing work on it will land here as it develops.

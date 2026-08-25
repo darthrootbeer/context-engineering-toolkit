@@ -27,18 +27,16 @@ else
     exit 1
 fi
 
-if [ -z "$ANTHROPIC_API_KEY" ]; then
+if ! command -v claude &> /dev/null; then
     echo ""
-    echo "⚠️  ANTHROPIC_API_KEY is not set. This tool calls the Claude API and"
-    echo "   needs a real key to run."
+    echo "⚠️  The 'claude' CLI (Claude Code) was not found on your PATH."
+    echo "   This tool scores postings by shelling out to 'claude -p' — it does"
+    echo "   NOT use a raw Anthropic API key."
     echo ""
-    echo "   Get one from: https://console.anthropic.com"
-    echo "   Then set it:  export ANTHROPIC_API_KEY=sk-ant-..."
-    echo ""
-    echo "   Add that export line to your shell profile (~/.zshrc or ~/.bashrc)"
-    echo "   so it persists across sessions."
+    echo "   Install Claude Code: https://docs.claude.com/claude-code"
+    echo "   Then log in once by running 'claude' interactively before using this tool."
 else
-    echo "✅ ANTHROPIC_API_KEY is set"
+    echo "✅ claude CLI found: $(claude --version 2>&1 | head -n 1)"
 fi
 
 chmod +x job_fit_screen.py

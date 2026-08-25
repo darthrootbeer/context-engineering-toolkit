@@ -4,24 +4,30 @@ job-fit-screen
 Scores a real job posting against a personal fit-criteria YAML file, using
 Claude to make the judgment calls the criteria file itself requires (context,
 negation, working-philosophy fit) rather than naive keyword matching.
+
+Scoring runs through the local `claude` CLI (Claude Code), not a raw
+Anthropic API key — this tool never reads or requires ANTHROPIC_API_KEY.
+It shells out to `claude -p` and relies on whatever auth the CLI already
+has configured (subscription login), same as any other Claude Code session
+on the machine running this.
 """
 
 import json
-import os
-import sys
+import shutil
+import subprocess
+import tempfile
 from pathlib import Path
 from typing import Optional
 
 import click
 import yaml
 import httpx
-from anthropic import Anthropic
 from rich.console import Console
 from rich.panel import Panel
 
 console = Console()
 
-ANTHROPIC_MODEL = "claude-sonnet-5"
+CLAUDE_CLI_TIMEOUT_SECONDS = 120
 
 SEVERITY_ICON = {
     "strong": "🔴",
@@ -38,7 +44,12 @@ class JobFitScreener:
     def __init__(self, criteria_path: Path):
         self.criteria_path = criteria_path
         self.criteria = self.load_criteria(criteria_path)
-        self.client = Anthropic()  # reads ANTHROPIC_API_KEY from env
+        if not shutil.which("claude"):
+            raise click.ClickException(
+                "The 'claude' CLI was not found on your PATH. This tool scores postings "
+                "through Claude Code, not a raw API key — install Claude Code first: "
+                "https://docs.claude.com/claude-code"
+            )
 
     def load_criteria(self, path: Path) -> dict:
         """Load and parse the criteria YAML file."""
@@ -132,22 +143,46 @@ in exactly this shape:
   "bottom_line": "<2-4 sentence plain-language summary of whether this is worth applying to, and why>"
 }}
 
-Only include ids that actually exist in the criteria file above — do not invent ids."""
+Only include ids that actually exist in the criteria file above — do not invent ids.
+
+Score whatever is in the criteria file above, even if it looks like placeholder
+or example text — do not ask clarifying questions, do not refuse, do not comment
+on whether the criteria look real or filled in. Your entire response must be the
+raw JSON object and nothing else: no leading or trailing prose, no markdown code
+fences, no questions back to the user."""
 
     def score(self, posting_text: str) -> dict:
-        """Send criteria + posting to Claude, return the parsed verdict."""
+        """Send criteria + posting to Claude via the `claude` CLI, return the parsed verdict."""
         prompt = self.build_prompt(posting_text)
         try:
-            response = self.client.messages.create(
-                model=ANTHROPIC_MODEL,
-                max_tokens=4096,
-                messages=[{"role": "user", "content": prompt}],
+            # Run from a neutral temp directory, not the caller's cwd — a
+            # project's own CLAUDE.md / conventions have no business bleeding
+            # into a job-posting scoring call, and doing so can make Claude
+            # treat this like a normal coding-session request instead of a
+            # one-shot structured-output call.
+            with tempfile.TemporaryDirectory() as neutral_dir:
+                result = subprocess.run(
+                    ["claude", "-p", "--output-format", "text"],
+                    input=prompt,
+                    capture_output=True,
+                    text=True,
+                    timeout=CLAUDE_CLI_TIMEOUT_SECONDS,
+                    cwd=neutral_dir,
+                )
+        except subprocess.TimeoutExpired:
+            raise click.ClickException(
+                f"claude CLI did not respond within {CLAUDE_CLI_TIMEOUT_SECONDS}s. Try again, "
+                "or check that `claude` is logged in (run `claude` interactively once to verify)."
             )
-        except Exception as e:
-            raise click.ClickException(f"Claude API call failed: {e}")
+        except FileNotFoundError:
+            raise click.ClickException("The 'claude' CLI was not found on your PATH.")
 
-        raw_text = "".join(block.text for block in response.content if hasattr(block, "text"))
-        raw_text = raw_text.strip()
+        if result.returncode != 0:
+            raise click.ClickException(
+                f"claude CLI exited with an error (code {result.returncode}):\n{result.stderr.strip()}"
+            )
+
+        raw_text = result.stdout.strip()
         if raw_text.startswith("```"):
             raw_text = raw_text.split("```")[1]
             if raw_text.startswith("json"):
@@ -233,12 +268,6 @@ Only include ids that actually exist in the criteria file above — do not inven
 @click.option("--json-out", type=click.Path(), default=None, help="Optional path to also save the full result as JSON.")
 def main(criteria: str, posting: str, json_out: Optional[str]):
     """Score a job posting against your personal fit criteria."""
-    if not os.environ.get("ANTHROPIC_API_KEY"):
-        raise click.ClickException(
-            "ANTHROPIC_API_KEY is not set. Get a key from console.anthropic.com and "
-            "export it: export ANTHROPIC_API_KEY=sk-ant-..."
-        )
-
     screener = JobFitScreener(Path(criteria))
     console.print(f"[dim]Loading posting from {posting}...[/dim]")
     posting_text = screener.load_posting(posting)

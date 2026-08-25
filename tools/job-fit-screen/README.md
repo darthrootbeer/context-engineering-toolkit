@@ -4,7 +4,7 @@ A tool for scoring a real job posting against your own personal fit criteria —
 
 ## Status
 
-**Working.** The scorer (`job_fit_screen.py`) reads your criteria file and a job posting, sends both to Claude, and prints a scorecard. See [Setup](#setup) and [How to use it](#how-to-use-it) below.
+**Working.** The scorer (`job_fit_screen.py`) reads your criteria file and a job posting, sends both to Claude via the local `claude` CLI (no API key needed), and prints a scorecard. See [Setup](#setup) and [How to use it](#how-to-use-it) below.
 
 ## Why this exists
 
@@ -20,16 +20,14 @@ Neither your reasoning file nor your criteria file are ever checked into this re
 
 ## Setup
 
-1. **Install dependencies:**
+This tool scores postings by shelling out to the local `claude` CLI (Claude Code) — it does **not** use a raw Anthropic API key.
+
+1. **Install [Claude Code](https://docs.claude.com/claude-code)** if you don't already have it, and log in once by running `claude` interactively.
+2. **Install this tool's dependencies:**
    ```bash
    ./install.sh
    ```
-   This checks for Python 3.9+, installs the required packages, and checks whether `ANTHROPIC_API_KEY` is set.
-2. **Get an Anthropic API key** from [console.anthropic.com](https://console.anthropic.com) if you don't have one, and export it:
-   ```bash
-   export ANTHROPIC_API_KEY=sk-ant-...
-   ```
-   Add that line to your shell profile (`~/.zshrc` or `~/.bashrc`) so it persists. The key is never hardcoded or written to a file by this tool — it's read from the environment only, every run.
+   This checks for Python 3.9+, installs the required packages, and confirms the `claude` CLI is on your PATH.
 
 ## How to use it
 
@@ -59,7 +57,7 @@ Every verdict in the report is grounded in a quote or close paraphrase from the 
 python3 test_example.py
 ```
 
-Runs the scorer against a fake, fully generic test posting and `criteria.example.yaml` as-is. Confirms the tool works end to end (and that your API key is valid) before you've written anything real.
+Runs the scorer against a fake, fully generic test posting and `criteria.example.yaml` as-is. Confirms the tool works end to end (and that `claude` is logged in and responding) before you've written anything real.
 
 ## Reasoning file shape
 

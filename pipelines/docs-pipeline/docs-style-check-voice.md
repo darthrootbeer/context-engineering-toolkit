@@ -124,6 +124,9 @@ This is the most enforcement-heavy section. The general style guide has strict r
 |---|---|---|
 | Exact API field names | Use exact field names from the API. Don't rename. | Flag if a renamed field is detected |
 | Consistent naming | Same term used the same way throughout the doc | Flag inconsistencies |
+| First-use definitions | Project-specific terms, system names, and acronyms must be defined or linked at first use. A term counts as "defined" if it has an inline parenthetical explanation, if it is introduced with an appositive ("Acme Router, the routing engine, ..."), or if the next sentence explains what it is. A term counts as "linked" if its first use is a hyperlink to a reference or explanation doc. | Flag undefined first uses and suggest an inline definition based on the term's apparent meaning in context. Do not auto-fix: the correct definition needs product knowledge. |
+
+**Scope of the first-use check:** Apply it to proper nouns that look project-specific (system names, tool names, pipeline components, custom file formats). Do not flag common technical terms (API, YAML, JSON, CLI, HTTP), standard industry terms, or terms already defined earlier in the same doc. When in doubt, flag rather than skip. A false positive is easier to dismiss than a missed undefined term.
 
 #### 4i. Cross-referencing
 

@@ -28,7 +28,7 @@ If a single path is provided that looks like a workspace (contains `docs/input/`
 Stage 0: Workspace           → create or reuse the workspace directory
 Stage 1: Audit               → classify the doc, determine if split is needed
 Stage 2: Split               → extract into typed docs (skip if not needed)
-Stage 3: Style passes        → structure → voice → human → proofread (sequential)
+Stage 3: Style passes        → structure → voice → human → readability → proofread (sequential)
 Stage 4: Reviews             → visuals → links → SME review → changes summary
 Stage 5: Decision checkpoint → resolve all recommendations before publish
 Stage 6: Publish             → branch, PR, verify
@@ -239,18 +239,35 @@ Present summary:
 [N] files checked, [M] edits made:
 - [filename]: [brief description of changes]
 
-Proceed to proofread check (3d)?
+Proceed to readability check (3d)?
 ```
 
 **Wait for user response.**
 
-### 3d. Proofread check (grammar, spelling, terminology)
+### 3d. Readability check (sentence complexity)
+
+**Follow the complete `/docs-readability-check` process.** The skill file ships in this repo at `skills/docs-readability-check/SKILL.md`. Read it and execute all steps against the output docs.
+
+Present summary:
+```
+### Stage 3d: Readability check complete
+
+[N] files checked, [M] edits made:
+- [filename]: grade level [before] → [after] ([status: within target / improved / still above target])
+- Wall paragraphs flagged for manual review: [K]
+
+Proceed to proofread check (3e)?
+```
+
+**Wait for user response.**
+
+### 3e. Proofread check (grammar, spelling, terminology)
 
 **Follow the complete `/docs-grammar-spelling` process** (`docs-grammar-spelling.md`). Read that skill file and execute all steps against the output docs.
 
 Present summary:
 ```
-### Stage 3d: Proofread check complete
+### Stage 3e: Proofread check complete
 
 [N] files checked, [M] fixes applied, [K] flags for review:
 - Terminology: [N]
@@ -401,7 +418,7 @@ Follow the `/docs-publish` process:
 Stages completed:
 ✓ Audit — [result summary]
 ✓ Split — [split/skipped]
-✓ Style — structure, voice, human, grammar
+✓ Style — structure, voice, human, readability, grammar
 ✓ Reviews — visuals, links, SME review, changes
 ✓ Decisions — [N] applied, [N] skipped, [N] deferred
 ✓ Publish — PR #[N] opened

@@ -1,6 +1,6 @@
 # Job assessment system
 
-**Status: scaffold only. Nothing in this folder is runnable yet.** This folder holds the repo checks and test setup that the rest of the system will be built on. The scripts, schemas, sample data and skills listed below do not exist yet, and each one will be added in its own pull request.
+**Status: the chain runs offline on fictional data; the architecture, setup and tested-prompt docs are still to come.** Everything listed as done below exists in this folder and is covered by tests. The last two bullets are the only work left.
 
 The system is meant to score a job posting against a person's own written criteria and give a plain verdict: Apply, Apply with reservations, or Skip. Its docs will follow the style guides and prompt-block standard of [`pipelines/docs-pipeline`](../docs-pipeline/), which stays the first thing to look at in this repo.
 
@@ -28,16 +28,22 @@ Each bullet flips from planned to done in the pull request that delivers it.
 
 - [x] **Skills catalog and survey.** A generic skills list and an offline form for scoring yourself against it.
 
-- [ ] **Integration and proof.** The whole chain run end to end from a clean clone, plus the removal of the earlier `tools/job-fit-screen`.
+- [x] **Integration and proof.** The whole chain run end to end offline, a separate live run with the `claude` CLI, a clean-clone check in CI, and the removal of the earlier `tools/job-fit-screen` (git history keeps it).
 
 - [ ] **Docs and prompt blocks.** `ARCHITECTURE.md`, `SETUP.md`, and the tested prompts for each doc.
 
 ## What can be run today
 
-Only the repo checks:
+From this folder, after `pip install -r requirements.txt`:
 
 ```text
-python3 .github/scripts/safety_scan.py --tree
+python3 -m pytest -q
+python3 scripts/assess_offline.py fixtures/postings/03-unlisted-pay-perks.md \
+  --findings fixtures/findings/03-unlisted-pay-perks.findings.json \
+  --profile fixtures/robin-sample/career-profile.yaml --out /tmp/ja-out
+python3 ../../.github/scripts/safety_scan.py --tree
 ```
 
-It prints `safety_scan: clean (tree)` and exits 0 when no email address, home path, private network address, tracker link, ticket id or secret-shaped string is in a tracked file.
+The second command runs the whole chain with no model and no network: it checks the findings, scores them, picks the verdict, writes the assessment into an archived note, renames the note and writes the email card as a local HTML file. The tests in `tests/test_e2e_offline.py` compare that output for all three fictional postings to `fixtures/expected.yaml` and `fixtures/golden/`.
+
+The live runs in `tests/live/` need the `claude` CLI and `JA_LIVE=1`, are skipped otherwise, and never run in CI. Their saved records are `tests/intake-transcript.md`, `tests/e2e-output.md` and the first attempt, `tests/e2e-output-run1.md`.

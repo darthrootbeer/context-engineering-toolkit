@@ -1,0 +1,19 @@
+FICTIONAL EXAMPLE DATA. Not a real person.
+ASSESSMENT: fixtures/postings/02-job-type-override.md
+
+🚦 VERDICT: Skip
+
+**Scores:**
+Fit 7 🟢🟢🟢🟢🟢🟢🟢⬛⬛⬛  
+Comp 3 🟠🟠🟠⬛⬛⬛⬛⬛⬛⬛  
+Qualifications 6 🟡🟡🟡🟡🟡🟡⬛⬛⬛⬛  
+Culture 5 🟡🟡🟡🟡🟡⬛⬛⬛⬛⬛  
+
+| Check | Rating | Read |
+|---|---|---|
+| 🧑‍🔬 Regular access to experts | 🟡 Fair | A weekly session is regular, though not constant. |
+| 🛠️ A say in the authoring tools | 🟡 Fair | Robin shares the choice of tools. |
+| 📖 A written style guide | 🔴 Poor | No written guide, and style is set by someone outside the writing team. |
+| How much say you'd have | ❓ Unknown | The posting gives no clear signal either way. |
+
+🟢 Strong · 🟡 Fair · 🟠 Weak · 🔴 Poor · ❓ Unknown

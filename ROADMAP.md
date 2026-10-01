@@ -4,7 +4,7 @@ What's here now is a first batch. This is what's planned next, so it's clear wha
 
 ## In progress
 
-**Job assessment system.** Being built in small pull requests under `pipelines/job-assessment/`. Only the scaffold and safety checks exist so far. Its README has the status list.
+**Job assessment system.** Built in small pull requests under `pipelines/job-assessment/`. The scripts, schemas, fictional sample data, both skills and the offline end-to-end run are merged and tested; the earlier `tools/job-fit-screen` it replaces has been removed. Still to come: `ARCHITECTURE.md`, `SETUP.md` and the tested prompt blocks. Its README has the status list.
 
 ## Planned — batch 2
 

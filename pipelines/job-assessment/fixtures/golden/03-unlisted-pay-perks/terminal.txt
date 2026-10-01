@@ -1,0 +1,19 @@
+FICTIONAL EXAMPLE DATA. Not a real person.
+ASSESSMENT: fixtures/postings/03-unlisted-pay-perks.md
+
+🚦 VERDICT: Apply with reservations
+
+**Scores:**
+Fit 7 🟢🟢🟢🟢🟢🟢🟢⬛⬛⬛  
+Comp 5 🟡🟡🟡🟡🟡⬛⬛⬛⬛⬛  
+Qualifications 6 🟡🟡🟡🟡🟡🟡⬛⬛⬛⬛  
+Culture 9 🟢🟢🟢🟢🟢🟢🟢🟢🟢⬛  
+
+| Check | Rating | Read |
+|---|---|---|
+| 🧑‍🔬 Regular access to experts | 🟠 Weak | Access to experts is possible but not planned. |
+| 🛠️ A say in the authoring tools | ❓ Unknown | The posting says nothing about who picks the tools. |
+| 📖 A written style guide | 🟡 Fair | A guide exists, and it is short. |
+| How much say you'd have | ❓ Unknown | Only generic collaboration phrases appear, which say nothing about autonomy. |
+
+🟢 Strong · 🟡 Fair · 🟠 Weak · 🔴 Poor · ❓ Unknown

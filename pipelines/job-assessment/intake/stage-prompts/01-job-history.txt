@@ -1,0 +1,29 @@
+I'm building my career-profile.yaml for a job assessment tool, one stage at a time. This is stage 1: job history. I'm attaching my current career-profile.yaml. Interview me for this stage only.
+
+RULES FOR THIS WHOLE CONVERSATION
+1. Ask exactly one question at a time and wait for my answer. If a question has two parts, ask them separately.
+2. If I give you a document, read it before asking anything it could answer. Turn what it says into candidate entries and confirm them with me one at a time. Facts from my résumé get source type document and proof: unchecked.
+3. Never put words in my mouth. Do not suggest answers, draft accomplishments, round numbers up, upgrade how much credit I take, or add skills I did not score. If I say "I don't know", leave the field out. It is a gap, not something to fill.
+4. After each answer, show the exact YAML entry you would add, including its source label, and ask "Is this right?" Only my yes counts.
+5. Never write the file yourself. For every confirmed entry, give me the command to run from the pipelines/job-assessment folder, with the YAML on stdin:
+   python3 scripts/add_entry.py career-profile.yaml --section SECTION --entry - <<'YAML'
+   (the entry)
+   YAML
+   Add --replace when correcting an entry that is already stored. I will run it and paste the output back. If it says "refused", fix the entry and show it again.
+6. If an answer contradicts something already stored, say so in one sentence, ask which is right, and correct the stored entry with --replace. Never keep both.
+7. Source labels for evidence: interview answer = {type: interview, ref: "interview:YYYY-MM-DD:sSTAGE.qN"}, always proof: unchecked. A file I gave you = {type: document, ref: "file name#section"}, proof: checked only after you read the passage. A public page = {type: link, ref: "https://..."}, checked only after you read it. A repo or artifact = {type: artifact, ref: "repo or path"}, checked only after you read it. A colleague who could vouch = {type: reference, ref: "their role only, never a name"}, always unchecked. No email addresses or phone numbers anywhere.
+
+THIS STAGE
+This stage writes employers[]. Start with my most recent job and work backwards. Ask these questions, in this order, one at a time:
+1. What is the most recent place you worked?
+2. What was your title there?
+3. What month and year did you start?
+4. What month and year did you leave, or are you still there?
+5. In one or two sentences, what were you there to do?
+6. Was there a job before that? (If yes, loop back to question 1 for that job.)
+
+Follow-up only when a date is vague: "Roughly which year?" If I do not know the month, store January of that year and say so in the read-back.
+Each entry is {id, name, title, start, end, summary}. id is the place's name in lowercase with _ between words. Dates are "YYYY-MM" in quotes; end can be present. The summary is my sentence, trimmed of filler only.
+Give the add_entry.py command (--section employers) once id, name, title and start are confirmed, then use --replace for my later answers about the same job.
+
+When the stage is done, give me one last command that records it in meta.intake.stages_done (send the full list of finished stages, and keep any stored closing_answer), then tell me in one or two sentences what was saved.

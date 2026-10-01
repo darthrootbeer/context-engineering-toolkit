@@ -1,0 +1,31 @@
+I'm building my career-profile.yaml for a job assessment tool, one stage at a time. This is stage 3: skills survey. I'm attaching my current career-profile.yaml and intake/templates/skills-catalog.yaml. Interview me for this stage only.
+
+RULES FOR THIS WHOLE CONVERSATION
+1. Ask exactly one question at a time and wait for my answer. If a question has two parts, ask them separately.
+2. If I give you a document, read it before asking anything it could answer. Turn what it says into candidate entries and confirm them with me one at a time. Facts from my résumé get source type document and proof: unchecked.
+3. Never put words in my mouth. Do not suggest answers, draft accomplishments, round numbers up, upgrade how much credit I take, or add skills I did not score. If I say "I don't know", leave the field out. It is a gap, not something to fill.
+4. After each answer, show the exact YAML entry you would add, including its source label, and ask "Is this right?" Only my yes counts.
+5. Never write the file yourself. For every confirmed entry, give me the command to run from the pipelines/job-assessment folder, with the YAML on stdin:
+   python3 scripts/add_entry.py career-profile.yaml --section SECTION --entry - <<'YAML'
+   (the entry)
+   YAML
+   Add --replace when correcting an entry that is already stored. I will run it and paste the output back. If it says "refused", fix the entry and show it again.
+6. If an answer contradicts something already stored, say so in one sentence, ask which is right, and correct the stored entry with --replace. Never keep both.
+7. Source labels for evidence: interview answer = {type: interview, ref: "interview:YYYY-MM-DD:sSTAGE.qN"}, always proof: unchecked. A file I gave you = {type: document, ref: "file name#section"}, proof: checked only after you read the passage. A public page = {type: link, ref: "https://..."}, checked only after you read it. A repo or artifact = {type: artifact, ref: "repo or path"}, checked only after you read it. A colleague who could vouch = {type: reference, ref: "their role only, never a name"}, always unchecked. No email addresses or phone numbers anywhere.
+
+THIS STAGE
+This stage writes skills[]. A skill score is my own claim, never proof.
+First ask whether I want to use the offline form (open intake/templates/skills-survey.html, save the JSON, then run python3 intake/scripts/merge_survey.py career-profile.yaml FILE.json --dry-run and then without --dry-run) or go through the catalog here. If I pick the form, skip to the evidence questions below once I paste the merge output.
+
+In the chat, go group by group, item by item. Ask one at a time:
+1. From 0 to 5, where 0 is [the group's zero anchor] and 5 is [the group's five anchor], where are you on [item label]?
+For items I score 2 or higher, then ask one at a time:
+2. Do you want more of it in your next job, don't mind it, or would you rather avoid it?  (next: more | neutral | avoid)
+3. When did you last use it: within 2 years, 2 to 5 years ago, longer ago, or never?  (last: 2y | 5y | 5plus | never)
+4. Did you do it yourself, by directing AI, or by teaching others?  (how: self | ai | team, more than one allowed)
+If I say a group does not apply, skip it; a skipped item is left out, never stored as 0.
+Each entry is {id, label, group, match, self_score, next, last, how}, with id, label, group and match taken from the catalog item.
+
+Then, for each skill I scored 3 or higher, ask: which of your accomplishments shows it? List my stored evidence claims so I can pick. If I say none, leave evidence_ids empty; that marks it unproven, which is fine. Never link evidence I did not name, and never link an entry marked do_not_use or OTHER-AUTHOR.
+
+When the stage is done, give me one last command that records it in meta.intake.stages_done (send the full list of finished stages, and keep any stored closing_answer), then tell me in one or two sentences what was saved.

@@ -24,7 +24,7 @@ Each bullet flips from planned to done in the pull request that delivers it.
 
 - [ ] **Assessment skill.** The Claude Code skill that runs the assessment end to end.
 
-- [ ] **Intake skill.** The interview skill that builds the central file one checked answer at a time.
+- [x] **Intake skill.** The interview skill that builds the central file one checked answer at a time.
 
 - [x] **Skills catalog and survey.** A generic skills list and an offline form for scoring yourself against it.
 

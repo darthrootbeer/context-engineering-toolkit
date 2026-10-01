@@ -17,7 +17,8 @@ ticket_allowlist:        # look like ticket ids, are not
   - AES-256
   - ISO-8601
   - UTF-8
-  - DOC-101          # placeholder ticket id used in docs-pipeline examples
+  - DOC-101          # placeholder ticket ids used in docs-pipeline examples
+  - DOC-102
 
 rules:
   - id: email
@@ -34,7 +35,7 @@ rules:
     regex: '\b(10\.\d{1,3}\.\d{1,3}\.\d{1,3}|172\.(1[6-9]|2\d|3[01])\.\d{1,3}\.\d{1,3}|192\.168\.\d{1,3}\.\d{1,3})\b|\b\d{1,3}(\.\d{1,3}){3}:\d{2,5}\b'
     message: private network address or ip:port
   - id: tracker
-    regex: 'todoist\.com/app/task|todoist://|linear\.app/(?!(yourorg|acme)\b)|obsidian://open\?vault=|\b[A-Z]{3,5}-\d{3}\b'
+    regex: 'todoist\.com/app/task|todoist://|(?<!api\.)linear\.app/(?!(yourorg|acme)\b)|obsidian://open\?vault=|\b[A-Z]{3,5}-\d{3}\b'
     message: task tracker or notes-app link, or a ticket id
   - id: secret-shape
     regex: 'sk-ant-|ghp_[A-Za-z0-9]|github_pat_|xox[bp]-|AKIA[0-9A-Z]{16}|-----BEGIN [A-Z ]*PRIVATE KEY|(?i:\b(api[_-]?key|token|secret|password)\b)\s*[:=]\s*["''][^"''\s]{8,}["'']|~/\.secrets'

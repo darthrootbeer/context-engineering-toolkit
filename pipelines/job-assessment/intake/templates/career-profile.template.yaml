@@ -1,0 +1,144 @@
+# career-profile.yaml: your job history, your evidence, your skills and what you need
+# from a job, in one file. The intake interview fills it in one checked answer at a
+# time. Copy this file, then let the interview write to it through
+# scripts/add_entry.py. Check it any time with:
+#
+#     python3 scripts/validate_profile.py career-profile.yaml
+#
+# Rules that keep the file honest:
+#   - Every accomplishment is an evidence entry with a source. Where did the fact
+#     come from: the interview, a document, a public link, an artifact, or a
+#     reference? Interview and reference facts stay proof: unchecked.
+#   - A skill score is your own claim. It is never proof on its own. An
+#     assessment only counts a skill as proven when the skill points at evidence.
+#   - There are no contact fields. Do not put an email address or phone number
+#     anywhere; the validator rejects them.
+#   - Ids use lowercase letters, digits, hyphens and underscores.
+#
+# Note: add_entry.py rewrites the file, so the comments below are dropped after the
+# first write. This header block is kept. The commented examples show one entry of
+# each kind; they are fictional.
+
+schema_version: 1
+
+# Who the file is about. display_name can be a first name or a nickname.
+person:
+  display_name: ""                    # e.g. Robin Sample
+  target_roles: []                    # e.g. [Senior Technical Writer]
+  years_experience: null              # whole years in your field, e.g. 9
+  location_label: null                # only used to pick a pay tier from a posting, e.g. Region B
+  working_style: null                 # gather_from_experts | become_expert
+
+# Optional. Where postings come from, so a saved posting can show it at a glance.
+sources: []
+#  - {key: board-a, emoji: "📋", label: Job board A}
+
+# Kinds of company or job you will never take. Checked first, every lane.
+hard_blocks: []
+#  - id: gambling
+#    label: "🎰 Gambling or betting"
+#    why: "In your own words."
+#    match_hints: [sports betting, casino]
+
+# One-off overrides of a hard block for one named company.
+named_exceptions: []
+#  - {company: Example Co, block_id: non_remote, why: "In your own words.", added: 2026-10-01}
+
+# Base pay, in one currency. Leave a number as null if you have no answer.
+# Must run in order: floor <= min <= open_ask <= target <= stretch_ceiling.
+comp:
+  currency: USD
+  floor: null                         # below this, Comp scores 1
+  min: null                           # the pay you would normally accept
+  open_ask: null                      # what you would ask for
+  target: null                        # a great offer; at or above this Comp scores 10
+  stretch_ceiling: null               # the most you could see the role paying
+
+culture:
+  perks: []                           # kind: big adds 2 to Culture, nice adds 1
+#    - {id: unlimited_pto, label: Unlimited PTO, kind: big}
+#    - {id: offsites, label: Regular meetups or offsites, kind: nice}
+  low_time_off_days: null             # yearly paid days off below this cost 2 points
+  hustle_phrases: []                  # job-ad phrases that make you wary, 1 point each
+  free_phrases: []                    # phrases you read but that cost nothing
+
+# Optional. Things that lower Culture by 1 when a posting trips them.
+soft_flags: []
+#  - {id: vague_title, label: Vague job title, why: "In your own words."}
+
+# Optional. Benefits and terms you care about.
+benefits_and_terms: []
+#  - {id: health, label: Health insurance from day one, why: "In your own words."}
+
+# Optional. Companies you want, and why. Shown in a read, never part of a score.
+company_criteria:
+  high_interest: []
+  good_not_dream: []
+#  high_interest:
+#    - {name: Example Co, why: "In your own words."}
+
+# The kinds of role you are looking at. A posting is always read against one lane.
+lanes: []
+#  - name: docs-platform
+#    emoji: "🔧"
+#    description: Roles building the systems that produce docs.
+#    requirements:                    # severity: strong | soft. bonus: true never subtracts
+#      - {id: ai_forward, label: "✨ AI-forward team", severity: strong, why: "In your own words."}
+#    autonomy:
+#      positive_signals: [own the roadmap]
+#      negative_signals: [tickets assigned daily]
+#    keyword_signals:
+#      strong_positive: [{phrase: docs as code, why: "In your own words."}]
+#      positive: []
+#      negative: []
+#      strong_negative: []
+#    known_gaps:                      # skills this kind of role wants that you lack
+#      - {id: gap_kubernetes, label: Kubernetes operations, skill_id: kubernetes}
+
+# Where you worked. Dates are YYYY-MM; end can be present.
+employers: []
+#  - id: northwind
+#    name: Northwind Example Co.
+#    title: Technical Writer
+#    start: 2017-02
+#    end: 2021-12
+#    summary: One or two sentences on what you were there to do.
+
+# What you did, one entry per accomplishment, each with where the fact came from.
+#   authorship: WROTE | DIRECTED | CO-WROTE | DESIGNED | REVIEWED | OTHER-AUTHOR
+#               (OTHER-AUTHOR records work nobody in this file may claim)
+#   proof:      checked | unchecked | do_not_use
+#   source.type: interview | document | link | artifact | reference
+evidence: []
+#  - id: ev-northwind-api-rebuild
+#    employer_id: northwind           # null for a personal project
+#    claim: Moved the API reference to pages generated from the API spec.
+#    details: "Your own words."
+#    dates: {start: 2021-03, end: 2021-09}
+#    authorship: DIRECTED
+#    proof: checked
+#    source: {type: link, ref: "https://example.com/fictional/api-rebuild", captured_on: 2026-10-01}
+
+# Your skills, scored by you from 0 to 5. A score of 3 or more with no evidence_ids
+# is reported as unproven.
+#   next: more | neutral | avoid      last: 2y | 5y | 5plus | never      how: self | ai | team
+skills: []
+#  - id: openapi
+#    label: OpenAPI / Swagger
+#    group: api
+#    match: ['openapi|swagger']
+#    self_score: 4
+#    next: more
+#    last: 2y
+#    how: [self, ai]
+#    evidence_ids: [ev-northwind-api-rebuild]
+
+# Optional. Writing you can show, tied to an evidence entry.
+writing_samples: []
+#  - {id: ws-api-guide, title: API getting-started guide, link: "https://example.com/fictional/guide", evidence_id: ev-northwind-api-rebuild}
+
+# Filled in by the intake as it goes, so a later session resumes at the next stage.
+meta:
+  updated: null
+  intake:
+    stages_done: []

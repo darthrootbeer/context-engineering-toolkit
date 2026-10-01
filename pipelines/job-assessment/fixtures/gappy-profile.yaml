@@ -1,0 +1,188 @@
+# FICTIONAL EXAMPLE DATA. Not a real person.
+#
+# A career profile that passes scripts/validate_profile.py with no errors and
+# no warnings, but still has weak spots only a careful reader can find.
+# It is the test file for the "find gaps in my central file" prompt.
+# The list of planted gaps is kept in tests/test_validate_profile.py, not here,
+# so a model reading this file has to find them on its own.
+schema_version: 1
+person:
+  display_name: Robin Sample
+  target_roles: [Senior Technical Writer, Docs Platform Engineer]
+  years_experience: 9
+  location_label: Region B
+  working_style: gather_from_experts
+sources:
+  - {key: board-a, emoji: "📋", label: Job board A}
+  - {key: referral, emoji: "🤝", label: Referral}
+hard_blocks:
+  - id: gambling
+    label: "🎰 Gambling or betting"
+    why: Robin does not want to write for products built on betting losses.
+    match_hints: [sports betting, casino, wagering]
+  - id: weapons
+    label: "🪖 Weapons makers"
+    match_hints: [munitions, weapons systems]
+  - id: non_remote
+    label: "🏢 Must be in an office"
+    why: Robin works from home and will not relocate.
+    match_hints: [on-site, in-office, hybrid]
+named_exceptions:
+  - company: Example Harbor Co.
+    block_id: non_remote
+    why: Office is a short walk from home.
+    added: 2026-10-01
+comp:
+  currency: USD
+  floor: 90000
+  min: 110000
+  open_ask: 125000
+  target: 140000
+  stretch_ceiling: 170000
+culture:
+  perks:
+    - {id: unlimited_pto, label: Unlimited PTO, kind: big}
+    - {id: learning_budget, label: Learning budget, kind: big}
+    - {id: offsites, label: Regular meetups or offsites, kind: nice}
+  low_time_off_days: 15
+  hustle_phrases: [rockstar, work hard play hard, weekend work]
+  free_phrases: [fast-paced]
+soft_flags:
+  - {id: vague_title, label: Vague job title, why: Often means the role is still being decided.}
+benefits_and_terms:
+  - {id: health, label: Health insurance from day one, why: Robin pays for a dependent.}
+company_criteria:
+  high_interest:
+    - {name: Fictional Docs Tools Inc., why: Builds tools Robin already uses.}
+  good_not_dream: []
+lanes:
+  - name: docs-platform
+    emoji: "🔧"
+    description: Roles building the systems that produce docs.
+    requirements:
+      - id: ai_forward
+        label: "✨ AI-forward team"
+        severity: strong
+        why: Robin wants to keep working with AI tools daily.
+      - id: owns_pipeline
+        label: "🛠️ Owns the docs build"
+        severity: strong
+        why: The point of the role is building, not only writing.
+      - id: small_team
+        label: "👥 Small team"
+        severity: soft
+    autonomy:
+      positive_signals: [own the roadmap, self-directed]
+      negative_signals: [tickets assigned daily]
+    keyword_signals:
+      strong_positive:
+        - {phrase: docs as code, why: Matches how Robin works.}
+      positive: []
+      negative: []
+      strong_negative: []
+    known_gaps:
+      - {id: gap_kubernetes, label: Kubernetes operations, skill_id: kubernetes}
+  - name: tech-writing
+    emoji: "✍️"
+    description: Roles writing and editing technical content.
+    requirements:
+      - id: ai_forward
+        label: "✨ AI-forward team"
+        severity: strong
+        why: Robin wants to keep working with AI tools daily.
+      - id: owns_pipeline
+        label: "🛠️ Owns the docs build"
+        severity: strong
+        why: The point of the role is building, not only writing.
+      - id: small_team
+        label: "👥 Small team"
+        severity: soft
+    autonomy:
+      positive_signals: [own the roadmap, self-directed]
+      negative_signals: [tickets assigned daily]
+    keyword_signals:
+      strong_positive:
+        - {phrase: docs as code, why: Matches how Robin works.}
+      positive: []
+      negative: []
+      strong_negative: []
+    known_gaps: []
+employers:
+  - id: northwind
+    name: Northwind Example Co.
+    title: Technical Writer
+    start: 2017-02
+    end: 2021-12
+    summary: Wrote and maintained the API and admin guides for a billing product.
+  - id: placeholder-labs
+    name: Placeholder Labs
+    title: Senior Technical Writer
+    start: 2022-01
+    end: present
+    summary: Runs the docs site and its build for a developer platform.
+evidence:
+  - id: ev-northwind-api-rebuild
+    employer_id: northwind
+    claim: Moved the API reference from hand-edited pages to pages generated from the API spec.
+    details: "Robin's own words: the reference stopped drifting from the real API."
+    dates: {start: 2021-03, end: 2021-09}
+    authorship: DIRECTED
+    proof: checked
+    source: {type: link, ref: "https://example.com/fictional/api-rebuild", captured_on: 2026-10-01}
+  - id: ev-placeholder-docs-ci
+    employer_id: placeholder-labs
+    claim: Set up a build check that blocks a docs change with a broken link.
+    dates: {start: 2023-05, end: 2023-06}
+    authorship: WROTE
+    proof: unchecked
+    source: {type: interview, ref: "interview:2026-10-01:s2.q3", captured_on: 2026-10-01}
+  - id: ev-placeholder-style-guide
+    employer_id: placeholder-labs
+    claim: Wrote the team style guide and the review checklist that goes with it.
+    dates: {start: 2022-04, end: 2022-08}
+    authorship: WROTE
+    proof: checked
+    source: {type: document, ref: "style-guide.pdf#introduction", captured_on: 2026-10-01}
+skills:
+  - id: openapi
+    label: OpenAPI / Swagger
+    group: api
+    match: ['openapi|swagger']
+    self_score: 4
+    next: more
+    last: 2y
+    how: [self, ai]
+    evidence_ids: [ev-northwind-api-rebuild]
+  - id: docs_ci
+    label: Docs build and CI checks
+    group: tooling
+    match: ['\bci\b|continuous integration|build pipeline']
+    self_score: 5
+    next: more
+    last: 2y
+    how: [self]
+    evidence_ids: [ev-placeholder-docs-ci]
+  - id: style_guides
+    label: Style guides
+    group: writing
+    match: ['style guide']
+    self_score: 4
+    next: neutral
+    last: 2y
+    how: [self, team]
+    evidence_ids: [ev-placeholder-style-guide]
+  - id: kubernetes
+    label: Kubernetes
+    group: infra
+    match: ['kubernetes|k8s']
+    self_score: 1
+    next: neutral
+    last: 5y
+    how: [self]
+    evidence_ids: []
+writing_samples:
+  - {id: ws-api-guide, title: API getting-started guide, link: "https://example.com/fictional/getting-started", evidence_id: ev-northwind-api-rebuild}
+meta:
+  updated: 2026-10-01
+  intake:
+    stages_done: [1, 2, 3, 4, 5, 6]

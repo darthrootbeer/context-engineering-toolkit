@@ -457,7 +457,7 @@ var CATALOG = /*CATALOG-BEGIN*/{
  ]
 }/*CATALOG-END*/;
 
-var KEY = "ja-skills-survey-v1";
+var STORE_NAME = "ja-skills-survey-v1";
 var MID = [
   "1  I know what it is and could explain it",
   "2  I have used it lightly or with help",
@@ -484,7 +484,7 @@ function gCount(g) { return g.items.filter(answered).length; }
 // ---- storage (best effort: file pages can lose it, so Download is the real save)
 function load() {
   try {
-    var raw = localStorage.getItem(KEY);
+    var raw = localStorage.getItem(STORE_NAME);
     if (raw) {
       var d = JSON.parse(raw);
       if (d && d.items) { S.items = d.items; S.notes = d.notes || {}; }
@@ -494,7 +494,7 @@ function load() {
 function save() {
   S.saved = new Date().toISOString();
   var ok = true;
-  try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { ok = false; }
+  try { localStorage.setItem(STORE_NAME, JSON.stringify(S)); } catch (e) { ok = false; }
   el("sv").textContent = ok ? "Kept in this browser. Download to keep a file." : "Not kept in this browser. Use Download.";
 }
 function progress() {

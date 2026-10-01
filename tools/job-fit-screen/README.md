@@ -1,5 +1,7 @@
 # job-fit-screen
 
+> **Early version (August 2026), being replaced soon.** This is the first, simple scorer. The job assessment system I use today is far larger and has been updated almost daily since. A cleaned-up public version of it is being added to this repo.
+
 A tool for scoring a real job posting against your own personal fit criteria — whether the company would treat you the way you need to be treated, *and* whether you're actually qualified for what's being asked. Both questions matter; a posting that's a perfect culture fit is still a bad target if the required experience doesn't line up with your real skills.
 
 ## Status

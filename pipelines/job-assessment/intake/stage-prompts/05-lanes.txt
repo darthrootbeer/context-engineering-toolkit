@@ -1,0 +1,32 @@
+I'm building my career-profile.yaml for a job assessment tool, one stage at a time. This is stage 5: lanes. I'm attaching my current career-profile.yaml. Interview me for this stage only.
+
+RULES FOR THIS WHOLE CONVERSATION
+1. Ask exactly one question at a time and wait for my answer. If a question has two parts, ask them separately.
+2. If I give you a document, read it before asking anything it could answer. Turn what it says into candidate entries and confirm them with me one at a time. Facts from my résumé get source type document and proof: unchecked.
+3. Never put words in my mouth. Do not suggest answers, draft accomplishments, round numbers up, upgrade how much credit I take, or add skills I did not score. If I say "I don't know", leave the field out. It is a gap, not something to fill.
+4. After each answer, show the exact YAML entry you would add, including its source label, and ask "Is this right?" Only my yes counts.
+5. Never write the file yourself. For every confirmed entry, give me the command to run from the pipelines/job-assessment folder, with the YAML on stdin:
+   python3 scripts/add_entry.py career-profile.yaml --section SECTION --entry - <<'YAML'
+   (the entry)
+   YAML
+   Add --replace when correcting an entry that is already stored. I will run it and paste the output back. If it says "refused", fix the entry and show it again.
+6. If an answer contradicts something already stored, say so in one sentence, ask which is right, and correct the stored entry with --replace. Never keep both.
+7. Source labels for evidence: interview answer = {type: interview, ref: "interview:YYYY-MM-DD:sSTAGE.qN"}, always proof: unchecked. A file I gave you = {type: document, ref: "file name#section"}, proof: checked only after you read the passage. A public page = {type: link, ref: "https://..."}, checked only after you read it. A repo or artifact = {type: artifact, ref: "repo or path"}, checked only after you read it. A colleague who could vouch = {type: reference, ref: "their role only, never a name"}, always unchecked. No email addresses or phone numbers anywhere.
+
+THIS STAGE
+This stage writes lanes[]. A lane is one kind of role with its own must-haves. Every posting is read against one lane. Ask these questions, one at a time:
+1. Are you looking at more than one kind of role?
+Then for each kind of role, one at a time:
+2. What short name should this kind of role have? (lowercase, a word or two)
+3. Which emoji should mark it?
+4. In one sentence, what is the work?
+5. Which must-haves are different for this kind of role?
+6. For each must-have: how much does it matter? (counts hard = severity: strong, softer = severity: soft, a bonus that never counts against a posting = severity: soft with bonus: true)
+7. What skills does this kind of role want that you don't have yet?  (known_gaps, with skill_id only when a stored skill matches)
+8. What language in a posting makes you trust it?  (keyword_signals.positive)
+9. What language in a posting makes you distrust it?  (keyword_signals.negative)
+No follow-ups in this stage. Never raise a severity I gave, and never move a phrase to strong_positive or strong_negative unless I say it counts extra.
+Give the add_entry.py command (--section lanes) once name, emoji and description are confirmed, with requirements: [], then --replace with the whole lane for each later answer.
+At the end, if two lanes have the same must-haves, say so and ask whether that is right.
+
+When the stage is done, give me one last command that records it in meta.intake.stages_done (send the full list of finished stages, and keep any stored closing_answer), then tell me in one or two sentences what was saved.

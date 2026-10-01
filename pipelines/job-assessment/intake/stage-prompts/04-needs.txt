@@ -1,0 +1,38 @@
+I'm building my career-profile.yaml for a job assessment tool, one stage at a time. This is stage 4: needs. I'm attaching my current career-profile.yaml. Interview me for this stage only.
+
+RULES FOR THIS WHOLE CONVERSATION
+1. Ask exactly one question at a time and wait for my answer. If a question has two parts, ask them separately.
+2. If I give you a document, read it before asking anything it could answer. Turn what it says into candidate entries and confirm them with me one at a time. Facts from my résumé get source type document and proof: unchecked.
+3. Never put words in my mouth. Do not suggest answers, draft accomplishments, round numbers up, upgrade how much credit I take, or add skills I did not score. If I say "I don't know", leave the field out. It is a gap, not something to fill.
+4. After each answer, show the exact YAML entry you would add, including its source label, and ask "Is this right?" Only my yes counts.
+5. Never write the file yourself. For every confirmed entry, give me the command to run from the pipelines/job-assessment folder, with the YAML on stdin:
+   python3 scripts/add_entry.py career-profile.yaml --section SECTION --entry - <<'YAML'
+   (the entry)
+   YAML
+   Add --replace when correcting an entry that is already stored. I will run it and paste the output back. If it says "refused", fix the entry and show it again.
+6. If an answer contradicts something already stored, say so in one sentence, ask which is right, and correct the stored entry with --replace. Never keep both.
+7. Source labels for evidence: interview answer = {type: interview, ref: "interview:YYYY-MM-DD:sSTAGE.qN"}, always proof: unchecked. A file I gave you = {type: document, ref: "file name#section"}, proof: checked only after you read the passage. A public page = {type: link, ref: "https://..."}, checked only after you read it. A repo or artifact = {type: artifact, ref: "repo or path"}, checked only after you read it. A colleague who could vouch = {type: reference, ref: "their role only, never a name"}, always unchecked. No email addresses or phone numbers anywhere.
+
+THIS STAGE
+This stage writes hard_blocks, named_exceptions, comp, culture, soft_flags, benefits_and_terms, company_criteria, person.location_label and person.working_style. Ask these questions, in this order, one at a time:
+1. Which kinds of company would you never work for? (Offer this starter menu as options, never as a default: gambling or betting, weapons, tobacco, payday lending, adult content, jobs that are not remote, jobs with heavy travel.)
+2. Is there any one-off exception: one company you would work for even though it trips one of those?
+3. What is the lowest base pay you would take if everything else were perfect?  (comp.floor)
+4. What base pay would you normally accept?  (comp.min)
+5. What would you ask for?  (comp.open_ask)
+6. What would feel like a great offer?  (comp.target)
+7. What is the most you could see a role like this paying?  (comp.stretch_ceiling)
+8. Where are you, for picking a pay tier? A region label is enough.  (person.location_label)
+9. Which perks would really change your mind about a job?  (culture.perks, kind: big or nice)
+10. How much yearly paid time off is too little?  (culture.low_time_off_days)
+11. Which phrases in a job ad make you wary?  (culture.hustle_phrases; phrases I say do not bother me go in culture.free_phrases)
+12. What work would you rather avoid, even if you are good at it?  (set next: avoid on the matching skill with --replace; if no skill matches, ask the 0 to 5 score question for it first)
+13. Do you prefer gathering knowledge from experts, or becoming the expert yourself?  (person.working_style: gather_from_experts | become_expert)
+14. Which companies do you actually want to work for, and why?  (company_criteria.high_interest or good_not_dream; never part of a score)
+
+Follow-ups only when there is a gap: "Why does this matter to you?" for a must-have or hard block with no reason; "Is that a big one or a nice one?" for a perk with no weight; "Which currency, and is that per year?" for an unclear pay answer.
+Store numbers exactly as I gave them. Pay must run floor <= min <= open_ask <= target <= stretch_ceiling. Add match_hints to a hard block only from words I said.
+comp, culture, person and company_criteria are mappings: a key's value is replaced whole, so when adding a perk, send the full perks list.
+A worry that is a condition, not a phrase, is a soft_flags entry {id, label, why}. A benefit or term I want to see is a benefits_and_terms entry {id, label, why}. Tell me which list each answer lands in.
+
+When the stage is done, give me one last command that records it in meta.intake.stages_done (send the full list of finished stages, and keep any stored closing_answer), then tell me in one or two sentences what was saved.

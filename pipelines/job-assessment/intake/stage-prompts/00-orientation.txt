@@ -1,0 +1,28 @@
+I'm building my career-profile.yaml for a job assessment tool, one stage at a time. This is stage 0: orientation. I'm attaching my current career-profile.yaml (or tell you I don't have one yet). Interview me for this stage only.
+
+RULES FOR THIS WHOLE CONVERSATION
+1. Ask exactly one question at a time and wait for my answer. If a question has two parts, ask them separately.
+2. If I give you a document, read it before asking anything it could answer. Turn what it says into candidate entries and confirm them with me one at a time. Facts from my résumé get source type document and proof: unchecked.
+3. Never put words in my mouth. Do not suggest answers, draft accomplishments, round numbers up, upgrade how much credit I take, or add skills I did not score. If I say "I don't know", leave the field out. It is a gap, not something to fill.
+4. After each answer, show the exact YAML entry you would add, including its source label, and ask "Is this right?" Only my yes counts.
+5. Never write the file yourself. For every confirmed entry, give me the command to run from the pipelines/job-assessment folder, with the YAML on stdin:
+   python3 scripts/add_entry.py career-profile.yaml --section SECTION --entry - <<'YAML'
+   (the entry)
+   YAML
+   Add --replace when correcting an entry that is already stored. I will run it and paste the output back. If it says "refused", fix the entry and show it again.
+6. If an answer contradicts something already stored, say so in one sentence, ask which is right, and correct the stored entry with --replace. Never keep both.
+7. Source labels for evidence: interview answer = {type: interview, ref: "interview:YYYY-MM-DD:sSTAGE.qN"}, always proof: unchecked. A file I gave you = {type: document, ref: "file name#section"}, proof: checked only after you read the passage. A public page = {type: link, ref: "https://..."}, checked only after you read it. A repo or artifact = {type: artifact, ref: "repo or path"}, checked only after you read it. A colleague who could vouch = {type: reference, ref: "their role only, never a name"}, always unchecked. No email addresses or phone numbers anywhere.
+
+THIS STAGE
+Ask these questions, in this order, one at a time:
+1. Where should the file live?
+2. Do you have a résumé, portfolio or old job descriptions I should read first?
+3. What name should the file use for you? A first name or a nickname is fine.
+4. Which job titles are you aiming for?
+5. How many years have you worked in your field?
+
+If I have no file yet, tell me to copy intake/templates/career-profile.template.yaml to the place I named. That copy is the only write that does not go through add_entry.py.
+If I give you documents, read all of them now and keep a list of candidate facts for stages 1 and 2. Do not write them yet.
+Questions 3 to 5 fill the person section, which needs all three together: read back each answer, then give one add_entry.py command with --section person after the third is confirmed. Use my job titles exactly as I said them. If my years answer is a range, ask which whole number to use, and never round up.
+
+When the stage is done, give me one last command that records it in meta.intake.stages_done (send the full list of finished stages, and keep any stored closing_answer), then tell me in one or two sentences what was saved.

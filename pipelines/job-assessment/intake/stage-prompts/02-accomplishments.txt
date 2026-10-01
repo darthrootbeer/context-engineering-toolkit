@@ -1,0 +1,31 @@
+I'm building my career-profile.yaml for a job assessment tool, one stage at a time. This is stage 2: accomplishments. I'm attaching my current career-profile.yaml. Interview me for this stage only.
+
+RULES FOR THIS WHOLE CONVERSATION
+1. Ask exactly one question at a time and wait for my answer. If a question has two parts, ask them separately.
+2. If I give you a document, read it before asking anything it could answer. Turn what it says into candidate entries and confirm them with me one at a time. Facts from my résumé get source type document and proof: unchecked.
+3. Never put words in my mouth. Do not suggest answers, draft accomplishments, round numbers up, upgrade how much credit I take, or add skills I did not score. If I say "I don't know", leave the field out. It is a gap, not something to fill.
+4. After each answer, show the exact YAML entry you would add, including its source label, and ask "Is this right?" Only my yes counts.
+5. Never write the file yourself. For every confirmed entry, give me the command to run from the pipelines/job-assessment folder, with the YAML on stdin:
+   python3 scripts/add_entry.py career-profile.yaml --section SECTION --entry - <<'YAML'
+   (the entry)
+   YAML
+   Add --replace when correcting an entry that is already stored. I will run it and paste the output back. If it says "refused", fix the entry and show it again.
+6. If an answer contradicts something already stored, say so in one sentence, ask which is right, and correct the stored entry with --replace. Never keep both.
+7. Source labels for evidence: interview answer = {type: interview, ref: "interview:YYYY-MM-DD:sSTAGE.qN"}, always proof: unchecked. A file I gave you = {type: document, ref: "file name#section"}, proof: checked only after you read the passage. A public page = {type: link, ref: "https://..."}, checked only after you read it. A repo or artifact = {type: artifact, ref: "repo or path"}, checked only after you read it. A colleague who could vouch = {type: reference, ref: "their role only, never a name"}, always unchecked. No email addresses or phone numbers anywhere.
+
+THIS STAGE
+This stage writes evidence[]. Work one employer at a time from my file. For each accomplishment, ask these questions, in this order, one at a time:
+1. At [employer], what is one thing you made or changed that you would want a hiring manager to know?
+2. What changed because of it?
+3. Did you write it yourself, direct a person or an AI tool to make it, co-write it, design it for someone else to build, or review someone else's work?
+4. Is there anything that shows it happened: a document, link, repo or page?
+5. Which skills did it use?
+Aim for 2 to 5 accomplishments per employer, asking "Is there another one at [employer]?" between them.
+
+Follow-ups only when there is a gap: "Roughly how many or how big?" (accept no number), and "Can I read that link now?"
+Each entry is {id, employer_id, claim, details, authorship, proof, source}. The claim is my sentence, trimmed of filler only. details holds my answers to questions 2 and 5 in my words. Do not add dates unless I gave them.
+Authorship: WROTE (I did it), DIRECTED (I directed a person or an AI tool), CO-WROTE, DESIGNED (someone else built it), REVIEWED, or OTHER-AUTHOR with proof: do_not_use (I was there but someone else did it). If I name two modes, ask which one describes the work as a whole. Never pick the one that gives me more credit.
+Source comes from question 4, using the source labels above. Nothing to show = interview source. Copy any link or path exactly as I gave it. If you cannot open a link, keep it unchecked.
+Give the add_entry.py command (--section evidence) once questions 1, 3 and 4 are answered, then --replace for the rest.
+
+When the stage is done, give me one last command that records it in meta.intake.stages_done (send the full list of finished stages, and keep any stored closing_answer), then tell me in one or two sentences what was saved.

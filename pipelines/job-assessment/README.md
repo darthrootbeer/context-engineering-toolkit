@@ -20,7 +20,7 @@ Each bullet flips from planned to done in the pull request that delivers it.
 
 - [x] **Posting pipeline.** Parsing a posting, archiving it, matching skills, and writing the result back into the saved note.
 
-- [ ] **Email card and guard.** A formatted summary card written to a local HTML file, and an optional hook that blocks a plain-text version.
+- [x] **Email card and guard.** A formatted summary card written to a local HTML file, and an optional hook that blocks a plain-text version.
 
 - [ ] **Assessment skill.** The Claude Code skill that runs the assessment end to end.
 

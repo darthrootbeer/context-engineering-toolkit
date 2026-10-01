@@ -1,4 +1,4 @@
-<!-- NOTE: This document is formatted for AI use only and is not intended for human reading. -->
+<!-- NOTE: This document is formatted for AI use and is not intended for human reading. The closing prompt block is the one part written for a human to paste into a model. -->
 
 # THE PRODUCT GENERAL STYLE GUIDE — MACHINE RULESET
 
@@ -267,6 +267,63 @@ Not this:
 | DO    | "You can issue a refund using `/refunds`." |
 | DON'T | "Insert the ID for the payout."            |
 
+## END EVERY DOC WITH A PROMPT FOR THE READER'S AI MODEL
+
+Readers now work with an AI model beside the doc. Give them a prompt that is ready to paste, so the doc teaches, checks, and adapts itself on request.
+
+- End every doc with a prompt block.
+- End every H2 section with a prompt block when the section is self-contained and longer than about 40 lines of prose (code blocks and tables do not count).
+- Use the exact block shape below. Do not rename the heading.
+- Each prompt is self-contained. It says which files the reader attaches, what the model must do, and what a good answer contains.
+- A good answer is described in checkable terms: things the answer must include, and things it must not invent.
+- Cover these purposes across a doc's blocks, each where it fits: understand and teach, review against the reader's own setup, customize, fix, test, run.
+- The block at the end of a doc carries three prompts at minimum: understand and teach, review against the reader's own setup, adapt and test.
+- A block at the end of a section carries one prompt, for whichever purpose fits that section.
+- Never tell the reader the prompt works with "any AI model" unless the doc also says which models it was actually run against.
+- Check every prompt before it ships: run it against a model with the doc attached, read the answer against the "good answer" list, and record the result in the doc. If the prompt fails, fix the prompt and run it again.
+- Exempt: skill files (instructions for an agent, not a document for a reader), anything under `_archive/`, `_templates/`, `_attachments/` or `_process/`, and index or README files under about 25 lines that only route the reader elsewhere.
+
+### PROMPT BLOCK SHAPE
+
+````markdown
+### Prompt for your AI model
+
+Paste this into any AI model, together with this document and the files it describes.
+
+**Understand and teach**
+
+```text
+<prompt text>
+```
+
+**Review against your own setup**
+
+```text
+<prompt text>
+```
+
+**Adapt and test**
+
+```text
+<prompt text>
+```
+
+**How these prompts were checked.** <date, the models used, how each answer was judged, and the result>
+````
+
+- Put the label line (bold purpose) above each prompt. A section-end block has one prompt, so it may skip the label.
+- Put reader-supplied input in square brackets inside the prompt, for example `[PASTE a short description of your setup]`.
+- Name any extra files the reader must attach, in the prompt text itself.
+
+### PROMPT BLOCK EXAMPLES
+
+| Usage | Example |
+| ----- | ------- |
+| Good: names the files | "I have attached the setup guide and my `glossary.yaml`." |
+| Good: checkable answer | "A good answer lists every placeholder in the doc and does not invent any." |
+| Bad: vague | "Tell me about this doc." |
+| Bad: untested claim | "Works with any AI model." (with no models named) |
+
 ## AI TELLS
 
 All rules for identifying and removing AI-generated writing patterns (em dashes, banned words, filler phrases, sentence structure) live in the **Write Like a Human** style guide:
@@ -274,3 +331,53 @@ All rules for identifying and removing AI-generated writing patterns (em dashes,
 `_extras/style-guides/write-like-a-human/style-guide_write-like-a-human.md`
 
 Apply that guide as a final editing pass on all documentation before publication.
+
+### Prompt for your AI model
+
+Paste this into any AI model, together with this document and the files it describes.
+
+**Understand and teach**
+
+```text
+I have attached the general style guide for the docs-pipeline. Teach me the rule "End every doc with a prompt for the reader's AI model".
+
+1. Say what the rule requires and why it exists.
+2. Show me the exact block shape.
+3. List what is exempt.
+4. Then ask me three questions to check that I understood, one at a time. Wait for my answer before the next one, and correct me where I am wrong.
+
+A good answer gives the exact heading and intro sentence, says the end-of-doc block holds three prompts (understand and teach, review against the reader's own setup, adapt and test), says every prompt must be run against a model and the result recorded, and lists the exemptions as the guide gives them. It must not invent a requirement.
+```
+
+**Review against your own setup**
+
+```text
+I have attached the general style guide for the docs-pipeline. Below is one of my own docs.
+
+[PASTE a short doc of yours, including its last heading.]
+
+Check my doc against the rule "End every doc with a prompt for the reader's AI model". For every requirement in the rule, say pass or fail and quote the heading or line from my doc that shows it. List what is missing. Do not write the missing prompts yet.
+
+A good answer has a verdict for each requirement, quotes evidence from my doc for every verdict, and does not write any prompt.
+```
+
+**Adapt and test**
+
+```text
+I have attached the general style guide for the docs-pipeline. Below is one of my own docs.
+
+[PASTE a short doc of yours.]
+
+Write the closing prompt block for my doc in the exact shape the guide gives, with the three required prompts. Each prompt must say which files to attach and what a good answer contains. Then give me step-by-step instructions to test each prompt against a model, and tell me what to write in the "How these prompts were checked" line. Do not write a test result yourself. Leave the result for me to fill in after I have run the tests.
+
+A good answer uses the exact heading and intro sentence from the guide, has three labeled prompts, gives every prompt a checkable good-answer clause, explains how to run, judge, and record each test, and leaves the test result blank.
+```
+
+**How these prompts were checked.** On 2026-10-01 I ran every prompt in this document through the Claude Code command line, once against Claude Sonnet and once against Claude Haiku (the `sonnet` and `haiku` model names in Claude Code 2.1.287). Each run was a fresh session with no tools and no other instructions. I attached this document and any other file the prompt names, replaced each bracketed input with a made-up sample, and read every answer against that prompt's "good answer" list. I have not run them against models from other vendors, so "any AI model" means "should work", not "verified".
+
+| Prompt | Sonnet | Haiku |
+| --- | --- | --- |
+| Understand and teach | Pass | Pass |
+| Review against your own setup | Pass | Pass |
+| Adapt and test | Pass | Pass after a fix. The first version let Haiku write a passing test result into the "How these prompts were checked" line for tests it had not run. The prompt now tells the model to leave the result blank. |
+

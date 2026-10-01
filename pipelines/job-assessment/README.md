@@ -12,21 +12,21 @@ Each bullet flips from planned to done in the pull request that delivers it.
 
 - [x] **Scaffold and safety.** CI workflow, the safety scan that blocks personal data from the repo, the pull request template, this README, `requirements.txt`, `pytest.ini` and an empty `tests/conftest.py`.
 
-- [x] **Central file schema and validator.** The file format that holds a person's job history, evidence and skills, and the checker that rejects a bad one.
+- [ ] **Central file schema and validator.** The file format that holds a person's job history, evidence and skills, and the checker that rejects a bad one.
 
 - [ ] **Fictional sample data.** An invented person and three invented postings, with the expected results written down.
 
-- [x] **Scoring core.** The four scores (Fit, Comp, Qualifications, Culture), the verdict rules, and the checks that every claim quotes the posting.
+- [ ] **Scoring core.** The four scores (Fit, Comp, Qualifications, Culture), the verdict rules, and the checks that every claim quotes the posting.
 
-- [x] **Posting pipeline.** Parsing a posting, archiving it, matching skills, and writing the result back into the saved note.
+- [ ] **Posting pipeline.** Parsing a posting, archiving it, matching skills, and writing the result back into the saved note.
 
-- [x] **Email card and guard.** A formatted summary card written to a local HTML file, and an optional hook that blocks a plain-text version.
+- [ ] **Email card and guard.** A formatted summary card written to a local HTML file, and an optional hook that blocks a plain-text version.
 
 - [ ] **Assessment skill.** The Claude Code skill that runs the assessment end to end.
 
 - [ ] **Intake skill.** The interview skill that builds the central file one checked answer at a time.
 
-- [ ] **Skills catalog and survey.** A generic skills list and an offline form for scoring yourself against it.
+- [x] **Skills catalog and survey.** A generic skills list and an offline form for scoring yourself against it.
 
 - [ ] **Integration and proof.** The whole chain run end to end from a clean clone, plus the removal of the earlier `tools/job-fit-screen`.
 

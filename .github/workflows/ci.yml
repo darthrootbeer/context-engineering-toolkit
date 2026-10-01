@@ -64,6 +64,8 @@ jobs:
   clean-clone:
     name: clean-clone
     runs-on: ubuntu-latest
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
     steps:
       - uses: actions/setup-python@v5
         with:
@@ -79,15 +81,15 @@ jobs:
       - name: Install into a new virtual environment
         working-directory: fresh/pipelines/job-assessment
         run: |
-          python3 -m venv .venv
-          .venv/bin/pip install -r requirements.txt
+          python3 -m venv "$RUNNER_TEMP/venv"
+          "$RUNNER_TEMP/venv/bin/pip" install -r requirements.txt
       - name: The validator accepts the fictional person and rejects the broken file
         working-directory: fresh/pipelines/job-assessment
         shell: bash
         run: |
-          .venv/bin/python scripts/validate_profile.py --fixture fixtures/robin-sample/career-profile.yaml
+          "$RUNNER_TEMP/venv/bin/python" scripts/validate_profile.py --fixture fixtures/robin-sample/career-profile.yaml
           set +e
-          .venv/bin/python scripts/validate_profile.py --fixture fixtures/broken-profile.yaml
+          "$RUNNER_TEMP/venv/bin/python" scripts/validate_profile.py --fixture fixtures/broken-profile.yaml
           [ $? -eq 1 ]
       - name: Run the whole chain offline on all three fictional postings
         working-directory: fresh/pipelines/job-assessment
@@ -95,14 +97,15 @@ jobs:
         run: |
           for id in 01-strong-fit 02-job-type-override 03-unlisted-pay-perks; do
             echo "=== $id"
-            .venv/bin/python scripts/assess_offline.py "fixtures/postings/$id.md" \
+            "$RUNNER_TEMP/venv/bin/python" scripts/assess_offline.py "fixtures/postings/$id.md" \
               --findings "fixtures/findings/$id.findings.json" \
               --profile fixtures/robin-sample/career-profile.yaml \
               --out "/tmp/ja-out/$id" --date 2026-10-01 2>/dev/null
           done
       - name: Run the full test suite, including the golden-file comparison
         working-directory: fresh/pipelines/job-assessment
-        run: .venv/bin/python -m pytest -q
+        run: |
+          "$RUNNER_TEMP/venv/bin/python" -m pytest -q -p no:cacheprovider
       - name: The run left the clone unchanged
         working-directory: fresh
         shell: bash

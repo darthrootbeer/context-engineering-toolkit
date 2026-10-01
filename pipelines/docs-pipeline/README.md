@@ -1,8 +1,12 @@
-# docs-pipeline — Skill Export
+# docs-pipeline
 
-Exported Claude Code skills for a Diataxis-based docs improvement pipeline.
+**What this is.** A chain of Claude Code skills that takes a documentation change from a rough draft to a published pull request, one stage at a time. Each stage has one job: classify the content, split mixed docs apart, fix structure and voice, check readability and grammar, recommend diagrams and links, review accuracy. Nothing moves to the next stage until a person says so. Before anything is published, every open recommendation gets an explicit apply, skip, or defer decision.
 
-Each file is a `SKILL.md` — a prompt-based instruction set loaded by Claude Code when you invoke the corresponding `/skill-name` command.
+**Why it is the best thing in this repo.** I used a version of it every working day on real documentation, and no other piece here has had that much real use. What makes it work is that the order and the gates are fixed. Style passes run before reviews, so the reviewers never read prose that still needs cleaning. Each stage commits its output, so every change can be traced to the stage that made it. And the human decision comes last, where it counts. The reason to read it is the structure, which you can copy to other kinds of work, more than any single skill.
+
+**How it was built, and what it does not claim.** Claude Code wrote these skills under my direction. I set the requirements, ran them on real documentation, read what came out, and corrected what was wrong. I did not type them by hand. This is prompts, ordering, and checks. There is no model training, no machine-learning pipeline, no retrieval system, and no claim to production ML experience. The copy here is a generic export of the version I used: you fill in the placeholders and the knowledge files before it fits your docs, and the publish and verify stages assume a git-based docs repo. I can vouch for how it behaved on my own docs, not on yours.
+
+Each skill is a markdown file that Claude Code loads when you run the matching `/skill-name` command.
 
 ## Skills in this export
 
@@ -76,3 +80,59 @@ Before using this pipeline on your docs, replace these placeholders throughout t
 | `{YOUR_USERNAME}` | Your git username for branch naming |
 | `{YOUR_DOCS_REPO_PATH}` | Local filesystem path to your docs repo clone |
 | `{YOUR_DEFAULT_OG_IMAGE_URL}` | Default Open Graph image URL for published docs |
+
+---
+
+### Prompt for your AI model
+
+Paste this into any AI model, together with this document and the files it describes.
+
+**Understand and teach**
+
+```text
+I have attached the README for "docs-pipeline", a set of Claude Code skills that improve documentation in fixed stages. Teach it to me as if I am a technical writer who has never used it.
+
+1. In plain language, say what problem it solves and what it does not do.
+2. List the stages in order, one line each, and explain why the style passes come before the reviews.
+3. Say where a person has to decide something and where the AI works alone.
+4. Then ask me three questions to check that I understood, one at a time. Wait for my answer before the next one, and correct me where I am wrong.
+
+A good answer names every stage in order, names the readability check as Stage 3d and grammar as Stage 3e, explains that nothing moves forward without a person's go-ahead, and repeats the limits the README states. It must not invent a stage, a command, or a file that is not in the README.
+```
+
+**Review against your own setup**
+
+```text
+I have attached the README for "docs-pipeline". Below is a description of my own documentation setup.
+
+[PASTE a short description of your docs: where the files live, what site or platform publishes them, how you track the work, who reviews changes, and which AI coding tool you use.]
+
+Using only the README, tell me:
+1. Which stages I can use as they are.
+2. Which stages I would have to adapt, and what I would change.
+3. Which stages I should skip, and why.
+4. Every placeholder in the README's Configuration table, with the value from my setup that should replace it. If my description does not give a value, write "not in my description" instead of guessing.
+
+A good answer covers all four points, uses the README's own stage names, and never invents a value for a placeholder.
+```
+
+**Adapt and test**
+
+```text
+I have attached the README for "docs-pipeline". I want to try it on one short document before I trust it on a real doc set.
+
+[PASTE a short description of the document you will try it on: its length, what it is about, and where it lives.]
+
+Write me a trial plan that uses only the stages that do not need a docs platform: the audit, the style passes, the readability check, and the grammar check. For each stage give the exact slash command from the README, what the README says that stage produces, and one sign that the stage went wrong. Finish with the knowledge files I must fill in before I run it, and how I will know the trial worked.
+
+A good answer uses the real command names from the README, leaves out the publish and verify stages, describes each stage's output only as the README does, and does not predict what the stage will find in my document.
+```
+
+**How these prompts were checked.** On 2026-10-01 I ran every prompt in this document through the Claude Code command line, once against Claude Sonnet and once against Claude Haiku (the `sonnet` and `haiku` model names in Claude Code 2.1.287). Each run was a fresh session with no tools and no other instructions. I attached this document and any other file the prompt names, replaced each bracketed input with a made-up sample, and read every answer against that prompt's "good answer" list. I have not run them against models from other vendors, so "any AI model" means "should work", not "verified".
+
+| Prompt | Sonnet | Haiku |
+| --- | --- | --- |
+| Understand and teach | Pass | Pass |
+| Review against your own setup | Pass | Pass. It credited the README with a phrase the README does not contain. |
+| Adapt and test | Pass | Pass after a fix. The first version asked what I "should expect to see", and Haiku answered with confident predictions about a document it had never seen. The prompt now asks only for what the README says each stage produces. |
+

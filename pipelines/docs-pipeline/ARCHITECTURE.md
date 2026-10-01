@@ -206,6 +206,22 @@ Copies output docs from `docs/output/docs/` into your docs repo, adds docs platf
 
 After the PR merges, confirms the changes are live by checking the published URL and comparing key content against what was in the output docs. Surfaces any discrepancies.
 
+### Prompt for your AI model
+
+Paste this into any AI model, together with this document and the files it describes.
+
+```text
+I have attached the architecture document for "docs-pipeline". Below is the list of steps I follow today when I improve a document.
+
+[PASTE your current steps, in order, one per line.]
+
+Using only the "Stage details" section, build a table with three columns: my step, the pipeline stage that does the same job (by its number and name), and whether the match is full, partial, or none. After the table, list the pipeline stages I have no step for, and the steps of mine that have no stage. Write "none" unless a stage does the same job as my step. Do not stretch a stage to fit. Do not recommend adding or dropping any stage.
+
+A good answer has one row per step of mine, writes stage names exactly as the document does, and says "none" instead of forcing a match.
+```
+
+**How this prompt was checked.** On 2026-10-01 I ran it against Claude Sonnet and Claude Haiku in the same way as the prompts at the end of this document. The first version let Sonnet match steps to stages that do not do the same job. The prompt now says to write "none" and not to stretch a stage to fit, and Sonnet passed on the rerun. Haiku still stretched one step (rewriting by hand) onto the style passes, so treat this prompt as verified on Sonnet only.
+
 ---
 
 ## Key design decisions
@@ -240,3 +256,59 @@ allowed-tools: [Read, Write, Edit, Glob, Grep, Bash, Agent]
 Followed by markdown instructions. Claude reads the skill file at invocation time and follows the steps literally. Skills can reference other skill files (e.g., the pipeline skill says "follow the complete `/docs-diataxis-audit` process — read that skill file and execute all steps").
 
 This means updating a skill updates its behavior everywhere it's referenced, including inside the pipeline.
+
+---
+
+### Prompt for your AI model
+
+Paste this into any AI model, together with this document and the files it describes.
+
+**Understand and teach**
+
+```text
+I have attached the architecture document for "docs-pipeline". Teach it to me as if I am a technical writer who has never seen it.
+
+1. Explain the big picture in plain language.
+2. Walk through the stages in order, one line each.
+3. Explain each design decision under "Key design decisions" and the reason the document gives for it.
+4. Then ask me three questions to check that I understood, one at a time. Wait for my answer before the next one, and correct me where I am wrong.
+
+A good answer covers every stage and every design decision in the document, gives the document's reasons and not new ones, and does not invent a stage or a decision.
+```
+
+**Review against your own setup**
+
+```text
+I have attached the architecture document for "docs-pipeline". Below is a description of how my team works on documentation.
+
+[PASTE a short description of how your team handles documentation: tickets, branches, reviewers, and how many docs are in flight at once.]
+
+Go through each decision under "Key design decisions". For each one, say whether it fits my team as described. If it does not, say what I would change and what I would lose by changing it.
+
+A good answer takes the decisions one at a time, ties every judgment to something in my description, and says "my description does not say" when it cannot tell.
+```
+
+**Adapt and test**
+
+```text
+I have attached the architecture document for "docs-pipeline". I want to confirm that the pipeline behaves the way the document describes, without publishing anything.
+
+Write me a dry-run checklist with these four checks:
+1. The stages run in the order the document shows.
+2. I can stop between any two stages and pick up later.
+3. Each stage's output is committed, so I can see exactly what that stage changed.
+4. The decision checkpoint stops anything from being published while a recommendation is unresolved.
+
+For each check give the action to take, the result I should see, and what a failure would look like. Use only claims the document makes. Where the document does not say how to see something, say so.
+
+A good answer has exactly these four checks, does not invent commands or file names, and points out where the document is silent.
+```
+
+**How these prompts were checked.** On 2026-10-01 I ran every prompt in this document through the Claude Code command line, once against Claude Sonnet and once against Claude Haiku (the `sonnet` and `haiku` model names in Claude Code 2.1.287). Each run was a fresh session with no tools and no other instructions. I attached this document and any other file the prompt names, replaced each bracketed input with a made-up sample, and read every answer against that prompt's "good answer" list. I have not run them against models from other vendors, so "any AI model" means "should work", not "verified".
+
+| Prompt | Sonnet | Haiku |
+| --- | --- | --- |
+| Understand and teach | Pass | Pass |
+| Review against your own setup | Pass | Pass. It invented an example branch name that was not in the input. |
+| Adapt and test | Pass. It listed where the document is silent, for example what the commit messages look like. | Pass |
+

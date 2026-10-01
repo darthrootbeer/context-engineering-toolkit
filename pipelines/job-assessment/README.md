@@ -12,7 +12,7 @@ Each bullet flips from planned to done in the pull request that delivers it.
 
 - [x] **Scaffold and safety.** CI workflow, the safety scan that blocks personal data from the repo, the pull request template, this README, `requirements.txt`, `pytest.ini` and an empty `tests/conftest.py`.
 
-- [ ] **Central file schema and validator.** The file format that holds a person's job history, evidence and skills, and the checker that rejects a bad one.
+- [x] **Central file schema and validator.** The file format that holds a person's job history, evidence and skills, and the checker that rejects a bad one.
 
 - [ ] **Fictional sample data.** An invented person and three invented postings, with the expected results written down.
 

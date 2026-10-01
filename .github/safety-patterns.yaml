@@ -1,0 +1,60 @@
+# Public safety patterns for .github/scripts/safety_scan.py.
+# Every rule here is generic. No banned names live in this repo; a second,
+# private check runs on the author's machine before each push.
+#
+# Fields: id, regex, message, scope (globs, default all files),
+# secret (true = never print anything about the match beyond file and line).
+# Special rules use `check:` instead of `regex:` and are coded in the script.
+
+ignore_files:            # files that hold the patterns themselves
+  - .github/safety-patterns.yaml
+  - .github/scripts/safety_scan.py
+
+ticket_allowlist:        # look like ticket ids, are not
+  - SHA-256
+  - SHA-512
+  - AES-128
+  - AES-256
+  - ISO-8601
+  - UTF-8
+  - DOC-101          # placeholder ticket ids used in docs-pipeline examples
+  - DOC-102
+
+rules:
+  - id: email
+    regex: '[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}'
+    allow_regex: '@users\.noreply\.|noreply@'
+    message: email address (only noreply trailers are allowed)
+  - id: phone
+    regex: '(\(\d{3}\)\s?|\b\d{3}[-. ])\d{3}[-. ]\d{4}\b|\+\d{1,3}[ -]\d{2,4}[ -]\d{3,4}[ -]\d{3,4}'
+    message: phone number shape
+  - id: home-path
+    regex: '/Users/[A-Za-z0-9._-]+|/home/[A-Za-z0-9._-]+|[A-Za-z]:\\Users\\'
+    message: personal home path
+  - id: private-ip
+    regex: '\b(10\.\d{1,3}\.\d{1,3}\.\d{1,3}|172\.(1[6-9]|2\d|3[01])\.\d{1,3}\.\d{1,3}|192\.168\.\d{1,3}\.\d{1,3})\b|\b\d{1,3}(\.\d{1,3}){3}:\d{2,5}\b'
+    message: private network address or ip:port
+  - id: tracker
+    regex: 'todoist\.com/app/task|todoist://|(?<!api\.)linear\.app/(?!(yourorg|acme)\b)|obsidian://open\?vault=|\b[A-Z]{3,5}-\d{3}\b'
+    message: task tracker or notes-app link, or a ticket id
+  - id: secret-shape
+    regex: 'sk-ant-|ghp_[A-Za-z0-9]|github_pat_|xox[bp]-|AKIA[0-9A-Z]{16}|-----BEGIN [A-Z ]*PRIVATE KEY|(?i:\b(api[_-]?key|token|secret|password)\b)\s*[:=]\s*["''][^"''\s]{8,}["'']|~/\.secrets'
+    secret: true
+    message: secret-shaped string
+  - id: personal-store
+    regex: 'vaults/|iCloud~md~obsidian|Mobile Documents|\.local/share/scripts'
+    message: path into a personal notes or scripts store
+  - id: fixture-domain
+    regex: 'https?://(?!([A-Za-z0-9-]+\.)*example\.(com|org|net)\b)[^\s)>"'']+'
+    scope: ['pipelines/job-assessment/fixtures/**', 'pipelines/job-assessment/tests/*.md']
+    message: fixture URL not on example.com, example.org or example.net
+  - check: fixture-banner
+    id: fixture-banner
+    scope: ['pipelines/job-assessment/fixtures/**']
+    banner: 'FICTIONAL EXAMPLE DATA. Not a real person.'
+    message: fixture file missing the FICTIONAL banner on its first line
+  - check: attribution
+    id: attribution
+    scope: ['pipelines/job-assessment/README.md', 'pipelines/job-assessment/*/README.md']
+    phrase: 'directing Claude Code'
+    message: item README lacks the "directing Claude Code" attribution line

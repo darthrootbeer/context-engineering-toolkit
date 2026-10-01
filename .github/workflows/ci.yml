@@ -1,0 +1,62 @@
+name: ci
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '17 6 * * 1'   # weekly, Monday: full-history safety scan
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  safety:
+    name: safety
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install pyyaml
+      - name: Scan the whole tree
+        run: python3 .github/scripts/safety_scan.py --tree
+      - name: Scan the lines this pull request adds
+        if: github.event_name == 'pull_request'
+        run: |
+          git fetch --no-tags origin "${{ github.base_ref }}"
+          python3 .github/scripts/safety_scan.py --range "origin/${{ github.base_ref }}...HEAD"
+      - name: Scan the full history
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        run: python3 .github/scripts/safety_scan.py --history
+      - name: Scan for committed secrets
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  tests:
+    name: tests (${{ matrix.os }}, python ${{ matrix.python }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        python: ['3.10', '3.12']
+    defaults:
+      run:
+        working-directory: pipelines/job-assessment
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - run: pip install -r requirements.txt
+      - name: Run the tests
+        # pytest exits 5 when it finds no tests. That is expected until the
+        # first work package adds some, so only that exit code is tolerated.
+        shell: bash
+        run: python3 -m pytest -q || [ $? -eq 5 ]

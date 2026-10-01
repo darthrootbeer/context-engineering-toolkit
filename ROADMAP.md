@@ -2,6 +2,10 @@
 
 What's here now is a first batch. This is what's planned next, so it's clear what's deliberately not done yet versus what's missing by accident.
 
+## In progress
+
+**Job assessment system.** Being built in small pull requests under `pipelines/job-assessment/`. Only the scaffold and safety checks exist so far. Its README has the status list.
+
 ## Planned — batch 2
 
 **More utility scripts, genericized.** A handful of scripts proved useful enough to keep using but need their hardcoded IDs, team names, and paths pulled out into config before they're safe to publish:

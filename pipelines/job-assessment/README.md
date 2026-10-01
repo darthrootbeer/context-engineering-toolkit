@@ -22,7 +22,7 @@ Each bullet flips from planned to done in the pull request that delivers it.
 
 - [x] **Email card and guard.** A formatted summary card written to a local HTML file, and an optional hook that blocks a plain-text version.
 
-- [ ] **Assessment skill.** The Claude Code skill that runs the assessment end to end.
+- [x] **Assessment skill.** The Claude Code skill that runs the assessment end to end.
 
 - [ ] **Intake skill.** The interview skill that builds the central file one checked answer at a time.
 

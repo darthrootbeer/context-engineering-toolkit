@@ -1,0 +1,100 @@
+{
+  "_banner": "FICTIONAL EXAMPLE DATA. Not a real person.",
+  "posting_file": "fixtures/postings/03-unlisted-pay-perks.md",
+  "lane": "tech-writing",
+  "hard_block": {
+    "tripped": false,
+    "id": null,
+    "quote": null,
+    "named_exception": null
+  },
+  "job_type_override": {
+    "fired": false,
+    "skill": null,
+    "quotes": [],
+    "evidence_checked": []
+  },
+  "requirements": [
+    {
+      "id": "expert_access",
+      "rating": "weak",
+      "quote": "Engineers are busy and answer questions when they can.",
+      "read": "Access to experts is possible but not planned."
+    },
+    {
+      "id": "tooling_voice",
+      "rating": "unknown",
+      "quote": null,
+      "read": "The posting says nothing about who picks the tools."
+    },
+    {
+      "id": "style_guide",
+      "rating": "fair",
+      "quote": "We keep a short style guide in our wiki.",
+      "read": "A guide exists, and it is short."
+    }
+  ],
+  "autonomy": {
+    "net": "unknown",
+    "quotes": [],
+    "read": "Only generic collaboration phrases appear, which say nothing about autonomy."
+  },
+  "pay": {
+    "stated": false,
+    "tiers": [],
+    "tier_used": null,
+    "top": null,
+    "other_pay_noted": []
+  },
+  "culture": {
+    "perks": [
+      {
+        "perk_id": "extra_days_off",
+        "quote": "Every employee gets an extra five paid days off each year, on top of vacation."
+      },
+      {
+        "perk_id": "learning_budget",
+        "quote": "Each person has a yearly learning budget for books, courses and conferences."
+      }
+    ],
+    "strong_positive_phrases": [],
+    "low_time_off": null,
+    "hustle": [],
+    "soft_flags_tripped": [],
+    "negative_phrases": []
+  },
+  "qualifications": {
+    "years_required": 11,
+    "narrow_subdomain": false,
+    "known_gaps_hit": [
+      "mobile_sdk"
+    ],
+    "self_score_gaps": [
+      "kubernetes"
+    ],
+    "working_style_mismatch": false,
+    "matches": [
+      {
+        "requirement_quote": "Strong command of API reference writing and OpenAPI files.",
+        "evidence_ids": [
+          "ev-northwind-api-rebuild"
+        ]
+      }
+    ],
+    "unproven": [
+      {
+        "skill_id": "kubernetes",
+        "requirement_quote": "Comfortable with Kubernetes concepts because our product deploys on it."
+      }
+    ]
+  },
+  "avoid_core_skills": [],
+  "company_read": {
+    "status": "none",
+    "name": "Ashgrove Example Software",
+    "stored_reason": null
+  },
+  "verdict_reason": "Pay is not listed and the perks are good. The role asks for more years than Robin has and for mobile and Kubernetes knowledge Robin lacks.",
+  "keyword_signals_found": [],
+  "new_signals_to_consider": []
+}

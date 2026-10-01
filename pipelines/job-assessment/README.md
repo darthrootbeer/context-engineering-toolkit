@@ -14,7 +14,7 @@ Each bullet flips from planned to done in the pull request that delivers it.
 
 - [x] **Central file schema and validator.** The file format that holds a person's job history, evidence and skills, and the checker that rejects a bad one.
 
-- [ ] **Fictional sample data.** An invented person and three invented postings, with the expected results written down.
+- [x] **Fictional sample data.** An invented person and three invented postings, with the expected results written down.
 
 - [x] **Scoring core.** The four scores (Fit, Comp, Qualifications, Culture), the verdict rules, and the checks that every claim quotes the posting.
 
@@ -26,7 +26,7 @@ Each bullet flips from planned to done in the pull request that delivers it.
 
 - [ ] **Intake skill.** The interview skill that builds the central file one checked answer at a time.
 
-- [ ] **Skills catalog and survey.** A generic skills list and an offline form for scoring yourself against it.
+- [x] **Skills catalog and survey.** A generic skills list and an offline form for scoring yourself against it.
 
 - [ ] **Integration and proof.** The whole chain run end to end from a clean clone, plus the removal of the earlier `tools/job-fit-screen`.
 

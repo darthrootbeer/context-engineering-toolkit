@@ -1,0 +1,342 @@
+# Generic skills catalog for the intake interview (stage 3).
+#
+# Written from scratch for this repo. It lists common knowledge-work and
+# technical skills in ten groups, and says nothing about any real person,
+# employer or job-board sample. Edit it freely: add items, delete items,
+# change the anchors. After any change, run
+#     python3 intake/scripts/merge_survey.py --build-html
+# so intake/templates/skills-survey.html carries the same list. A test fails
+# when the two drift apart.
+#
+# Fields
+#   catalog_version   bump when ids change, so old survey files can be spotted
+#   groups[].zero     what a 0 means in this group (plain words)
+#   groups[].five     what a 5 means in this group (plain words)
+#   items[].id        becomes skills[].id in career-profile.yaml; unique
+#   items[].match     regular expressions (case-insensitive) that
+#                     scripts/match_skills.py looks for in a posting
+#
+# Scale used by the survey page and the chat version of stage 3
+#   0 = the group's 0 anchor        3 = used on real work, on my own
+#   1 = know what it is             4 = confident, others ask me
+#   2 = used lightly or with help   5 = the group's 5 anchor
+#
+# Follow-up answers stored with each item scored 2 or higher
+#   next  more | neutral | avoid     do you want this in your next job
+#   last  2y | 5y | 5plus | never    2y = within the last 2 years,
+#                                    5y = 2 to 5 years ago, 5plus = longer
+#   how   self | ai | team           on your own, by directing an AI tool,
+#                                    or with or by teaching a team
+
+catalog_version: 1
+
+groups:
+  - id: communication
+    title: Writing and explaining
+    blurb: Getting an idea from your head onto the page, or across a table, so another person can act on it.
+    zero: Have never written anything for work that another person had to follow.
+    five: Can write, edit and explain anything for any audience without help, and coach other people to do the same.
+    items:
+      - id: plain-language
+        label: Plain-language writing
+        desc: Short sentences, common words, one idea at a time.
+        match: ['plain[- ]language', 'clear writing']
+      - id: editing-others
+        label: Editing someone else's draft
+        desc: Improving a draft you did not write and keeping the author's voice.
+        match: ['\bediting\b', '\beditor\b', 'copy ?edit']
+      - id: instructions
+        label: Step-by-step instructions
+        desc: How-to steps that a stranger can follow on the first try.
+        match: ['how-to', 'step-by-step', 'procedures?', 'work instructions?']
+      - id: explain-hard-topics
+        label: Explaining a hard topic to a mixed audience
+        desc: Making a complex subject clear to experts and newcomers in the same document or talk.
+        match: ['complex (topics|concepts)', 'translate (technical|complex)', 'non-technical audiences?']
+      - id: expert-interviews
+        label: Interviewing experts to gather facts
+        desc: Pulling accurate detail out of busy people who know more than you do.
+        match: ['interview(ing)? (subject|experts|engineers)', 'subject[- ]matter experts?', '\bsmes?\b']
+      - id: style-guides
+        label: Keeping a style guide or glossary
+        desc: Writing down word choices and rules so a team stays consistent.
+        match: ['style guides?', 'glossar(y|ies)', 'terminology']
+
+  - id: research
+    title: Research and judgement
+    blurb: Finding things out, weighing what you find, and saying what you think it means.
+    zero: Have never had to look something up and report back on it.
+    five: Can scope an open question, run the research alone, and defend a recommendation to skeptical decision makers.
+    items:
+      - id: desk-research
+        label: Desk research
+        desc: Finding reliable sources online and in documents, and noting where each fact came from.
+        match: ['\bresearch\b', 'desk research']
+      - id: comparison-studies
+        label: Comparing options side by side
+        desc: Building a fair comparison of tools, vendors or approaches.
+        match: ['competitive (analysis|research)', 'market (analysis|research)', 'vendor (evaluation|selection)']
+      - id: user-interviews
+        label: Surveys and user interviews
+        desc: Asking real users good questions and writing up what they said.
+        match: ['user research', 'user interviews?', 'surveys?', 'customer interviews?']
+      - id: source-checking
+        label: Fact-checking and source checking
+        desc: Confirming a claim against its original source before repeating it.
+        match: ['fact[- ]check(ing)?', 'verify (accuracy|claims)']
+      - id: recommendations
+        label: Writing a recommendation from mixed evidence
+        desc: Turning partial and conflicting findings into one clear suggestion with the doubts stated.
+        match: ['recommendations?', 'decision memos?', 'position papers?']
+      - id: notes-system
+        label: Keeping a structured notes system
+        desc: Storing what you learn so you can find it again months later.
+        match: ['knowledge (base|management)', 'note[- ]taking']
+
+  - id: data
+    title: Data and numbers
+    blurb: Working with tables of facts, from cleaning them to asking questions of them to showing the answer.
+    zero: Have never worked with a table of data beyond reading it.
+    five: Can design a data set, answer open questions from it with sound methods, and explain the limits to executives.
+    items:
+      - id: spreadsheets
+        label: Spreadsheets (formulas and pivot tables)
+        desc: Building calculations and summary tables in a spreadsheet program.
+        match: ['spreadsheets?', '\bexcel\b', 'google sheets', 'pivot tables?']
+      - id: sql
+        label: SQL queries
+        desc: Asking a database a question with joins, filters and grouping.
+        match: ['\bsql\b', 'postgres(ql)?', 'mysql', 'relational databases?']
+      - id: data-cleaning
+        label: Cleaning messy data
+        desc: Fixing duplicates, gaps and inconsistent formats before analysis.
+        match: ['data (cleaning|cleansing|wrangling|quality)']
+      - id: dashboards
+        label: Charts and dashboards
+        desc: Turning numbers into a picture that a reader understands at a glance.
+        match: ['dashboards?', 'data visuali[sz]ation', 'tableau', 'power bi', 'looker']
+      - id: statistics
+        label: Basic statistics
+        desc: Averages, spread, sampling and knowing when a result could be chance.
+        match: ['statistic(s|al)', 'a/b test(s|ing)?', 'hypothesis test']
+      - id: data-formats
+        label: Data formats (CSV, JSON, YAML)
+        desc: Reading and writing the plain-text formats that programs use to trade data.
+        match: ['\bjson\b', '\byaml\b', '\bcsv\b']
+
+  - id: code
+    title: Scripting and code
+    blurb: Writing and reading programs, from a ten-line script to a shared code base.
+    zero: Cannot read or run any program.
+    five: Writes, tests and maintains real programs in more than one language, and would pass a peer code review.
+    items:
+      - id: python
+        label: Python
+        desc: Writing scripts and small programs in Python.
+        match: ['\bpython\b']
+      - id: javascript
+        label: JavaScript
+        desc: Writing code that runs in a browser or in Node.
+        match: ['javascript', '\bnode\.?js\b', 'typescript']
+      - id: shell
+        label: Shell scripting
+        desc: Chaining command-line tools together in a script.
+        match: ['\bbash\b', 'shell scripting', '\bzsh\b', 'command[- ]line']
+      - id: regex
+        label: Pattern matching with regular expressions
+        desc: Writing text patterns to find or replace things in bulk.
+        match: ['regular expressions?', '\bregex\b']
+      - id: reading-code
+        label: Reading unfamiliar code
+        desc: Working out what someone else's program does without being told.
+        match: ['read(ing)? (source )?code', 'code review']
+      - id: automated-tests
+        label: Writing automated tests
+        desc: Writing checks that run by themselves and fail when behavior changes.
+        match: ['unit tests?', 'automated tests?', 'test automation', 'pytest', 'test[- ]driven']
+
+  - id: workflow
+    title: Version control and automation
+    blurb: Keeping a history of changes, reviewing them, and letting machines do the repetitive checks.
+    zero: Save files by copying them with new names.
+    five: Designs the whole change workflow for a team, including branching rules, reviews, automated checks and releases.
+    items:
+      - id: git
+        label: Git branches and merges
+        desc: Working on a copy of the project and joining it back without losing anyone's work.
+        match: ['\bgit\b', 'version control', 'source control']
+      - id: pr-review
+        label: Reviewing a pull request
+        desc: Reading a proposed change and giving useful, specific feedback.
+        match: ['pull requests?', 'code reviews?', 'peer review']
+      - id: ci-pipelines
+        label: Continuous integration pipelines
+        desc: Setting up automatic builds and checks that run on every change.
+        match: ['\bci/cd\b', 'continuous integration', 'github actions', 'gitlab ci', 'jenkins']
+      - id: scheduled-jobs
+        label: Scheduled jobs and scripts
+        desc: Making a task run on its own every day or week and checking that it did.
+        match: ['\bcron\b', 'scheduled (jobs?|tasks?)', 'task scheduler']
+      - id: lint-checks
+        label: Linting and formatting checks
+        desc: Automatic checks that catch style and structure mistakes before a human looks.
+        match: ['\blint(er|ing)?\b', 'pre-commit', 'static analysis']
+      - id: release-notes
+        label: Writing release notes and changelogs
+        desc: Telling users what changed in each version, in words they understand.
+        match: ['release notes', 'change ?logs?', 'release management']
+
+  - id: web
+    title: Web and APIs
+    blurb: How programs and websites talk to each other.
+    zero: Do not know how a web page reaches my screen.
+    five: Designs, builds and documents web services end to end and can debug a failing call from either side.
+    items:
+      - id: html-css
+        label: HTML and CSS
+        desc: Building and styling web pages by hand.
+        match: ['\bhtml5?\b', '\bcss3?\b', 'front[- ]end']
+      - id: rest-apis
+        label: Calling and describing REST APIs
+        desc: Calling and describing web services that send and receive data over HTTP.
+        match: ['\brest(ful)?\b', 'web apis?', '\bapis?\b']
+      - id: api-specs
+        label: API specifications (OpenAPI)
+        desc: Reading and writing the machine-readable description of a web service.
+        match: ['openapi', 'swagger', 'api spec(ification)?s?']
+      - id: auth-basics
+        label: Authentication basics
+        desc: Understanding keys, tokens and sign-in flows well enough to explain them.
+        match: ['oauth', 'authentication', 'api keys?', 'single sign-on', '\bsso\b']
+      - id: integrations
+        label: Webhooks and integrations
+        desc: Connecting two tools so that an event in one triggers an action in the other.
+        match: ['webhooks?', 'integrations?', 'zapier', '\bipaas\b']
+      - id: browser-devtools
+        label: Browser developer tools
+        desc: Inspecting a page, its network calls and its errors from inside the browser.
+        match: ['dev ?tools', 'browser (developer )?tools', 'chrome devtools']
+
+  - id: systems
+    title: Systems and cloud
+    blurb: The machines and services that programs run on.
+    zero: Have never logged in to a server or used a cloud service.
+    five: Has run live services, fixed outages, and can explain how a system fits together from the network up.
+    items:
+      - id: linux-cli
+        label: Linux command line
+        desc: Moving around, editing files and running programs on a Linux machine.
+        match: ['\blinux\b', '\bunix\b']
+      - id: containers
+        label: Containers (Docker)
+        desc: Packaging a program with everything it needs so it runs the same everywhere.
+        match: ['\bdocker\b', 'containers?', 'kubernetes', '\bk8s\b']
+      - id: cloud-provider
+        label: A major cloud provider
+        desc: Using hosted servers, storage or databases from one of the large cloud companies.
+        match: ['\baws\b', 'amazon web services', '\bazure\b', '\bgcp\b', 'google cloud']
+      - id: logs-monitoring
+        label: Logs and monitoring
+        desc: Reading logs and alerts to find out what a running system is doing.
+        match: ['monitoring', 'observability', 'log analysis', 'datadog', 'grafana']
+      - id: networking
+        label: Networking basics (DNS, HTTP)
+        desc: Knowing how a name becomes an address and how a request travels.
+        match: ['networking', '\bdns\b', '\btcp/ip\b', 'load balanc']
+      - id: secrets-access
+        label: Secrets and access management
+        desc: Keeping passwords and keys out of code and giving each person only the access they need.
+        match: ['secrets management', 'access control', '\biam\b', 'least privilege']
+
+  - id: design
+    title: Visuals and media
+    blurb: Making information easy to look at and easy to follow.
+    zero: Only paste in screenshots with no editing.
+    five: Produces polished diagrams, decks and videos on request, to a standard a designer would accept.
+    items:
+      - id: diagrams
+        label: Diagrams and flowcharts
+        desc: Drawing how parts connect or how a process flows.
+        match: ['diagrams?', 'flow ?charts?', 'mermaid', 'lucidchart', 'draw\.io']
+      - id: screenshots
+        label: Screenshots and annotation
+        desc: Capturing, cropping and marking up images to point at what matters.
+        match: ['screenshots?', 'annotat(e|ion)', 'snagit']
+      - id: slide-decks
+        label: Slide decks
+        desc: Building a presentation that supports a talk instead of replacing it.
+        match: ['slide decks?', 'presentations?', 'powerpoint', 'keynote']
+      - id: video
+        label: Short walkthrough videos
+        desc: Recording and trimming a short walkthrough with clear narration.
+        match: ['screen record(ing)?', 'video (editing|production)', 'screencasts?']
+      - id: layout
+        label: Page layout and visual hierarchy
+        desc: Using spacing, size and order so a reader knows where to look first.
+        match: ['layout', 'visual hierarchy', 'information design', 'typography']
+      - id: accessibility
+        label: Accessibility checks
+        desc: Testing that people with different abilities and tools can use what you made.
+        match: ['accessibility', '\bwcag\b', 'screen readers?', 'section 508']
+
+  - id: ai
+    title: Working with AI tools
+    blurb: Using AI assistants as part of real work, and checking what they hand back.
+    zero: Have never used an AI assistant for work.
+    five: Builds repeatable AI-assisted workflows with written rules and tests, and can show how often the output is right.
+    items:
+      - id: prompting
+        label: Writing prompts
+        desc: Giving an AI assistant clear instructions, examples and limits.
+        match: ['prompt(s|ing)?\b', 'prompt engineering']
+      - id: checking-output
+        label: Checking AI output against sources
+        desc: Finding and fixing wrong or invented details before anyone relies on them.
+        match: ['hallucinations?', 'verify (ai|model) output', 'human[- ]in[- ]the[- ]loop']
+      - id: project-context
+        label: Giving an AI tool project context
+        desc: Keeping rule files and notes that tell an assistant how your project works.
+        match: ['context engineering', 'system prompts?', 'custom instructions']
+      - id: ai-coding-tools
+        label: AI coding assistants
+        desc: Building or changing software with an assistant that edits files and runs commands.
+        match: ['copilot', 'claude code', '\bcursor\b', 'ai coding', 'agentic']
+      - id: eval-rubrics
+        label: Evaluating output with tests or a rubric
+        desc: Scoring AI output against written criteria instead of a gut feeling.
+        match: ['\bevals?\b', 'evaluation (framework|criteria)', 'rubrics?', 'llm[- ]as[- ]judge']
+      - id: structured-output
+        label: Getting structured output from a model
+        desc: Asking a model for JSON or a form that other code can check and use.
+        match: ['structured output', 'json mode', 'function calling', 'tool use']
+
+  - id: teamwork
+    title: Planning and teamwork
+    blurb: Getting work scoped, shared out, reviewed and finished with other people.
+    zero: Have only ever worked alone, with no plan beyond my own to-do list.
+    five: Runs the planning and review process for a team and has mentored others to run it themselves.
+    items:
+      - id: task-breakdown
+        label: Breaking work into tasks
+        desc: Cutting a large goal into steps that one person can finish and check.
+        match: ['task breakdown', 'work breakdown', 'roadmaps?', 'backlog']
+      - id: estimating
+        label: Estimating and scheduling
+        desc: Saying how long work will take and keeping to it, or warning early when it slips.
+        match: ['estimat(e|ing|ion)', 'scheduling', 'timelines?', 'deadlines?']
+      - id: review-cycles
+        label: Running a review cycle
+        desc: Collecting feedback from several people, settling conflicts and closing it out.
+        match: ['review cycles?', 'review process', 'sign-?off', 'approvals?']
+      - id: project-briefs
+        label: Writing a project brief
+        desc: One page that says what is being made, for whom, by when, and what is out of scope.
+        match: ['project (brief|plan|charter)', 'requirements? (document|gathering)', '\bprds?\b']
+      - id: mentoring
+        label: Mentoring or teaching
+        desc: Helping a colleague get better at something you know.
+        match: ['mentor(ing|ship)?', 'coach(ing)?', 'train(ing)? (others|new)', 'onboarding']
+      - id: async-remote
+        label: Working asynchronously with remote teammates
+        desc: Keeping work moving across time zones through writing instead of meetings.
+        match: ['asynchronous', '\basync\b', 'remote[- ]first', 'distributed teams?']

@@ -76,4 +76,3 @@ The pattern has a sharp edge worth naming, because it bit a real deployment of t
 - The "always do X first" instruction has never actually been skipped — don't build enforcement for a failure mode that hasn't happened
 - The condition can't be checked mechanically (it requires judgment about content, not just "did an event occur")
 
-See also: `skills/enforcement-audit/` in this repo, which formalizes "what trust level does this behavior actually sit at" as a repeatable audit rather than a one-off judgment call.

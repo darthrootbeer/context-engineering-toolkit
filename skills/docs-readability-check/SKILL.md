@@ -158,9 +158,9 @@ Pattern: `[new term] [verb] [long qualifying clause with multiple sub-clauses]`
 **Fix:** Introduce the term, then stop. Make the qualifying clause its own sentence. The connection is obvious without a conjunction.
 
 ```
-BEFORE: The master_knowledge_document, which encodes Kirby's understanding of game design patterns across all TTRPG systems and informs how Phase 1 structures its analysis questions, lives in foundation/.
+BEFORE: The master_knowledge_document, which encodes Orbit's understanding of game design patterns across all TTRPG systems and informs how Phase 1 structures its analysis questions, lives in foundation/.
 
-AFTER: The master_knowledge_document lives in foundation/. It encodes Kirby's understanding of game design patterns and shapes how Phase 1 structures its questions.
+AFTER: The master_knowledge_document lives in foundation/. It encodes Orbit's understanding of game design patterns and shapes how Phase 1 structures its questions.
 ```
 
 **Exception:** Short qualifying clauses (under 8 words) are fine in the same sentence. Only split when the clause itself is complex.
@@ -181,7 +181,7 @@ AFTER: The master_knowledge_document lives in foundation/. It encodes Kirby's un
 
 **What to find:** A project-specific noun, acronym, or technical term used in prose that has not been defined or explained earlier in the same doc. This includes:
 - Acronyms used before being spelled out (e.g., "The GMA handles routing" with no prior definition)
-- System-specific names introduced without a one-phrase description (e.g., "Kirby processes the schema" in a doc where Kirby hasn't been explained)
+- System-specific names introduced without a one-phrase description (e.g., "Orbit processes the schema" in a doc where Orbit hasn't been explained)
 - Terms that appear to be domain jargon but have no inline definition or link to a glossary/reference doc
 
 **Why it's a problem:** The reader hits an unknown term and has to stop. If they can't figure it out from context, they're lost — or worse, they guess wrong and carry a bad mental model through the rest of the doc.
@@ -189,9 +189,9 @@ AFTER: The master_knowledge_document lives in foundation/. It encodes Kirby's un
 **Fix:** At first use, add an inline definition in parentheses or a short appositive phrase. For terms that are covered in depth elsewhere, add a link to the relevant doc instead of defining inline.
 
 ```
-BEFORE: Dexter runs the system pack at runtime and resolves all entity lookups.
+BEFORE: Relay runs the system pack at runtime and resolves all entity lookups.
 
-AFTER: Dexter (the runtime game engine) runs the system pack at runtime and resolves all entity lookups.
+AFTER: Relay (the runtime game engine) runs the system pack at runtime and resolves all entity lookups.
 ```
 
 **Exception:** Terms defined in the doc's own frontmatter glossary, or terms that were defined earlier in the same doc, do not need re-definition. Stop at first-use only.
@@ -236,7 +236,7 @@ BEFORE:
 AFTER:
 ## Supported output types
 
-Kirby can generate three output file types:
+Orbit can generate three output file types:
 
 - game.yaml
 - agent.md

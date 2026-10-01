@@ -495,3 +495,41 @@ def test_cli_exit_one_when_it_cannot_score(tmp_path, capsys):
 
 def test_cli_exit_two_when_a_file_is_missing(tmp_path):
     assert sh.main([str(tmp_path / "none.json"), "--profile", str(tmp_path / "none.yaml")]) == 2
+
+
+# ------------------------------------------- pay range keys: schema vs scorer
+
+SCHEMA_PATH = Path(__file__).resolve().parents[1] / "schema" / "findings.schema.json"
+
+
+def _schema_tier_properties():
+    schema = json.loads(SCHEMA_PATH.read_text(encoding="utf-8"))
+    tier = schema["properties"]["pay"]["properties"]["tiers"]["items"]
+    return tier["properties"]
+
+
+def test_schema_and_scorer_agree_on_pay_range_keys():
+    props = _schema_tier_properties()
+    assert {"min", "max"} <= set(props)
+    assert "low" not in props and "high" not in props
+    # every number key the schema describes is one the scorer reads
+    number_keys = {k for k, v in props.items() if "number" in v.get("type", [])}
+    for key in number_keys:
+        assert sh._tier_top({"label": "x", key: 123456}) == 123456
+
+
+def test_a_pay_range_written_as_the_schema_describes_scores_end_to_end(tmp_path):
+    props = _schema_tier_properties()
+    lo_key, hi_key = "min", "max"
+    assert lo_key in props and hi_key in props
+    tier = {"label": "all other US locations", lo_key: 100000, hi_key: 150000,
+            "quote": "q"}
+    findings = pay(tiers=[tier])
+    # top 150000 is above the profile target of 140000, so comp is 10
+    assert sh.comp_score(findings, P) == 10
+    # and through the command line entry point, as the skill runs it
+    fpath = tmp_path / "findings.json"
+    ppath = tmp_path / "profile.yaml"
+    fpath.write_text(json.dumps(findings), encoding="utf-8")
+    ppath.write_text(yaml.safe_dump(P), encoding="utf-8")
+    assert sh.main([str(fpath), "--profile", str(ppath), "--json"]) == 0

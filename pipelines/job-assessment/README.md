@@ -16,7 +16,7 @@ Each bullet flips from planned to done in the pull request that delivers it.
 
 - [ ] **Fictional sample data.** An invented person and three invented postings, with the expected results written down.
 
-- [ ] **Scoring core.** The four scores (Fit, Comp, Qualifications, Culture), the verdict rules, and the checks that every claim quotes the posting.
+- [x] **Scoring core.** The four scores (Fit, Comp, Qualifications, Culture), the verdict rules, and the checks that every claim quotes the posting.
 
 - [ ] **Posting pipeline.** Parsing a posting, archiving it, matching skills, and writing the result back into the saved note.
 

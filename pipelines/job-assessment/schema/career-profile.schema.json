@@ -1,0 +1,329 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/job-assessment/career-profile.schema.json",
+  "title": "career-profile.yaml",
+  "description": "One file per person: job history, evidence, skills, needs and lanes. scripts/validate_profile.py checks this schema plus the cross-rules it cannot express (ids resolve, ids unique, pay order, proof rules, no contact details). There are no contact fields anywhere, on purpose.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "person", "hard_blocks", "comp", "culture", "lanes", "employers", "evidence", "skills", "meta"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "person": {"$ref": "#/$defs/person"},
+    "sources": {"type": "array", "items": {"$ref": "#/$defs/source_channel"}},
+    "hard_blocks": {"type": "array", "items": {"$ref": "#/$defs/hard_block"}},
+    "named_exceptions": {"type": "array", "items": {"$ref": "#/$defs/named_exception"}},
+    "comp": {"$ref": "#/$defs/comp"},
+    "culture": {"$ref": "#/$defs/culture"},
+    "soft_flags": {"type": "array", "items": {"$ref": "#/$defs/labelled_item"}},
+    "benefits_and_terms": {"type": "array", "items": {"$ref": "#/$defs/labelled_item"}},
+    "company_criteria": {"$ref": "#/$defs/company_criteria"},
+    "lanes": {"type": "array", "items": {"$ref": "#/$defs/lane"}},
+    "employers": {"type": "array", "items": {"$ref": "#/$defs/employer"}},
+    "evidence": {"type": "array", "items": {"$ref": "#/$defs/evidence"}},
+    "skills": {"type": "array", "items": {"$ref": "#/$defs/skill"}},
+    "writing_samples": {"type": "array", "items": {"$ref": "#/$defs/writing_sample"}},
+    "meta": {"$ref": "#/$defs/meta"}
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_-]*$",
+      "description": "Lowercase letters, digits, hyphen and underscore."
+    },
+    "text": {"type": "string", "minLength": 1},
+    "text_list": {"type": "array", "items": {"$ref": "#/$defs/text"}},
+    "month": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$",
+      "description": "YYYY-MM"
+    },
+    "day": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$",
+      "description": "YYYY-MM-DD"
+    },
+    "money": {"type": ["number", "null"], "minimum": 0},
+
+    "person": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["display_name", "target_roles", "years_experience"],
+      "properties": {
+        "display_name": {"$ref": "#/$defs/text"},
+        "target_roles": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/text"}},
+        "years_experience": {"type": "number", "minimum": 0},
+        "location_label": {"type": ["string", "null"], "description": "Only used to pick a pay tier from a posting."},
+        "working_style": {"enum": ["gather_from_experts", "become_expert", null]}
+      }
+    },
+
+    "source_channel": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["key", "label"],
+      "properties": {
+        "key": {"$ref": "#/$defs/id"},
+        "emoji": {"type": "string"},
+        "label": {"$ref": "#/$defs/text"}
+      }
+    },
+
+    "hard_block": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "label"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "label": {"$ref": "#/$defs/text"},
+        "why": {"type": "string"},
+        "match_hints": {"$ref": "#/$defs/text_list"}
+      }
+    },
+
+    "named_exception": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["company", "block_id"],
+      "properties": {
+        "company": {"$ref": "#/$defs/text"},
+        "block_id": {"$ref": "#/$defs/id"},
+        "why": {"type": "string"},
+        "added": {"$ref": "#/$defs/day"}
+      }
+    },
+
+    "comp": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "currency": {"type": "string", "pattern": "^[A-Z]{3}$"},
+        "floor": {"$ref": "#/$defs/money", "description": "Below this, Comp scores 1."},
+        "min": {"$ref": "#/$defs/money"},
+        "open_ask": {"$ref": "#/$defs/money"},
+        "target": {"$ref": "#/$defs/money"},
+        "stretch_ceiling": {"$ref": "#/$defs/money"}
+      }
+    },
+
+    "perk": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "label", "kind"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "label": {"$ref": "#/$defs/text"},
+        "kind": {"enum": ["big", "nice"], "description": "big = +2 to Culture, nice = +1."}
+      }
+    },
+
+    "culture": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "perks": {"type": "array", "items": {"$ref": "#/$defs/perk"}},
+        "low_time_off_days": {"type": ["integer", "null"], "minimum": 0},
+        "hustle_phrases": {"$ref": "#/$defs/text_list"},
+        "free_phrases": {"$ref": "#/$defs/text_list"}
+      }
+    },
+
+    "labelled_item": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "label"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "label": {"$ref": "#/$defs/text"},
+        "why": {"type": "string"}
+      }
+    },
+
+    "company_entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name"],
+      "properties": {
+        "name": {"$ref": "#/$defs/text"},
+        "why": {"type": "string"}
+      }
+    },
+
+    "company_criteria": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "high_interest": {"type": "array", "items": {"$ref": "#/$defs/company_entry"}},
+        "good_not_dream": {"type": "array", "items": {"$ref": "#/$defs/company_entry"}}
+      }
+    },
+
+    "requirement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "label", "severity"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "label": {"$ref": "#/$defs/text"},
+        "severity": {"enum": ["strong", "soft"]},
+        "why": {"type": "string"},
+        "bonus": {"type": "boolean", "description": "Bonus items never subtract from Fit."}
+      }
+    },
+
+    "signal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["phrase"],
+      "properties": {
+        "phrase": {"$ref": "#/$defs/text"},
+        "why": {"type": "string"}
+      }
+    },
+
+    "lane": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "description", "requirements"],
+      "properties": {
+        "name": {"$ref": "#/$defs/id"},
+        "emoji": {"type": "string"},
+        "description": {"$ref": "#/$defs/text"},
+        "requirements": {"type": "array", "items": {"$ref": "#/$defs/requirement"}},
+        "autonomy": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "positive_signals": {"$ref": "#/$defs/text_list"},
+            "negative_signals": {"$ref": "#/$defs/text_list"}
+          }
+        },
+        "keyword_signals": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "strong_positive": {"type": "array", "items": {"$ref": "#/$defs/signal"}},
+            "positive": {"type": "array", "items": {"$ref": "#/$defs/signal"}},
+            "negative": {"type": "array", "items": {"$ref": "#/$defs/signal"}},
+            "strong_negative": {"type": "array", "items": {"$ref": "#/$defs/signal"}}
+          }
+        },
+        "known_gaps": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "label"],
+            "properties": {
+              "id": {"$ref": "#/$defs/id"},
+              "label": {"$ref": "#/$defs/text"},
+              "skill_id": {"$ref": "#/$defs/id"}
+            }
+          }
+        }
+      }
+    },
+
+    "employer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "title", "start"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "name": {"$ref": "#/$defs/text"},
+        "title": {"$ref": "#/$defs/text"},
+        "start": {"$ref": "#/$defs/month"},
+        "end": {
+          "anyOf": [{"$ref": "#/$defs/month"}, {"const": "present"}, {"type": "null"}],
+          "description": "YYYY-MM, or present (null also means still there)."
+        },
+        "summary": {"type": "string"}
+      }
+    },
+
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "claim", "authorship", "proof", "source"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "employer_id": {
+          "anyOf": [{"$ref": "#/$defs/id"}, {"type": "null"}],
+          "description": "null or absent for personal projects."
+        },
+        "claim": {"$ref": "#/$defs/text"},
+        "details": {"type": "string"},
+        "dates": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "start": {"$ref": "#/$defs/month"},
+            "end": {"anyOf": [{"$ref": "#/$defs/month"}, {"const": "present"}, {"type": "null"}]}
+          }
+        },
+        "authorship": {
+          "enum": ["WROTE", "DIRECTED", "CO-WROTE", "DESIGNED", "REVIEWED", "OTHER-AUTHOR"],
+          "description": "OTHER-AUTHOR records work nobody in this file may claim."
+        },
+        "proof": {
+          "enum": ["checked", "unchecked", "do_not_use"],
+          "description": "checked = a document, link or artifact was read. interview and reference sources are always unchecked."
+        },
+        "source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type", "ref"],
+          "properties": {
+            "type": {"enum": ["interview", "document", "link", "artifact", "reference"]},
+            "ref": {"$ref": "#/$defs/text"},
+            "captured_on": {"$ref": "#/$defs/day"}
+          }
+        }
+      }
+    },
+
+    "skill": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "label", "self_score"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "label": {"$ref": "#/$defs/text"},
+        "group": {"$ref": "#/$defs/id"},
+        "match": {"$ref": "#/$defs/text_list", "description": "Regex patterns used to find this skill in a posting."},
+        "self_score": {"type": "integer", "minimum": 0, "maximum": 5, "description": "The person's own claim, 0 to 5. Never evidence on its own."},
+        "next": {"enum": ["more", "neutral", "avoid"]},
+        "last": {"enum": ["2y", "5y", "5plus", "never"]},
+        "how": {"type": "array", "uniqueItems": true, "items": {"enum": ["self", "ai", "team"]}},
+        "evidence_ids": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/id"}}
+      }
+    },
+
+    "writing_sample": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "title"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "title": {"$ref": "#/$defs/text"},
+        "link": {"type": "string"},
+        "evidence_id": {"$ref": "#/$defs/id"}
+      }
+    },
+
+    "meta": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "updated": {"anyOf": [{"$ref": "#/$defs/day"}, {"type": "null"}]},
+        "intake": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "stages_done": {"type": "array", "uniqueItems": true, "items": {"type": "integer", "minimum": 0, "maximum": 6}},
+            "closing_answer": {"type": "string", "description": "Stage 6: the person's own words on whether the file is a fair picture of them."}
+          }
+        }
+      }
+    }
+  }
+}

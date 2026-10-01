@@ -125,6 +125,22 @@ For `recent-changes.md`:
 **AI prompt to populate it:**
 > "What are the voice, tone, and formatting conventions we follow in our docs? Cover: how we address the reader, how we write steps vs. concepts, how we use callouts, any words or phrases we avoid, how we capitalize product names, and any patterns we always or never do."
 
+### Prompt for your AI model
+
+Paste this into any AI model, together with this document and the files it describes.
+
+```text
+I have attached the setup guide for "docs-pipeline" and its placeholder file `_knowledge/glossary.yaml`. Below is some text from my own documentation.
+
+[PASTE two or three paragraphs from your docs that use your product's own terms.]
+
+Following section 3.1 of the guide and the structure in the placeholder file, draft a first `glossary.yaml` with the 10 most important terms from my text. For every entry give the canonical form, the aliases only if my text shows them, and the docs_facing flag. Where my text does not show a capitalization rule or a common mistake, leave that field out and write "needs review" instead of inventing one. Do not infer a capitalization rule from how a word happens to be capitalized in my text.
+
+A good answer uses the field names from the placeholder file exactly, has no more than 10 entries, and marks everything it could not know as "needs review".
+```
+
+**How this prompt was checked.** On 2026-10-01 I ran it against Claude Sonnet and Claude Haiku, attaching this guide and `_knowledge/glossary.yaml`, with a made-up paragraph of product text. Sonnet passed. The first version made Haiku invent capitalization rules from how words happened to be capitalized in my sample. The prompt now forbids that, and both models passed on the rerun.
+
 ---
 
 ## 4. Running the pipeline
@@ -215,3 +231,52 @@ When you update any `product-kb/` file, update the `extracted:` date in `product
 | `Branch already exists` | Previous partial run | Delete the branch: `git branch -D {branch-name}` |
 | `Product KB last extracted >90 days ago` | Staleness warning, not a stop | Update KB files and refresh `extracted:` date in `index.md` |
 | Placeholders like `{YOUR_ORG}` still appearing in output | Configuration incomplete | Run the grep one-liner from Section 2 to find remaining placeholders |
+
+---
+
+### Prompt for your AI model
+
+Paste this into any AI model, together with this document and the files it describes.
+
+**Understand and teach**
+
+```text
+I have attached the setup guide for "docs-pipeline". Teach it to me as if I am an engineer who has never used it.
+
+1. Turn the guide into a numbered checklist in the order I should do things, with one sentence on why each step exists.
+2. Say which steps I can skip for a first trial and which I cannot.
+3. Then ask me three questions to check that I understood, one at a time. Wait for my answer before the next one, and correct me where I am wrong.
+
+A good answer follows the guide's order, covers the prerequisites, the placeholders, the knowledge sources, and running the pipeline, and does not add a step the guide does not contain.
+```
+
+**Review against your own setup**
+
+```text
+I have attached the setup guide for "docs-pipeline". Below is the output of the commands I ran on my machine.
+
+[PASTE the output of: claude --version, gh auth status, git --version, node --version, markdownlint --version]
+
+Compare my output with the "Prerequisites" section. For each prerequisite, say whether it is met, missing, or impossible to tell from my output, and quote the line of my output that shows it. Then say what I must do before the first run.
+
+A good answer has one line per prerequisite, never marks something as met without a line of output to show it, and does not guess about anything my output does not cover.
+```
+
+**Adapt and test**
+
+```text
+I have attached the setup guide for "docs-pipeline". I want to run the smallest possible test before I use it on real documentation.
+
+Write me a smoke test that uses one short markdown file and stops before anything is published. Say which placeholders in section 2 I can fill with dummy values for this test and which need real values, following the guide's own rule about placeholders. List the exact commands, what proves the test worked, and how to undo everything afterwards. Use only commands that appear in the guide. Where the guide has no command for something, say so and do not write one.
+
+A good answer respects what the guide says about replacing placeholders, uses only commands the guide contains, stops before the publish stage, and says so where the guide does not give an undo step.
+```
+
+**How these prompts were checked.** On 2026-10-01 I ran every prompt in this document through the Claude Code command line, once against Claude Sonnet and once against Claude Haiku (the `sonnet` and `haiku` model names in Claude Code 2.1.287). Each run was a fresh session with no tools and no other instructions. I attached this document and any other file the prompt names, replaced each bracketed input with a made-up sample, and read every answer against that prompt's "good answer" list. I have not run them against models from other vendors, so "any AI model" means "should work", not "verified".
+
+| Prompt | Sonnet | Haiku |
+| --- | --- | --- |
+| Understand and teach | Pass | Pass. It contradicted itself on whether a stage stops when a knowledge file is missing. |
+| Review against your own setup | Pass | Pass |
+| Adapt and test | Pass, on both runs | Fail, on both runs. It wrote its own shell commands (creating files, search and replace, deleting a folder) although the prompt says to use only commands from the guide. Use a stronger model for this one. |
+

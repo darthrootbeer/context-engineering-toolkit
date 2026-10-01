@@ -1,6 +1,6 @@
 ---
 name: docs-style-check-structure
-description: Apply Diataxis structural style rules to docs based on their diataxis_type frontmatter. Checks required sections, heading format, opening structure, conclusion, and content boundaries. For notes inside a vault, it can also run an optional Pass 0 note-standard check (title heading, orienting summary, required frontmatter fields). Edits docs in place. Run after split, before general and human style passes.
+description: Apply Diataxis structural style rules to docs based on their diataxis_type frontmatter. Checks required sections, heading format, opening structure, conclusion, content boundaries, and the closing prompt block for the reader's AI model. For notes inside a vault, it can also run an optional Pass 0 note-standard check (title heading, orienting summary, required frontmatter fields). Edits docs in place. Run after split, before general and human style passes.
 argument-hint: [folder-or-file]
 allowed-tools: [Read, Write, Edit, Glob, Bash]
 ---
@@ -191,6 +191,26 @@ For each doc, run the checks defined below for its type. Record every finding as
 | Single path | No multiple options or alternatives. One canonical path. | Flag any "Option A / Option B" pattern |
 | No reference material | Only show parameters actually used. Link to reference for complete details. | Flag any comprehensive parameter table |
 
+#### 4f. All doc types: prompt block for the reader's AI model
+
+Run this check on every doc, whatever its type. The rule lives in the general style guide under "End every doc with a prompt for the reader's AI model". Read that section first.
+
+Skip a doc if it is exempt: a skill file, a file under `_archive/`, `_templates/`, `_attachments/` or `_process/`, or an index or README under about 25 lines that only routes the reader elsewhere.
+
+| Check | Rule | Action |
+|---|---|---|
+| Block at the end of the doc | The last heading in the doc is `### Prompt for your AI model`, followed by the sentence "Paste this into any AI model, together with this document and the files it describes." and at least one fenced `text` block | Flag if missing. Do not auto-fix. |
+| Three prompts at the end | The end-of-doc block holds at least three prompts, covering understand and teach, review against the reader's own setup, and adapt and test | Flag any missing purpose |
+| Block at the end of long sections | Every H2 section with more than about 40 lines of prose (code blocks and tables do not count) that stands on its own ends with a `### Prompt for your AI model` block | Flag each long section without one |
+| Prompt is self-contained | Each prompt names the files to attach, says what the model must do, and says what a good answer contains | Flag prompts that only ask for a general overview, with no checkable answer |
+| Tested-with statement | The doc says which models its prompts were run against and on what date, and does not claim "any AI model" without that | Flag if missing |
+
+**Why this is a flag, not a fix:** a prompt has to be written for the doc and then run against a model before it ships. A placeholder prompt that was never run is worse than no prompt, because it claims a check that did not happen. Report the gap and let the author write and test the prompt.
+
+Record these findings under a **Prompt block** heading in the audit report.
+
+---
+
 ### 5. Apply fixes
 
 For each **Fix** finding, edit the doc in place using the Edit tool. Make the minimum change needed — don't rewrite surrounding content.
@@ -244,6 +264,14 @@ Flags for review: {N}
 ### {filename} ({diataxis_type})
 
 - ⚠ {Description of issue and suggested fix}
+
+---
+
+## Prompt block
+
+### {filename}
+
+- ⚠ {Missing block, missing purpose, long section without a block, or missing tested-with statement}
 
 ---
 

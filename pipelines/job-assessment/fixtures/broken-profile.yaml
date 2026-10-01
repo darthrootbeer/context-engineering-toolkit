@@ -1,0 +1,112 @@
+# FICTIONAL EXAMPLE DATA. Not a real person.
+#
+# A career profile with five planted mistakes. scripts/validate_profile.py must
+# exit 1 and print exactly five problems, one line each. Every other part of the
+# file is correct, so no warning is printed either. The planted mistakes are
+# listed in tests/test_validate_profile.py.
+schema_version: 1
+person:
+  display_name: Robin Sample
+  target_roles: [Senior Technical Writer]
+  years_experience: 9
+  location_label: Region B
+  working_style: gather_from_experts
+hard_blocks:
+  - id: gambling
+    label: "🎰 Gambling or betting"
+    why: Robin does not want to write for products built on betting losses.
+    match_hints: [sports betting, casino]
+comp:
+  currency: USD
+  floor: 90000
+  min: 130000
+  open_ask: 125000
+  target: 140000
+  stretch_ceiling: 170000
+culture:
+  perks:
+    - {id: unlimited_pto, label: Unlimited PTO, kind: big}
+    - {id: offsites, label: Regular meetups or offsites, kind: nice}
+  low_time_off_days: 15
+  hustle_phrases: [rockstar, weekend work]
+  free_phrases: [fast-paced]
+lanes:
+  - name: tech-writing
+    emoji: "✍️"
+    description: Roles writing and editing technical content.
+    requirements:
+      - id: ai_forward
+        label: "✨ AI-forward team"
+        severity: strong
+        why: Robin wants to keep working with AI tools daily.
+      - id: small_team
+        label: "👥 Small team"
+        severity: soft
+    known_gaps: []
+employers:
+  - id: northwind
+    name: Northwind Example Co.
+    title: Technical Writer
+    start: 2017-02
+    end: 2021-12
+    summary: Wrote and maintained the API and admin guides for a billing product.
+  - id: placeholder-labs
+    name: Placeholder Labs
+    title: Senior Technical Writer
+    start: 2022-01
+    end: present
+    summary: Runs the docs site and its build for a developer platform.
+evidence:
+  - id: ev-northwind-api-rebuild
+    employer_id: northwind
+    claim: Moved the API reference from hand-edited pages to pages generated from the API spec.
+    dates: {start: 2021-03, end: 2021-09}
+    authorship: DIRECTED
+    proof: checked
+    source: {type: link, ref: "https://example.com/fictional/api-rebuild", captured_on: 2026-10-01}
+  - id: ev-placeholder-docs-ci
+    employer_id: placeholder-labs
+    claim: Set up a build check that blocks a docs change with a broken link.
+    dates: {start: 2023-05, end: 2023-06}
+    authorship: WROTE
+    proof: checked
+    source: {type: interview, ref: "interview:2026-10-01:s2.q3", captured_on: 2026-10-01}
+  - id: ev-placeholder-release-notes
+    employer_id: placeholder-labs
+    claim: Rewrote the release notes template so each entry says who is affected.
+    dates: {start: 2024-02, end: 2024-03}
+    authorship: AUTHORED
+    proof: checked
+    source: {type: document, ref: "release-notes-template.md#purpose", captured_on: 2026-10-01}
+skills:
+  - id: openapi
+    label: OpenAPI / Swagger
+    group: api
+    match: ['openapi|swagger']
+    self_score: 4
+    next: more
+    last: 2y
+    how: [self, ai]
+    evidence_ids: [ev-northwind-api-rebuild]
+  - id: style_guides
+    label: Style guides
+    group: writing
+    match: ['style guide']
+    self_score: 4
+    next: neutral
+    last: 2y
+    how: [self, team]
+    evidence_ids: [ev-placeholder-style-guide]
+  - id: graphql
+    label: GraphQL
+    group: api
+    match: ['graphql']
+    self_score: 5
+    next: more
+    last: never
+    how: [ai]
+    evidence_ids: [ev-northwind-api-rebuild]
+meta:
+  updated: 2026-10-01
+  intake:
+    stages_done: [1, 2, 3, 4, 5, 6]

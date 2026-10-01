@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Job Assessment</title>
+</head>
+<body style="margin:0; padding:0; background-color:#f3f4f6; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;">
+<!-- Assessment card. render_email.py fills every double-brace field and writes a local HTML file. It never sends anything. -->
+<!-- Verdict colors: Apply bg #ecfdf5 text #059669. Apply with reservations bg #fffbeb text #d97706. Skip bg #fef2f2 text #dc2626. -->
+<!-- Rows between BEGIN and END markers repeat once per item and the markers themselves are removed. -->
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#f3f4f6;">
+<tr><td align="center" style="padding:24px 16px;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:600px; background-color:#ffffff; border-radius:12px; overflow:hidden; border:1px solid #e5e7eb;">
+
+<!-- Job link: the posting's own page. It opens the card, above the verdict. -->
+<tr><td style="padding:18px 24px 16px 24px; background-color:#ffffff;">
+<a href="{{JOB_URL}}" style="display:inline-block; background-color:#111827; color:#ffffff; font-size:14px; font-weight:700; text-decoration:none; padding:12px 18px; border-radius:6px;">View the job posting</a>
+</td></tr>
+
+<tr><td data-card="verdict" style="background-color:{{VERDICT_BG}}; padding:20px 24px;">
+<div style="font-size:12px; font-weight:700; letter-spacing:0.08em; color:{{VERDICT_COLOR}}; text-transform:uppercase; margin-bottom:4px;">{{VERDICT_LABEL}}</div>
+<div style="font-size:20px; font-weight:700; color:#111827;">{{COMPANY}} &middot; {{ROLE}}</div>
+</td></tr>
+
+<tr><td style="padding:20px 24px 4px 24px;">
+<p style="font-size:15px; line-height:1.6; color:#374151; margin:0;">{{VERDICT_REASON}}</p>
+</td></tr>
+
+<tr><td style="padding:16px 24px 8px 24px;">
+<div style="font-size:12px; font-weight:700; letter-spacing:0.06em; color:#6b7280; text-transform:uppercase; margin-bottom:10px;">Scores</div>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+<!-- BEGIN score-row -->
+<tr>
+<td style="width:110px; font-size:14px; color:#374151; padding:5px 0;">{{SCORE_LABEL}}</td>
+<td style="padding:5px 0;">
+<table role="presentation" cellpadding="0" cellspacing="0" width="100%"><tr>
+<td style="background-color:{{SCORE_COLOR}}; width:{{SCORE_PCT}}%; height:10px; border-radius:5px 0 0 5px; font-size:1px; line-height:1px;">&nbsp;</td>
+<td style="background-color:#e5e7eb; width:{{SCORE_REMAINDER_PCT}}%; height:10px; border-radius:0 5px 5px 0; font-size:1px; line-height:1px;">&nbsp;</td>
+</tr></table>
+</td>
+<td style="width:28px; font-size:14px; font-weight:700; color:#111827; text-align:right; padding:5px 0 5px 8px;">{{SCORE_VALUE}}</td>
+</tr>
+<!-- END score-row -->
+</table>
+</td></tr>
+
+<tr><td style="padding:16px 24px 4px 24px;">
+<div style="font-size:12px; font-weight:700; letter-spacing:0.06em; color:#6b7280; text-transform:uppercase; margin-bottom:10px;">Checks</div>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
+<!-- BEGIN check-row -->
+<tr>
+<td style="padding:10px 0; border-top:1px solid #f3f4f6; vertical-align:top; width:34%;">
+<div style="font-size:13px; font-weight:600; color:#111827;">{{CHECK_NAME}}</div>
+<div style="font-size:12px; font-weight:600; color:{{CHECK_DOT_COLOR}}; margin-top:2px;">&#9679; {{CHECK_RATING}}</div>
+</td>
+<td style="padding:10px 0 10px 12px; border-top:1px solid #f3f4f6; vertical-align:top;">
+<div style="font-size:13px; line-height:1.5; color:#4b5563;">{{CHECK_READ}}</div>
+</td>
+</tr>
+<!-- END check-row -->
+</table>
+</td></tr>
+
+<!-- BEGIN note-link -->
+<tr><td style="padding:20px 24px 24px 24px;">
+<hr style="border:none; border-top:1px solid #e5e7eb; margin:0 0 16px 0;">
+<p style="font-size:13px; color:#6b7280; margin:0 0 14px 0;">The full write-up is saved as a note.</p>
+<a href="{{NOTE_URL}}" style="display:inline-block; background-color:#111827; color:#ffffff; font-size:13px; font-weight:600; text-decoration:none; padding:10px 16px; border-radius:6px;">Open the saved note</a>
+</td></tr>
+<!-- END note-link -->
+
+<tr><td style="padding:0 24px 20px 24px;">
+<hr style="border:none; border-top:1px solid #e5e7eb; margin:0 0 12px 0;">
+<p style="font-size:11px; color:#9ca3af; margin:0 0 6px 0;">Continue in your AI tool:</p>
+<pre style="font-family:'SFMono-Regular',Consolas,'Liberation Mono',Menlo,monospace; font-size:11px; line-height:1.5; color:#9ca3af; background-color:#f9fafb; border-radius:6px; padding:10px 12px; margin:0; white-space:pre-wrap; word-break:break-word;">{{NEXT_PROMPT}}</pre>
+</td></tr>
+
+</table>
+</td></tr>
+</table>
+</body>
+</html>

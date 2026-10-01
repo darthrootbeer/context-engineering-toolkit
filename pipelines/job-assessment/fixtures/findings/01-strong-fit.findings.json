@@ -1,0 +1,139 @@
+{
+  "_banner": "FICTIONAL EXAMPLE DATA. Not a real person.",
+  "posting_file": "fixtures/postings/01-strong-fit.md",
+  "lane": "docs-platform",
+  "hard_block": {
+    "tripped": false,
+    "id": null,
+    "quote": null,
+    "named_exception": null
+  },
+  "job_type_override": {
+    "fired": false,
+    "skill": null,
+    "quotes": [],
+    "evidence_checked": []
+  },
+  "requirements": [
+    {
+      "id": "ai_forward",
+      "rating": "strong",
+      "quote": "Our writers and engineers draft with AI assistants every day, and you will help decide which checks a human must still make.",
+      "read": "AI drafting is normal here and people still check the result."
+    },
+    {
+      "id": "docs_as_code",
+      "rating": "strong",
+      "quote": "all docs live in a Git repository as Markdown and are reviewed in pull requests",
+      "read": "Docs are built like code, which is how Robin works."
+    },
+    {
+      "id": "ci_for_docs",
+      "rating": "weak",
+      "quote": "The docs build is still run by hand before each release, and we want you to change that.",
+      "read": "No automatic checks yet. The job is to build them."
+    },
+    {
+      "id": "solo_ownership",
+      "rating": "fair",
+      "quote": "You will own the documentation system from the first week, with one other engineer to review your work.",
+      "read": "Robin would own the system. This is a bonus item, so it never costs points."
+    }
+  ],
+  "autonomy": {
+    "net": "positive",
+    "quotes": [
+      "You choose the tools and set the priorities for the docs system; your manager checks in once a week."
+    ],
+    "read": "Robin picks the tools and the priorities."
+  },
+  "pay": {
+    "stated": true,
+    "tiers": [
+      {
+        "label": "Region B",
+        "min": 125000,
+        "max": 150000,
+        "quote": "Base pay range for Region B: $125,000 to $150,000."
+      },
+      {
+        "label": "Region A",
+        "min": 140000,
+        "max": 170000,
+        "quote": "Region A: $140,000 to $170,000."
+      }
+    ],
+    "tier_used": "Region B",
+    "top": 150000,
+    "other_pay_noted": []
+  },
+  "culture": {
+    "perks": [
+      {
+        "perk_id": "unlimited_pto",
+        "quote": "Unlimited paid time off, with a three-week minimum we ask everyone to take."
+      },
+      {
+        "perk_id": "learning_budget",
+        "quote": "A $3,000 yearly learning budget."
+      },
+      {
+        "perk_id": "offsites",
+        "quote": "Two team meetups a year."
+      }
+    ],
+    "strong_positive_phrases": [
+      {
+        "phrase": "definition of done",
+        "quote": "Documentation is part of the definition of done for every feature."
+      }
+    ],
+    "low_time_off": null,
+    "hustle": [],
+    "soft_flags_tripped": [],
+    "negative_phrases": []
+  },
+  "qualifications": {
+    "years_required": 7,
+    "narrow_subdomain": false,
+    "known_gaps_hit": [
+      "go_lang"
+    ],
+    "self_score_gaps": [],
+    "working_style_mismatch": false,
+    "matches": [
+      {
+        "requirement_quote": "all docs live in a Git repository as Markdown and are reviewed in pull requests",
+        "evidence_ids": [
+          "ev-placeholder-docs-pipeline"
+        ]
+      },
+      {
+        "requirement_quote": "Experience generating API reference pages from an OpenAPI file.",
+        "evidence_ids": [
+          "ev-northwind-api-rebuild"
+        ]
+      }
+    ],
+    "unproven": [
+      {
+        "skill_id": "go_lang",
+        "requirement_quote": "You can read Go code well enough to follow how our build tool works."
+      }
+    ]
+  },
+  "avoid_core_skills": [],
+  "company_read": {
+    "status": "high_interest",
+    "name": "Copperline Example Co.",
+    "stored_reason": "Makes tools for writers, which is the work Robin cares about most."
+  },
+  "verdict_reason": "This is the job Robin is looking for: build the docs system, with AI drafting and a say in the tools. The only gap is reading Go code.",
+  "keyword_signals_found": [
+    {
+      "phrase": "definition of done",
+      "read": "Documentation counts as part of finished work."
+    }
+  ],
+  "new_signals_to_consider": []
+}

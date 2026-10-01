@@ -1,0 +1,100 @@
+# FICTIONAL EXAMPLE DATA. Not a real person.
+# Scripted answers for the intake interview test. One answer per question, in the order
+# the interview asks them. Format: "sN.qM" is stage N, question M. Lines starting with # are notes.
+
+# Stage 0. Orientation
+s0.q1: Save it in the current folder as career-profile.yaml.
+s0.q2: No resume or portfolio to read. Start from scratch.
+
+# Stage 1. Job history (employers)
+s1.q1: Placeholder Labs, an invented developer tool company.
+s1.q2: Senior Technical Writer.
+s1.q3: January 2022.
+s1.q4: Still there.
+s1.q5: I lead documentation and run the system that builds and checks the docs.
+s1.q6: Yes, one before that.
+s1.q1: Northwind Example Co., an invented software company.
+s1.q2: Technical Writer.
+s1.q3: February 2017.
+s1.q4: December 2021.
+s1.q5: I wrote and maintained the help center and the API reference.
+s1.q6: No, that was my first writing job.
+
+# Stage 2. Accomplishments (evidence), Northwind first
+s2.q1: I moved the API reference from hand-edited pages to pages generated from the API spec.
+s2.q2: Releases stopped breaking the reference pages.
+s2.q3: I directed the work. I wrote the build step myself and checked it by hand.
+s2.q4: There is a public page, https://example.com/fictional/northwind/api-rebuild
+s2.q5: OpenAPI.
+s2.q1: I wrote a 20-page style guide that the whole support team used.
+s2.q2: Support answers got more consistent.
+s2.q3: I wrote it myself.
+s2.q4: I have the PDF, northwind-style-guide.pdf.
+s2.q5: Style guides.
+s2.q1: I ran a monthly release-notes process.
+s2.q2: Engineers got a regular slot to tell me what changed.
+s2.q3: I wrote the notes myself.
+s2.q4: Nothing I can show.
+s2.q5: Interviewing experts.
+# Stage 2, Placeholder Labs
+s2.q1: I built a pipeline that publishes the docs from Markdown files kept in Git.
+s2.q2: Docs go live within minutes of an approved change.
+s2.q3: I directed an AI tool to write most of the build scripts, and I reviewed and tested them.
+s2.q4: There is a repo page, example.com/fictional/placeholder-labs/docs-pipeline
+s2.q5: Docs as code, static site generators.
+s2.q1: I added automatic checks for broken links and missing alt text.
+s2.q2: Broken links stopped reaching readers.
+s2.q3: I co-wrote it with an engineer.
+s2.q4: There is a public page, https://example.org/fictional/placeholder-labs/ci-checks
+s2.q5: Build and check pipelines, Python.
+s2.q1: I wrote the prompts that make an AI assistant draft pages in the team style, with a human review step.
+s2.q2: First drafts need fewer rewrites.
+s2.q3: I directed the AI tool and wrote the prompts myself.
+s2.q4: Nothing I can show right now.
+s2.q5: Writing prompts for AI tools.
+
+# Stage 3. Skills survey (option B, in chat). Score 0 to 5, then want, last used, how, evidence.
+s3.openapi: 4, want more, last used within 2 years, self and AI, evidence is the API reference rebuild
+s3.docs_as_code: 5, want more, within 2 years, self and AI and team, evidence is the docs pipeline and the automatic checks
+s3.static_sites: 4, neutral, within 2 years, self and AI, evidence is the docs pipeline
+s3.ci_pipelines: 3, neutral, within 2 years, self and AI, evidence is the automatic checks
+s3.python_scripting: 3, want more, within 2 years, self and AI, evidence is the automatic checks
+s3.prompt_writing: 4, want more, within 2 years, self, evidence is the style prompts
+s3.style_guides: 5, neutral, within 5 years, self and team, evidence is the style guide
+s3.sme_interviews: 4, neutral, within 5 years, self, evidence is the release-notes process
+s3.go_lang: 1, neutral, more than 5 years ago, self, no evidence
+s3.kubernetes: 1, neutral, within 5 years, self, no evidence
+s3.dita_xml: 0, neutral, never, no evidence
+s3.mobile_sdk: 0, neutral, never, no evidence
+s3.video_tutorials: 2, would rather avoid, more than 5 years ago, self, no evidence
+s3.localization_pm: 2, would rather avoid, within 5 years, self, no evidence
+
+# Stage 4. Needs
+s4.q1: Gambling and betting, weapons makers, and any job that is not remote.
+s4.q2: Yes, Lanternfield Example Co. I live a ten minute walk from its office.
+s4.q3: 90000 US dollars.
+s4.q4: 110000.
+s4.q5: 125000.
+s4.q6: 140000.
+s4.q7: 170000.
+s4.q8: Region B.
+s4.q9: Unlimited time off, a learning budget and extra paid days off matter most. Meetups, a home-office stipend and paid parental leave are nice.
+s4.q10: Fewer than 15 days a year.
+s4.q11: Rockstar, work hard play hard, on-call, weekend work. "Fast-paced" does not bother me.
+s4.q12: Recording video tutorials and managing translation vendors.
+s4.q13: Gathering knowledge from experts.
+s4.q14: Copperline Example Co. makes tools for writers. Ashgrove Example Software is good but not a dream.
+
+# Stage 5. Lanes
+s5.q1: Yes, two kinds of role.
+s5.lane1: docs-platform, 🔧, roles building the systems that produce documentation.
+s5.lane2: tech-writing, ✍️, roles writing guides, references and help content for a product.
+s5.docs-platform.musthaves: AI-forward team (strong), docs live in version control (strong), docs are built and checked automatically (soft), owns the docs system (soft, bonus only).
+s5.docs-platform.gaps: Reading Go code.
+s5.docs-platform.trust: "definition of done" and "single source of truth" make me trust a posting; "wiki cleanup" and "no engineering support" do not.
+s5.tech-writing.musthaves: Regular access to experts (strong), a say in the authoring tools (strong), a written style guide (soft).
+s5.tech-writing.gaps: DITA XML and mobile SDK documentation.
+s5.tech-writing.trust: "writers sit with the engineers" is good; "content mill" is bad.
+
+# Stage 6. Review
+s6.q1: Yes, that is a fair picture of me.

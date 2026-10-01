@@ -1,0 +1,106 @@
+{
+  "_banner": "FICTIONAL EXAMPLE DATA. Not a real person.",
+  "posting_file": "fixtures/postings/02-job-type-override.md",
+  "lane": "tech-writing",
+  "hard_block": {
+    "tripped": false,
+    "id": null,
+    "quote": null,
+    "named_exception": null
+  },
+  "job_type_override": {
+    "fired": true,
+    "skill": "video_tutorials",
+    "quotes": [
+      "Most of your week will be recording and editing screen-capture video tutorials.",
+      "You will also coordinate our translation vendors and review their delivered files."
+    ],
+    "evidence_checked": []
+  },
+  "requirements": [
+    {
+      "id": "expert_access",
+      "rating": "fair",
+      "quote": "Writers have a weekly session with the product engineers to check facts.",
+      "read": "A weekly session is regular, though not constant."
+    },
+    {
+      "id": "tooling_voice",
+      "rating": "fair",
+      "quote": "You will pick the authoring tools together with the lead writer.",
+      "read": "Robin shares the choice of tools."
+    },
+    {
+      "id": "style_guide",
+      "rating": "poor",
+      "quote": "Style is decided by the marketing team, and there is no written guide.",
+      "read": "No written guide, and style is set by someone outside the writing team."
+    }
+  ],
+  "autonomy": {
+    "net": "unknown",
+    "quotes": [],
+    "read": "The posting gives no clear signal either way."
+  },
+  "pay": {
+    "stated": true,
+    "tiers": [
+      {
+        "label": "Region A",
+        "min": 105000,
+        "max": 120000,
+        "quote": "Region A: $105,000 to $120,000."
+      },
+      {
+        "label": "Everywhere else",
+        "min": 85000,
+        "max": 100000,
+        "quote": "Everywhere else: $85,000 to $100,000."
+      }
+    ],
+    "tier_used": "Everywhere else",
+    "top": 100000,
+    "other_pay_noted": []
+  },
+  "culture": {
+    "perks": [],
+    "strong_positive_phrases": [],
+    "low_time_off": null,
+    "hustle": [],
+    "soft_flags_tripped": [],
+    "negative_phrases": []
+  },
+  "qualifications": {
+    "years_required": 12,
+    "narrow_subdomain": false,
+    "known_gaps_hit": [
+      "dita_xml",
+      "mobile_sdk"
+    ],
+    "self_score_gaps": [],
+    "working_style_mismatch": false,
+    "matches": [],
+    "unproven": [
+      {
+        "skill_id": "dita_xml",
+        "requirement_quote": "Fluent in DITA XML and a component content management system."
+      },
+      {
+        "skill_id": "mobile_sdk",
+        "requirement_quote": "Experience documenting iOS and Android SDKs."
+      }
+    ]
+  },
+  "avoid_core_skills": [
+    "video_tutorials",
+    "localization_pm"
+  ],
+  "company_read": {
+    "status": "none",
+    "name": "Driftmark Example Media",
+    "stored_reason": null
+  },
+  "verdict_reason": "Most of the week is recording video and managing translation vendors, two kinds of work Robin would rather avoid. Pay tops out at the bottom of Robin's range too.",
+  "keyword_signals_found": [],
+  "new_signals_to_consider": []
+}

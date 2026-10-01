@@ -1,0 +1,693 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Skills self-assessment</title>
+<style>
+:root{--bg:#f5f4f0;--card:#fff;--ink:#1f2933;--mute:#5f6b76;--line:#d9dce0;--accent:#1b6ca8;--accent-ink:#fff;--ok:#1f7a4d;--warn:#a4410f;--zero:#fbeceb;--five:#e8f4ec}
+@media (prefers-color-scheme:dark){:root{--bg:#16191d;--card:#1f2429;--ink:#e6e9ec;--mute:#9aa5af;--line:#363d44;--accent:#5aa9e6;--accent-ink:#0b1722;--ok:#5cc08a;--warn:#f08a5d;--zero:#35221f;--five:#1b2e23}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:720px;margin:0 auto;padding:0 16px 120px}
+header{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line);padding:10px 16px}
+header .in{max-width:720px;margin:0 auto}
+#prog{height:8px;border-radius:4px;background:var(--line);overflow:hidden}
+#fill{height:100%;width:0;background:var(--ok)}
+#stat{display:flex;justify-content:space-between;gap:8px;font-size:13px;color:var(--mute);margin-top:4px}
+h1{font-size:24px;margin:20px 0 6px}
+h2{font-size:21px;margin:20px 0 4px}
+p{margin:6px 0}
+.mute{color:var(--mute)}
+.anchors{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0;font-size:14px}
+.anchors div{padding:8px 10px;border-radius:8px}
+.anchors .z{background:var(--zero)}.anchors .f{background:var(--five)}
+.card{display:flex;justify-content:space-between;align-items:center;width:100%;margin:8px 0;padding:14px 16px;background:var(--card);border:1px solid var(--line);border-radius:12px;color:var(--ink);font:600 16px system-ui,sans-serif;text-align:left;cursor:pointer}
+.item{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:0 0 12px}
+.item .lab{font-weight:600}
+.item .desc{font-size:14px;color:var(--mute);margin-top:2px}
+.scores{display:flex;gap:6px;margin-top:10px}
+button{font:inherit;color:var(--ink)}
+.scores button{flex:1;min-height:48px;font-weight:600;font-size:17px;background:var(--bg);border:1px solid var(--line);border-radius:8px;cursor:pointer}
+.scores button[aria-pressed=true]{background:var(--accent);color:var(--accent-ink);border-color:transparent}
+.level{font-size:13px;color:var(--mute);min-height:18px;margin-top:6px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:8px}
+.chips .k{font-size:13px;color:var(--mute);min-width:96px}
+.chips button{min-height:36px;padding:4px 10px;font-size:14px;background:var(--bg);border:1px solid var(--line);border-radius:18px;cursor:pointer}
+.chips button[aria-pressed=true]{background:var(--accent);color:var(--accent-ink);border-color:transparent}
+.warn{color:var(--warn);font-size:14px;margin-top:8px}
+textarea{width:100%;margin-top:8px;padding:8px;font:14px system-ui,sans-serif;background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:8px}
+.nav{position:fixed;left:0;right:0;bottom:0;background:var(--bg);border-top:1px solid var(--line);padding:10px 16px}
+.nav .in{max-width:720px;margin:0 auto;display:flex;gap:8px}
+.big{flex:1;min-height:48px;padding:6px 10px;font-weight:600;background:var(--card);border:1px solid var(--line);border-radius:8px;cursor:pointer}
+.big.pri{background:var(--accent);color:var(--accent-ink);border-color:transparent}
+.row{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
+.row .big{flex:1 1 200px}
+pre{white-space:pre-wrap;word-break:break-all;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:8px;font-size:12px;max-height:200px;overflow:auto}
+.sr{position:absolute;left:-9999px}
+</style>
+</head>
+<body>
+<header><div class="in"><div id="prog"><div id="fill"></div></div><div id="stat"><span id="cnt"></span><span id="sv"></span></div></div></header>
+<main id="app"></main>
+<div class="nav" id="nav" hidden><div class="in">
+<button class="big" data-act="home">Groups</button>
+<button class="big" data-act="prev">Previous</button>
+<button class="big pri" data-act="next">Next group</button>
+</div></div>
+<input type="file" id="pick" accept="application/json,.json" class="sr" tabindex="-1">
+<script>
+(function () {
+"use strict";
+// The catalog below is copied in from skills-catalog.yaml by merge_survey.py --build-html.
+// It is embedded so that this page works opened straight from disk, with no server.
+var CATALOG = /*CATALOG-BEGIN*/{
+ "catalog_version": 1,
+ "groups": [
+  {
+   "blurb": "Getting an idea from your head onto the page, or across a table, so another person can act on it.",
+   "five": "Can write, edit and explain anything for any audience without help, and coach other people to do the same.",
+   "id": "communication",
+   "items": [
+    {
+     "desc": "Short sentences, common words, one idea at a time.",
+     "id": "plain-language",
+     "label": "Plain-language writing"
+    },
+    {
+     "desc": "Improving a draft you did not write and keeping the author's voice.",
+     "id": "editing-others",
+     "label": "Editing someone else's draft"
+    },
+    {
+     "desc": "How-to steps that a stranger can follow on the first try.",
+     "id": "instructions",
+     "label": "Step-by-step instructions"
+    },
+    {
+     "desc": "Making a complex subject clear to experts and newcomers in the same document or talk.",
+     "id": "explain-hard-topics",
+     "label": "Explaining a hard topic to a mixed audience"
+    },
+    {
+     "desc": "Pulling accurate detail out of busy people who know more than you do.",
+     "id": "expert-interviews",
+     "label": "Interviewing experts to gather facts"
+    },
+    {
+     "desc": "Writing down word choices and rules so a team stays consistent.",
+     "id": "style-guides",
+     "label": "Keeping a style guide or glossary"
+    }
+   ],
+   "title": "Writing and explaining",
+   "zero": "Have never written anything for work that another person had to follow."
+  },
+  {
+   "blurb": "Finding things out, weighing what you find, and saying what you think it means.",
+   "five": "Can scope an open question, run the research alone, and defend a recommendation to skeptical decision makers.",
+   "id": "research",
+   "items": [
+    {
+     "desc": "Finding reliable sources online and in documents, and noting where each fact came from.",
+     "id": "desk-research",
+     "label": "Desk research"
+    },
+    {
+     "desc": "Building a fair comparison of tools, vendors or approaches.",
+     "id": "comparison-studies",
+     "label": "Comparing options side by side"
+    },
+    {
+     "desc": "Asking real users good questions and writing up what they said.",
+     "id": "user-interviews",
+     "label": "Surveys and user interviews"
+    },
+    {
+     "desc": "Confirming a claim against its original source before repeating it.",
+     "id": "source-checking",
+     "label": "Fact-checking and source checking"
+    },
+    {
+     "desc": "Turning partial and conflicting findings into one clear suggestion with the doubts stated.",
+     "id": "recommendations",
+     "label": "Writing a recommendation from mixed evidence"
+    },
+    {
+     "desc": "Storing what you learn so you can find it again months later.",
+     "id": "notes-system",
+     "label": "Keeping a structured notes system"
+    }
+   ],
+   "title": "Research and judgement",
+   "zero": "Have never had to look something up and report back on it."
+  },
+  {
+   "blurb": "Working with tables of facts, from cleaning them to asking questions of them to showing the answer.",
+   "five": "Can design a data set, answer open questions from it with sound methods, and explain the limits to executives.",
+   "id": "data",
+   "items": [
+    {
+     "desc": "Building calculations and summary tables in a spreadsheet program.",
+     "id": "spreadsheets",
+     "label": "Spreadsheets (formulas and pivot tables)"
+    },
+    {
+     "desc": "Asking a database a question with joins, filters and grouping.",
+     "id": "sql",
+     "label": "SQL queries"
+    },
+    {
+     "desc": "Fixing duplicates, gaps and inconsistent formats before analysis.",
+     "id": "data-cleaning",
+     "label": "Cleaning messy data"
+    },
+    {
+     "desc": "Turning numbers into a picture that a reader understands at a glance.",
+     "id": "dashboards",
+     "label": "Charts and dashboards"
+    },
+    {
+     "desc": "Averages, spread, sampling and knowing when a result could be chance.",
+     "id": "statistics",
+     "label": "Basic statistics"
+    },
+    {
+     "desc": "Reading and writing the plain-text formats that programs use to trade data.",
+     "id": "data-formats",
+     "label": "Data formats (CSV, JSON, YAML)"
+    }
+   ],
+   "title": "Data and numbers",
+   "zero": "Have never worked with a table of data beyond reading it."
+  },
+  {
+   "blurb": "Writing and reading programs, from a ten-line script to a shared code base.",
+   "five": "Writes, tests and maintains real programs in more than one language, and would pass a peer code review.",
+   "id": "code",
+   "items": [
+    {
+     "desc": "Writing scripts and small programs in Python.",
+     "id": "python",
+     "label": "Python"
+    },
+    {
+     "desc": "Writing code that runs in a browser or in Node.",
+     "id": "javascript",
+     "label": "JavaScript"
+    },
+    {
+     "desc": "Chaining command-line tools together in a script.",
+     "id": "shell",
+     "label": "Shell scripting"
+    },
+    {
+     "desc": "Writing text patterns to find or replace things in bulk.",
+     "id": "regex",
+     "label": "Pattern matching with regular expressions"
+    },
+    {
+     "desc": "Working out what someone else's program does without being told.",
+     "id": "reading-code",
+     "label": "Reading unfamiliar code"
+    },
+    {
+     "desc": "Writing checks that run by themselves and fail when behavior changes.",
+     "id": "automated-tests",
+     "label": "Writing automated tests"
+    }
+   ],
+   "title": "Scripting and code",
+   "zero": "Cannot read or run any program."
+  },
+  {
+   "blurb": "Keeping a history of changes, reviewing them, and letting machines do the repetitive checks.",
+   "five": "Designs the whole change workflow for a team, including branching rules, reviews, automated checks and releases.",
+   "id": "workflow",
+   "items": [
+    {
+     "desc": "Working on a copy of the project and joining it back without losing anyone's work.",
+     "id": "git",
+     "label": "Git branches and merges"
+    },
+    {
+     "desc": "Reading a proposed change and giving useful, specific feedback.",
+     "id": "pr-review",
+     "label": "Reviewing a pull request"
+    },
+    {
+     "desc": "Setting up automatic builds and checks that run on every change.",
+     "id": "ci-pipelines",
+     "label": "Continuous integration pipelines"
+    },
+    {
+     "desc": "Making a task run on its own every day or week and checking that it did.",
+     "id": "scheduled-jobs",
+     "label": "Scheduled jobs and scripts"
+    },
+    {
+     "desc": "Automatic checks that catch style and structure mistakes before a human looks.",
+     "id": "lint-checks",
+     "label": "Linting and formatting checks"
+    },
+    {
+     "desc": "Telling users what changed in each version, in words they understand.",
+     "id": "release-notes",
+     "label": "Writing release notes and changelogs"
+    }
+   ],
+   "title": "Version control and automation",
+   "zero": "Save files by copying them with new names."
+  },
+  {
+   "blurb": "How programs and websites talk to each other.",
+   "five": "Designs, builds and documents web services end to end and can debug a failing call from either side.",
+   "id": "web",
+   "items": [
+    {
+     "desc": "Building and styling web pages by hand.",
+     "id": "html-css",
+     "label": "HTML and CSS"
+    },
+    {
+     "desc": "Calling and describing web services that send and receive data over HTTP.",
+     "id": "rest-apis",
+     "label": "Calling and describing REST APIs"
+    },
+    {
+     "desc": "Reading and writing the machine-readable description of a web service.",
+     "id": "api-specs",
+     "label": "API specifications (OpenAPI)"
+    },
+    {
+     "desc": "Understanding keys, tokens and sign-in flows well enough to explain them.",
+     "id": "auth-basics",
+     "label": "Authentication basics"
+    },
+    {
+     "desc": "Connecting two tools so that an event in one triggers an action in the other.",
+     "id": "integrations",
+     "label": "Webhooks and integrations"
+    },
+    {
+     "desc": "Inspecting a page, its network calls and its errors from inside the browser.",
+     "id": "browser-devtools",
+     "label": "Browser developer tools"
+    }
+   ],
+   "title": "Web and APIs",
+   "zero": "Do not know how a web page reaches my screen."
+  },
+  {
+   "blurb": "The machines and services that programs run on.",
+   "five": "Has run live services, fixed outages, and can explain how a system fits together from the network up.",
+   "id": "systems",
+   "items": [
+    {
+     "desc": "Moving around, editing files and running programs on a Linux machine.",
+     "id": "linux-cli",
+     "label": "Linux command line"
+    },
+    {
+     "desc": "Packaging a program with everything it needs so it runs the same everywhere.",
+     "id": "containers",
+     "label": "Containers (Docker)"
+    },
+    {
+     "desc": "Using hosted servers, storage or databases from one of the large cloud companies.",
+     "id": "cloud-provider",
+     "label": "A major cloud provider"
+    },
+    {
+     "desc": "Reading logs and alerts to find out what a running system is doing.",
+     "id": "logs-monitoring",
+     "label": "Logs and monitoring"
+    },
+    {
+     "desc": "Knowing how a name becomes an address and how a request travels.",
+     "id": "networking",
+     "label": "Networking basics (DNS, HTTP)"
+    },
+    {
+     "desc": "Keeping passwords and keys out of code and giving each person only the access they need.",
+     "id": "secrets-access",
+     "label": "Secrets and access management"
+    }
+   ],
+   "title": "Systems and cloud",
+   "zero": "Have never logged in to a server or used a cloud service."
+  },
+  {
+   "blurb": "Making information easy to look at and easy to follow.",
+   "five": "Produces polished diagrams, decks and videos on request, to a standard a designer would accept.",
+   "id": "design",
+   "items": [
+    {
+     "desc": "Drawing how parts connect or how a process flows.",
+     "id": "diagrams",
+     "label": "Diagrams and flowcharts"
+    },
+    {
+     "desc": "Capturing, cropping and marking up images to point at what matters.",
+     "id": "screenshots",
+     "label": "Screenshots and annotation"
+    },
+    {
+     "desc": "Building a presentation that supports a talk instead of replacing it.",
+     "id": "slide-decks",
+     "label": "Slide decks"
+    },
+    {
+     "desc": "Recording and trimming a short walkthrough with clear narration.",
+     "id": "video",
+     "label": "Short walkthrough videos"
+    },
+    {
+     "desc": "Using spacing, size and order so a reader knows where to look first.",
+     "id": "layout",
+     "label": "Page layout and visual hierarchy"
+    },
+    {
+     "desc": "Testing that people with different abilities and tools can use what you made.",
+     "id": "accessibility",
+     "label": "Accessibility checks"
+    }
+   ],
+   "title": "Visuals and media",
+   "zero": "Only paste in screenshots with no editing."
+  },
+  {
+   "blurb": "Using AI assistants as part of real work, and checking what they hand back.",
+   "five": "Builds repeatable AI-assisted workflows with written rules and tests, and can show how often the output is right.",
+   "id": "ai",
+   "items": [
+    {
+     "desc": "Giving an AI assistant clear instructions, examples and limits.",
+     "id": "prompting",
+     "label": "Writing prompts"
+    },
+    {
+     "desc": "Finding and fixing wrong or invented details before anyone relies on them.",
+     "id": "checking-output",
+     "label": "Checking AI output against sources"
+    },
+    {
+     "desc": "Keeping rule files and notes that tell an assistant how your project works.",
+     "id": "project-context",
+     "label": "Giving an AI tool project context"
+    },
+    {
+     "desc": "Building or changing software with an assistant that edits files and runs commands.",
+     "id": "ai-coding-tools",
+     "label": "AI coding assistants"
+    },
+    {
+     "desc": "Scoring AI output against written criteria instead of a gut feeling.",
+     "id": "eval-rubrics",
+     "label": "Evaluating output with tests or a rubric"
+    },
+    {
+     "desc": "Asking a model for JSON or a form that other code can check and use.",
+     "id": "structured-output",
+     "label": "Getting structured output from a model"
+    }
+   ],
+   "title": "Working with AI tools",
+   "zero": "Have never used an AI assistant for work."
+  },
+  {
+   "blurb": "Getting work scoped, shared out, reviewed and finished with other people.",
+   "five": "Runs the planning and review process for a team and has mentored others to run it themselves.",
+   "id": "teamwork",
+   "items": [
+    {
+     "desc": "Cutting a large goal into steps that one person can finish and check.",
+     "id": "task-breakdown",
+     "label": "Breaking work into tasks"
+    },
+    {
+     "desc": "Saying how long work will take and keeping to it, or warning early when it slips.",
+     "id": "estimating",
+     "label": "Estimating and scheduling"
+    },
+    {
+     "desc": "Collecting feedback from several people, settling conflicts and closing it out.",
+     "id": "review-cycles",
+     "label": "Running a review cycle"
+    },
+    {
+     "desc": "One page that says what is being made, for whom, by when, and what is out of scope.",
+     "id": "project-briefs",
+     "label": "Writing a project brief"
+    },
+    {
+     "desc": "Helping a colleague get better at something you know.",
+     "id": "mentoring",
+     "label": "Mentoring or teaching"
+    },
+    {
+     "desc": "Keeping work moving across time zones through writing instead of meetings.",
+     "id": "async-remote",
+     "label": "Working asynchronously with remote teammates"
+    }
+   ],
+   "title": "Planning and teamwork",
+   "zero": "Have only ever worked alone, with no plan beyond my own to-do list."
+  }
+ ]
+}/*CATALOG-END*/;
+
+var KEY = "ja-skills-survey-v1";
+var MID = [
+  "1  I know what it is and could explain it",
+  "2  I have used it lightly or with help",
+  "3  I have used it on real work, on my own",
+  "4  I am confident and others ask me about it"
+];
+var NEXT = [["more", "Want more of it"], ["neutral", "Don't mind"], ["avoid", "Rather avoid"]];
+var LAST = [["2y", "Last 2 years"], ["5y", "2 to 5 years ago"], ["5plus", "Over 5 years ago"], ["never", "Never"]];
+var HOW = [["self", "On my own"], ["ai", "Directing AI"], ["team", "With or teaching a team"]];
+
+var groups = CATALOG ? CATALOG.groups : [];
+var all = [], byId = {}, gOf = {};
+groups.forEach(function (g) { g.items.forEach(function (i) { all.push(i); byId[i.id] = i; gOf[i.id] = g; }); });
+var S = { items: {}, notes: {} };
+var cur = -1;
+var el = function (id) { return document.getElementById(id); };
+
+function esc(s) {
+  return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
+function answered(i) { var v = S.items[i.id]; return v && typeof v.score === "number"; }
+function gCount(g) { return g.items.filter(answered).length; }
+
+// ---- storage (best effort: file pages can lose it, so Download is the real save)
+function load() {
+  try {
+    var raw = localStorage.getItem(KEY);
+    if (raw) {
+      var d = JSON.parse(raw);
+      if (d && d.items) { S.items = d.items; S.notes = d.notes || {}; }
+    }
+  } catch (e) { /* storage unavailable: start blank */ }
+}
+function save() {
+  S.saved = new Date().toISOString();
+  var ok = true;
+  try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { ok = false; }
+  el("sv").textContent = ok ? "Kept in this browser. Download to keep a file." : "Not kept in this browser. Use Download.";
+}
+function progress() {
+  var n = all.filter(answered).length;
+  el("cnt").textContent = n + " of " + all.length + " answered";
+  el("fill").style.width = (all.length ? (100 * n / all.length) : 0) + "%";
+}
+
+// ---- views
+function home() {
+  cur = -1;
+  el("nav").hidden = true;
+  var h = "<h1>Skills self-assessment</h1>" +
+    "<p>Tap a number for each skill. Leave a skill blank if you would rather not say: blank is stored as unanswered, not as zero.</p>" +
+    "<p class=\"mute\">Your answers stay on this computer. When you finish, press Download and give the file to the intake step.</p>";
+  groups.forEach(function (g, i) {
+    h += "<button class=\"card\" data-act=\"grp\" data-i=\"" + i + "\"><span>" + esc(g.title) + "</span><span>" + gCount(g) + "/" + g.items.length + "</span></button>";
+  });
+  h += "<div class=\"row\"><button class=\"big pri\" data-act=\"export\">Download my answers</button>" +
+    "<button class=\"big\" data-act=\"import\">Load a saved file</button>" +
+    "<button class=\"big\" data-act=\"clear\">Start over</button></div><div id=\"out\"></div>";
+  el("app").innerHTML = h;
+  progress();
+  window.scrollTo(0, 0);
+}
+function page(i) {
+  cur = Math.max(0, Math.min(i, groups.length - 1));
+  var g = groups[cur];
+  el("nav").hidden = false;
+  var h = "<h2>" + esc(g.title) + "</h2><p class=\"mute\">" + esc(g.blurb) + "</p>" +
+    "<div class=\"anchors\"><div class=\"z\"><b>0</b> " + esc(g.zero) + "</div><div class=\"f\"><b>5</b> " + esc(g.five) + "</div></div>";
+  g.items.forEach(function (it) { h += itemHTML(it); });
+  h += "<textarea data-note-group=\"" + esc(g.id) + "\" rows=\"2\" placeholder=\"Notes for this group (optional, not saved to your profile)\">" + esc(S.notes[g.id] || "") + "</textarea>";
+  el("app").innerHTML = h;
+  progress();
+  window.scrollTo(0, 0);
+}
+function levelText(it, n) {
+  var g = gOf[it.id];
+  if (n === 0) return "0  " + g.zero;
+  if (n === 5) return "5  " + g.five;
+  return MID[n - 1];
+}
+function chipRow(id, key, name, opts, v, multi) {
+  var h = "<div class=\"chips\"><span class=\"k\">" + name + "</span>";
+  opts.forEach(function (o) {
+    var on = multi ? (Array.isArray(v[key]) && v[key].indexOf(o[0]) >= 0) : v[key] === o[0];
+    h += "<button aria-pressed=\"" + on + "\" data-act=\"opt\" data-id=\"" + id + "\" data-key=\"" + key + "\" data-val=\"" + o[0] + "\" data-multi=\"" + (multi ? 1 : 0) + "\">" + o[1] + "</button>";
+  });
+  return h + "</div>";
+}
+function itemHTML(it) {
+  var v = S.items[it.id] || {};
+  var h = "<div class=\"item\" id=\"item-" + it.id + "\"><div class=\"lab\">" + esc(it.label) + "</div><div class=\"desc\">" + esc(it.desc) + "</div><div class=\"scores\" role=\"group\" aria-label=\"Score for " + esc(it.label) + "\">";
+  for (var n = 0; n <= 5; n++) {
+    h += "<button aria-pressed=\"" + (v.score === n) + "\" data-act=\"score\" data-id=\"" + it.id + "\" data-val=\"" + n + "\">" + n + "</button>";
+  }
+  h += "</div><div class=\"level\">" + (typeof v.score === "number" ? esc(levelText(it, v.score)) : "") + "</div>";
+  if (v.score >= 2) {
+    h += chipRow(it.id, "next", "In my next job", NEXT, v, false) +
+      chipRow(it.id, "last", "Last used", LAST, v, false) +
+      chipRow(it.id, "how", "How I did it", HOW, v, true);
+    h += "<textarea data-note-item=\"" + it.id + "\" rows=\"2\" placeholder=\"Evidence or note (optional, not saved to your profile)\">" + esc(v.note || "") + "</textarea>";
+    if (v.score >= 4 && v.last === "never") {
+      h += "<div class=\"warn\">A score of " + v.score + " does not fit with \"Never\" used. Pick when you last used it, or lower the score.</div>";
+    }
+  }
+  return h + "</div>";
+}
+function redraw(id) {
+  var e = document.getElementById("item-" + id);
+  if (e) { e.outerHTML = itemHTML(byId[id]); }
+  progress();
+}
+
+// ---- actions
+function setScore(id, n) {
+  var v = S.items[id] || (S.items[id] = {});
+  if (v.score === n) {            // tapping the same number again clears the answer
+    delete S.items[id];
+  } else {
+    v.score = n;
+    if (n < 2) { delete v.next; delete v.last; delete v.how; }
+  }
+  save();
+  redraw(id);
+}
+function setOpt(id, key, val, multi) {
+  var v = S.items[id];
+  if (!v) return;
+  if (multi) {
+    var a = Array.isArray(v[key]) ? v[key].slice() : [];
+    var at = a.indexOf(val);
+    if (at >= 0) a.splice(at, 1); else a.push(val);
+    if (a.length) v[key] = a; else delete v[key];
+  } else if (v[key] === val) {
+    delete v[key];
+  } else {
+    v[key] = val;
+  }
+  save();
+  redraw(id);
+}
+function exportData() {
+  var items = {};
+  all.forEach(function (i) {
+    var v = S.items[i.id];
+    if (v && typeof v.score === "number") items[i.id] = v;
+  });
+  return {
+    format: "skills-survey",
+    survey_version: 1,
+    catalog_version: CATALOG.catalog_version,
+    saved: new Date().toISOString(),
+    items: items,
+    group_notes: S.notes
+  };
+}
+function download() {
+  var text = JSON.stringify(exportData(), null, 1);
+  var name = "skills-survey-" + new Date().toISOString().slice(0, 10) + ".json";
+  var out = el("out");
+  try {
+    var url = URL.createObjectURL(new Blob([text], { type: "application/json" }));
+    var a = document.createElement("a");
+    a.href = url; a.download = name;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function () { URL.revokeObjectURL(url); }, 2000);
+    if (out) out.innerHTML = "<p>Saved as <b>" + esc(name) + "</b> in your downloads folder.</p><p class=\"mute\">If nothing downloaded, copy the text below into a file with that name.</p><pre>" + esc(text) + "</pre>";
+  } catch (e) {
+    if (out) out.innerHTML = "<p>Your browser blocked the download. Copy the text below into a file named <b>" + esc(name) + "</b>.</p><pre>" + esc(text) + "</pre>";
+  }
+}
+function importFile(file) {
+  var r = new FileReader();
+  r.onload = function () {
+    var out = el("out");
+    try {
+      var d = JSON.parse(r.result);
+      if (!d || d.format !== "skills-survey" || typeof d.items !== "object") throw new Error("not a skills-survey file");
+      var n = 0;
+      Object.keys(d.items).forEach(function (id) {
+        if (byId[id] && d.items[id] && typeof d.items[id].score === "number") { S.items[id] = d.items[id]; n++; }
+      });
+      if (d.group_notes && typeof d.group_notes === "object") S.notes = d.group_notes;
+      save();
+      home();
+      el("out").innerHTML = "<p>Loaded " + n + " answers.</p>";
+    } catch (e) {
+      if (out) out.innerHTML = "<p class=\"warn\">That file could not be read: " + esc(e.message) + ".</p>";
+    }
+  };
+  r.readAsText(file);
+}
+// ---- events
+document.addEventListener("click", function (ev) {
+  var t = ev.target.closest("[data-act]");
+  if (!t) return;
+  var act = t.getAttribute("data-act");
+  if (act === "grp") page(+t.getAttribute("data-i"));
+  else if (act === "home") home();
+  else if (act === "prev") { if (cur > 0) page(cur - 1); else home(); }
+  else if (act === "next") { if (cur < groups.length - 1) page(cur + 1); else home(); }
+  else if (act === "score") setScore(t.getAttribute("data-id"), +t.getAttribute("data-val"));
+  else if (act === "opt") setOpt(t.getAttribute("data-id"), t.getAttribute("data-key"), t.getAttribute("data-val"), t.getAttribute("data-multi") === "1");
+  else if (act === "export") download();
+  else if (act === "import") el("pick").click();
+  else if (act === "clear") {
+    if (window.confirm("Clear every answer on this page? Your downloaded files are not affected.")) {
+      S = { items: {}, notes: {} }; save(); home();
+    }
+  }
+});
+document.addEventListener("input", function (ev) {
+  var t = ev.target;
+  var gi = t.getAttribute && t.getAttribute("data-note-group");
+  var ii = t.getAttribute && t.getAttribute("data-note-item");
+  if (gi) { S.notes[gi] = t.value; save(); }
+  else if (ii && S.items[ii]) { S.items[ii].note = t.value; save(); }
+});
+el("pick").addEventListener("change", function (ev) {
+  if (ev.target.files && ev.target.files[0]) importFile(ev.target.files[0]);
+  ev.target.value = "";
+});
+
+if (!CATALOG) {
+  el("app").innerHTML = "<h1>Catalog missing</h1><p>Run merge_survey.py --build-html to put the skills list into this page.</p>";
+} else {
+  load();
+  home();
+  save();
+}
+})();
+</script>
+</body>
+</html>

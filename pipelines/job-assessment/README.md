@@ -26,7 +26,7 @@ Each bullet flips from planned to done in the pull request that delivers it.
 
 - [ ] **Intake skill.** The interview skill that builds the central file one checked answer at a time.
 
-- [ ] **Skills catalog and survey.** A generic skills list and an offline form for scoring yourself against it.
+- [x] **Skills catalog and survey.** A generic skills list and an offline form for scoring yourself against it.
 
 - [ ] **Integration and proof.** The whole chain run end to end from a clean clone, plus the removal of the earlier `tools/job-fit-screen`.
 

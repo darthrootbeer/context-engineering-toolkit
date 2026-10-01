@@ -40,6 +40,7 @@ The skill was written fresh from a written list of behaviors taken from the auth
 
 - Every script the skill calls has tests in `../tests/`, run in CI on Ubuntu and macOS with Python 3.10 and 3.12. Run them with `python3 -m pytest -q` from `pipelines/job-assessment/`.
 - The commands in `SKILL.md` were run in order, by hand, on an invented posting and an invented profile: archive, a second archive refused as a duplicate (exit 4), checklist, skill match, findings check, scores, verdict, note write, rename and email card. The findings example in `SKILL.md` passes `check_findings.py` and validates against `../schema/findings.schema.json`.
+- The step 5 and step 6 commands from `SKILL.md`, run on the three hand-written findings files in `../fixtures/findings/`, pass the check and give all twelve scores and all three verdicts listed in `../fixtures/expected.yaml`.
 - Not yet verified: a full run of the skill by a model, end to end, against the fictional sample postings. That run, and its saved output, come with the integration step in the Status list of the main README.
 
 ## Requirements

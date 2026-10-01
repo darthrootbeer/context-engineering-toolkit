@@ -1,0 +1,28 @@
+# FICTIONAL EXAMPLE DATA. Not a real person.
+# Expected scores, verdicts and triggers for the three fictional postings.
+# These equal the table in the design (section 6.2) and are pinned by the offline tests.
+postings:
+  01-strong-fit:
+    lane: docs-platform
+    fit: 9
+    comp: 10
+    qualifications: 9
+    culture: 10
+    verdict: Apply
+    trigger: 4d
+  02-job-type-override:
+    lane: tech-writing
+    fit: 7
+    comp: 3
+    qualifications: 6
+    culture: 5
+    verdict: Skip
+    trigger: 4a
+  03-unlisted-pay-perks:
+    lane: tech-writing
+    fit: 7
+    comp: 5
+    qualifications: 6
+    culture: 9
+    verdict: Apply with reservations
+    trigger: 4c-average

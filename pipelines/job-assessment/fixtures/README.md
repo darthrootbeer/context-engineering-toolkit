@@ -1,0 +1,40 @@
+# FICTIONAL EXAMPLE DATA. Not a real person.
+
+# Fixtures
+
+Everything in this folder is invented. Robin Sample is not a real person, the companies do not exist, and every link points at an example domain. The numbers were chosen for the tests and match no real pay, years or thresholds.
+
+## Fictional names used
+
+| Name | Where it appears | What it is |
+|---|---|---|
+| Robin Sample | `robin-sample/` | The invented job seeker |
+| Northwind Example Co. | Robin's first employer | Invented software company |
+| Placeholder Labs | Robin's current employer | Invented developer tool company |
+| Lanternfield Example Co. | Robin's named exception | Invented company with a nearby office |
+| Copperline Example Co. | Posting 01 | Invented hiring company |
+| Driftmark Example Media | Posting 02 | Invented hiring company |
+| Ashgrove Example Software | Posting 03 | Invented hiring company |
+
+## What each posting is for
+
+| Posting | Lane | Fit | Comp | Qualifications | Culture | Verdict | Rule that decides | What it proves |
+|---|---|---|---|---|---|---|---|---|
+| `postings/01-strong-fit.md` | docs-platform | 9 | 10 | 9 | 10 | Apply | 4d | Perks beyond the cap still give Culture 10 (5+2+2+1+1 = 11) |
+| `postings/02-job-type-override.md` | tech-writing | 7 | 3 | 6 | 5 | Skip | 4a | The job-type rule wins even though the low pay alone would say "reservations". Silence keeps Culture at 5 |
+| `postings/03-unlisted-pay-perks.md` | tech-writing | 7 | 5 | 6 | 9 | Apply with reservations | 4c, average | Unlisted pay scores 5, not 0. Culture is 5+2+2 = 9. The Fit and Qualifications average of 6.5 is below 7 |
+
+The same numbers are in machine-readable form in `expected.yaml`.
+
+## Other files
+
+- `robin-sample/career-profile.yaml`: Robin's central file, two lanes, seven evidence entries, fourteen skills.
+- `robin-sample/intake-answers.txt`: scripted answers for the intake interview test.
+- `findings/*.findings.json`: hand-written model output for each posting. Every quote is copied from the posting text.
+- Each posting file starts with `company`, `role`, `lane`, `url` and `source` lines, then a divider, then the posting text.
+
+## Planted details worth knowing
+
+- Robin's evidence includes one entry marked `do_not_use` (work a teammate did), which no finding may cite.
+- Posting 03 is the only one with a Culture-neutral phrase ("fast-paced") that costs nothing, and the only one with generic collaboration words that must not count as autonomy.
+- Posting 01 names the one company in `company_criteria.high_interest`. The company read is shown but never changes the verdict.

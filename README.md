@@ -10,7 +10,9 @@ Skills, pipelines, and technique write-ups for building AI-agent systems that st
 
 **3. [`patterns/typed-memory-system.md`](patterns/typed-memory-system.md) and [`patterns/rules-index-architecture.md`](patterns/rules-index-architecture.md)** cover how to keep an agent's memory and standing rules organized as they grow.
 
-**4. [`tools/job-fit-screen`](tools/job-fit-screen/)** is an early job-posting scorer. A much larger version is being published to replace it.
+**4. [`pipelines/job-assessment`](pipelines/job-assessment/)** is a job-posting assessment system, being built in small pull requests. It is a scaffold only right now and nothing in it runs yet. Its README has a status list that shows what exists.
+
+**5. [`tools/job-fit-screen`](tools/job-fit-screen/)** is an early job-posting scorer. A much larger version is being published to replace it.
 
 ## Why this exists
 

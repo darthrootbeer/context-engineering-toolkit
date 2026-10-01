@@ -6,13 +6,11 @@ Skills, pipelines, and technique write-ups for building AI-agent systems that st
 
 **1. [`pipelines/docs-pipeline`](pipelines/docs-pipeline/)** is the strongest piece in this repo. It is a chain of Claude Code skills that takes a documentation change from the first request through structure review, voice, grammar, links, visuals, expert review, and publishing, with a real gate between every stage. I used a version of it every working day on real documentation. If you only open one thing, open this, and start with its [README](pipelines/docs-pipeline/README.md) and [ARCHITECTURE](pipelines/docs-pipeline/ARCHITECTURE.md).
 
-**2. [`patterns/block-and-tell-hooks.md`](patterns/block-and-tell-hooks.md)** explains how to make an AI agent follow a rule every time instead of hoping it remembers. It is the idea behind most of the guards in my own setup.
+**2. [`pipelines/job-assessment`](pipelines/job-assessment/)** scores a job posting against your own written criteria and gives a plain verdict: Apply, Apply with reservations, or Skip. A model reads the posting and writes down findings, quoting the posting for every claim. Ordinary code then checks those quotes, does the scoring and picks the verdict, so the same findings always give the same answer. It was built by directing Claude Code, not hand-typed. What is shown: the whole chain runs offline on three invented postings with no model, no network and no API key, and the 461 tests in that folder (run again in a fresh clone by CI) compare its scores, verdicts and saved output files to written-down expected values. A separate run with the `claude` CLI on Claude Sonnet is saved in [`tests/`](pipelines/job-assessment/tests/): the interview built a file that passed the checker, and the assessment gave the expected verdicts on 2 of 2 postings in its second attempt, after the first attempt got one verdict wrong ([both records are kept](pipelines/job-assessment/tests/e2e-output-run1.md)). What is not shown: that a verdict predicts getting hired, or that it beats any other method. No real postings or real person's data are in it. Its architecture and setup docs are still being written; the folder's README has a status list.
 
-**3. [`patterns/typed-memory-system.md`](patterns/typed-memory-system.md) and [`patterns/rules-index-architecture.md`](patterns/rules-index-architecture.md)** cover how to keep an agent's memory and standing rules organized as they grow.
+**3. [`patterns/block-and-tell-hooks.md`](patterns/block-and-tell-hooks.md)** explains how to make an AI agent follow a rule every time instead of hoping it remembers. It is the idea behind most of the guards in my own setup.
 
-**4. [`pipelines/job-assessment`](pipelines/job-assessment/)** is a job-posting assessment system, being built in small pull requests. It is a scaffold only right now and nothing in it runs yet. Its README has a status list that shows what exists.
-
-**5. [`tools/job-fit-screen`](tools/job-fit-screen/)** is an early job-posting scorer. A much larger version is being published to replace it.
+**4. [`patterns/typed-memory-system.md`](patterns/typed-memory-system.md) and [`patterns/rules-index-architecture.md`](patterns/rules-index-architecture.md)** cover how to keep an agent's memory and standing rules organized as they grow.
 
 ## Why this exists
 
@@ -28,11 +26,9 @@ Every piece in here started as a real problem: a rule that kept getting skipped,
 
 **`patterns/`** — written technique docs for ideas that are more valuable described in prose than shipped as literal runnable code, either because the real implementation is too specific to one project to be useful as-is, or because the idea itself is the point. Covers: how to make an "always do X first" instruction actually reliable instead of hoped-for (block-and-tell hooks), how to keep an agent's standing instructions from becoming an unmaintainable single file as they grow (rules-index architecture), and how to give an agent memory that survives months of use without turning into an unreadable dump (typed, size-bounded memory).
 
-**`tools/`** — small standalone utilities. A job-fit screener that scores a real job posting against your own personal fit criteria — culture, autonomy, and actual eligibility, not just keyword matching — using Claude to make the judgment calls a plain keyword scan can't. It is an early version (August 2026), and a much larger job assessment system is being published to replace it.
-
 ## How the pieces relate
 
-A skill is one task. A pipeline is several skills chained with real gates between them (nothing moves to the next stage until the current one passes). A pattern is the idea behind a mechanism, written down so it can be rebuilt in a different codebase without copying code that won't fit. The tools are the smaller, single-purpose things that don't need any of that structure.
+A skill is one task. A pipeline is several skills chained with real gates between them (nothing moves to the next stage until the current one passes). A pattern is the idea behind a mechanism, written down so it can be rebuilt in a different codebase without copying code that won't fit.
 
 ## A note on how this was built
 

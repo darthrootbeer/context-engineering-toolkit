@@ -5,6 +5,9 @@
 # Stage 0. Orientation
 s0.q1: Save it in the current folder as career-profile.yaml.
 s0.q2: No resume or portfolio to read. Start from scratch.
+s0.q3: Robin Sample.
+s0.q4: Senior Technical Writer and Docs Platform Engineer.
+s0.q5: 9.
 
 # Stage 1. Job history (employers)
 s1.q1: Placeholder Labs, an invented developer tool company.
@@ -54,6 +57,8 @@ s2.q4: Nothing I can show right now.
 s2.q5: Writing prompts for AI tools.
 
 # Stage 3. Skills survey (option B, in chat). Score 0 to 5, then want, last used, how, evidence.
+# The ids below are Robin's own words, not catalog ids. Stage 3 allows skills outside the catalog,
+# so a valid run stores these ids as given, with labels in Robin's words and no group or match.
 s3.openapi: 4, want more, last used within 2 years, self and AI, evidence is the API reference rebuild
 s3.docs_as_code: 5, want more, within 2 years, self and AI and team, evidence is the docs pipeline and the automatic checks
 s3.static_sites: 4, neutral, within 2 years, self and AI, evidence is the docs pipeline

@@ -1,0 +1,22 @@
+FICTIONAL EXAMPLE DATA. Not a real person.
+ASSESSMENT: fixtures/postings/01-strong-fit.md
+
+🚦 VERDICT: Apply
+
+🏢 Copperline Example Co. is one you have said you want to work for. Your reason: Makes tools for writers, which is the work Robin cares about most. This did not change the scores or the verdict.
+
+**Scores:**
+Fit 9 🟢🟢🟢🟢🟢🟢🟢🟢🟢⬛  
+Comp 10 🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟  
+Qualifications 9 🟢🟢🟢🟢🟢🟢🟢🟢🟢⬛  
+Culture 10 🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟  
+
+| Check | Rating | Read |
+|---|---|---|
+| ✨ AI-forward team | 🟢 Strong | AI drafting is normal here and people still check the result. |
+| 📦 Docs live in version control | 🟢 Strong | Docs are built like code, which is how Robin works. |
+| 🧪 Docs are built and checked automatically | 🟠 Weak | No automatic checks yet. The job is to build them. |
+| 🦸 Owns the docs system | 🟡 Fair | Robin would own the system. This is a bonus item, so it never costs points. |
+| How much say you'd have | 🟢 Strong | Robin picks the tools and the priorities. |
+
+🟢 Strong · 🟡 Fair · 🟠 Weak · 🔴 Poor · ❓ Unknown

@@ -76,7 +76,7 @@ Read if exists. Key sections to extract:
 VISUAL_AUDIT="{OUTPUT_DIR}/_process/visual-audit/visual-audit-output.md"
 ```
 Read if exists. Key sections to extract:
-- Recommendations (diagram type, location, problem it solves, strength rating)
+- Recommendations (diagram type, location, problem it solves, priority rating)
 - Not recommended (what was explicitly skipped)
 
 **Ticket comments and sub-issues (if TICKET_ID provided):**
@@ -155,7 +155,7 @@ From the visual audit (if it exists):
 - If recommended but not present: skip it (it wasn't done)
 - For each included diagram: use the visual audit's "Problem it solves" field as the basis for the prose description
 
-Use the strength rating (Strong / Medium) to inform the prose — Strong diagrams solved a more critical gap than Medium ones.
+Use the priority rating (Critical / High / Medium / Low) to inform the prose. Higher-priority diagrams solved a more critical gap than lower-priority ones.
 
 **Skip this section if no visual audit exists or no diagrams were added.**
 
@@ -243,7 +243,7 @@ These changes do not affect meaning. They bring the documents into compliance wi
 
 ### [Diagram name]
 **Doc:** `[filename.md]` — "[Section heading]"
-**Priority:** [Strong / Medium]
+**Priority:** [Critical / High / Medium / Low]
 
 [2–3 sentences: the problem the prose had without this diagram, and how the diagram solves it. Use the visual audit's "Problem it solves" as the basis.]
 

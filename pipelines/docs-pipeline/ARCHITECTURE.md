@@ -26,7 +26,7 @@ Three knowledge files live in `_knowledge/` and are loaded by accuracy-sensitive
 - `_knowledge/product-kb/` — product model files loaded by `docs-sme-review` to fact-check domain accuracy claims
 - `_knowledge/style-guides/style-guide.md` — voice and tone rules loaded by `docs-style-check-voice`
 
-Placeholder files with instructions are in `_knowledge/`. The pipeline will run without them, but Stage 3b (voice), Stage 3d (grammar), and Stage 4c (SME review) will produce generic or incomplete results.
+Placeholder files with instructions are in `_knowledge/`. The pipeline will run without them, but Stage 3b (voice), Stage 3e (grammar), and Stage 4c (SME review) will produce generic or incomplete results.
 
 ---
 
@@ -62,16 +62,17 @@ The workspace is a git repo. Every stage commits its output. So you can always s
 │            3a  Structure check                                  │
 │            3b  Voice check                                      │
 │            3c  Human check (de-AI)                              │
-│            3d  Grammar & spelling                                │
+│            3d  Readability check                                │
+│            3e  Grammar & spelling                               │
 │  ─────────────────────────────────────────────────────────────  │
-│  Stage 4   Reviews                                               │
+│  Stage 4   Reviews                                              │
 │            4a  Visuals review                                   │
 │            4b  Links review                                     │
 │            4c  SME review                                       │
 │            4d  Changes summary                                  │
 │  ─────────────────────────────────────────────────────────────  │
 │  Stage 5   Decision Checkpoint                                  │
-│  Stage 6   Publish                                               │
+│  Stage 6   Publish                                              │
 │  Post      Work Verify                                          │
 └─────────────────────────────────────────────────────────────────┘
 ```
@@ -92,8 +93,9 @@ flowchart TD
     E --> E1[3a Structure]
     E1 --> E2[3b Voice]
     E2 --> E3[3c Human]
-    E3 --> E4[3d Grammar]
-    E4 --> F[Stage 4: Reviews]
+    E3 --> E4[3d Readability]
+    E4 --> E5[3e Grammar]
+    E5 --> F[Stage 4: Reviews]
     F --> F1[4a Visuals]
     F1 --> F2[4b Links]
     F2 --> F3[4c SME]
@@ -147,7 +149,7 @@ Uses the JSON mapping from Stage 1 to extract content into separate typed files 
 
 ### Stage 3 — Style Passes
 
-Four sequential passes, each loading a fresh style guide. Each pass edits docs in place.
+Five sequential passes. Each one loads what it needs fresh. Each pass edits docs in place.
 
 **3a — Structure (`/docs-style-check-structure`)**
 Checks Diataxis structural rules for each doc's type: required sections, heading format, opening sentence, conclusion. Rules differ per type — a how-to has different required sections than a reference.
@@ -158,7 +160,10 @@ Reads the style guide from `_knowledge/style-guides/style-guide.md`. Populate th
 **3c — Human (`/docs-style-check-human`)**
 Removes AI writing patterns: em dashes, banned filler phrases (`it's worth noting`, `notably`), uniform sentence length, bold-label lists, corporate padding.
 
-**3d — Grammar & Spelling (`/docs-grammar-spelling`)**
+**3d — Readability (`/docs-readability-check`)**
+Estimates the reading grade level of each doc and finds the sentence patterns that make technical writing feel dense: stacked clauses, too many facts in one sentence, jargon followed by a clause that explains it, and wall paragraphs. Rewrites them toward a target level that depends on the doc type, without changing vocabulary or voice. Never touches tables, code blocks, or callouts. Paragraphs it cannot safely rewrite are flagged for a person. The skill lives in this repo at [`skills/docs-readability-check`](../../skills/docs-readability-check/SKILL.md).
+
+**3e — Grammar & Spelling (`/docs-grammar-spelling`)**
 Reads the glossary from `_knowledge/glossary.yaml`. Populate with your domain terminology. Checks spelling, grammar, punctuation, and terminology consistency. Flags anything that needs a human decision rather than silently fixing it.
 
 ---

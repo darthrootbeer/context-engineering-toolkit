@@ -9,7 +9,7 @@ allowed-tools: [Read, Write, Edit, Glob, Bash]
 
 Readability pass on one or more docs. Detects and rewrites the sentence-level patterns that make technical writing feel dense or overwhelming, without changing vocabulary, structure, or voice. Edits in place. Produces an audit report with before/after grade level scores in plain language (e.g. "10th grade", "college level").
 
-Run this standalone on any doc or folder, or as the final step in the style pipeline after `/docs-style-check-human`.
+Run this standalone on any doc or folder. It is also Stage 3d of the [docs-pipeline](../../pipelines/docs-pipeline/README.md), where it runs after `/docs-style-check-human` and before the grammar and spelling pass. See the pipeline's [ARCHITECTURE](../../pipelines/docs-pipeline/ARCHITECTURE.md) for how the stages fit together.
 
 ## Arguments
 

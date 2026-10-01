@@ -1,6 +1,6 @@
 ---
 name: docs-style-check-structure
-description: Apply Diataxis structural style rules to docs based on their diataxis_type frontmatter. Checks required sections, heading format, opening structure, conclusion, and content boundaries. Edits docs in place. Run after split, before general and human style passes.
+description: Apply Diataxis structural style rules to docs based on their diataxis_type frontmatter. Checks required sections, heading format, opening structure, conclusion, and content boundaries. For notes inside a vault, it can also run an optional Pass 0 note-standard check (title heading, orienting summary, required frontmatter fields). Edits docs in place. Run after split, before general and human style passes.
 argument-hint: [folder-or-file]
 allowed-tools: [Read, Write, Edit, Glob, Bash]
 ---
@@ -46,6 +46,36 @@ STYLE_GUIDES_DIR=~/projects/example-docs-repo/_extras/style-guides/diataxis
   - **Directory**: Glob all `.md` files inside it. Abort if zero found.
   - **File**: Use that single file. Abort if it doesn't exist.
 - Store the full file list.
+
+### 1b. Pass 0 — Note standard check (optional, Obsidian-style vault notes only)
+
+This pass is optional. Run it only when the input sits inside a notes vault, detected by a `.obsidian/` directory in a parent folder. Skip it for docs headed to a published docs site. Treat the field list below as a default and change it to match your own vault's standard.
+
+For each note, check the following. Fix where noted and flag the rest.
+
+#### Frontmatter fields
+
+| Field | Rule | Action if missing |
+|---|---|---|
+| `title` | Must be present and match the `#` heading in the body | Flag and suggest a value |
+| `tags` | Must have at least one tag | Flag |
+| `created` | Must be present (date string) | Flag |
+| `status` | Must be one of `current`, `draft`, `archived` | Flag and suggest `current` |
+
+#### Body structure
+
+| Element | Rule | Action if missing or wrong |
+|---|---|---|
+| `#` title heading | Must be the first non-frontmatter, non-blank line in the body | Fix: add `# {frontmatter title}` at the top |
+| Orienting summary | 1 to 3 sentences right after the `#` heading, before any `##` section or callout, with no heading of its own. It says what the note is, who it is for, and what it covers. | Flag. The skill cannot write it without knowing the note, so report it as needing a summary |
+
+**What counts as a summary:** a paragraph that answers "what is this note and why would I read it?" If the first content after the `#` heading is a `##` section, a `> [!...]` callout, or a `---` divider, the summary is missing.
+
+**Do not flag** notes in `_archive/`, `_templates/`, or `_attachments/`. They are exempt.
+
+Record every fix and flag in the audit report under a **Pass 0: Note Standard** section.
+
+---
 
 ### 2. Read all docs and determine types
 

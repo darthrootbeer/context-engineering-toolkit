@@ -44,7 +44,7 @@ grep -r '{YOUR_' ~/Downloads/docs-pipeline/ --include="*.md" -l
 
 ## 3. Knowledge sources — build before running
 
-Three knowledge sources live in `_knowledge/`. They are loaded by the accuracy-sensitive pipeline stages. The pipeline will run without them, but Stages 3b, 3d, and 4c will produce shallow or incorrect results.
+Three knowledge sources live in `_knowledge/`. They are loaded by the accuracy-sensitive pipeline stages. The pipeline will run without them, but Stages 3b, 3e, and 4c will produce shallow or incorrect results.
 
 Populate all three before running a full pipeline on any real docs.
 
@@ -52,7 +52,7 @@ Populate all three before running a full pipeline on any real docs.
 
 ### 3.1 Glossary — `_knowledge/glossary.yaml`
 
-**Loaded by:** `docs-grammar-spelling` (Stage 3d)
+**Loaded by:** `docs-grammar-spelling` (Stage 3e)
 
 **What it does:** The grammar skill loads this file, builds a term index, and enforces canonical forms throughout every doc — capitalization, acronym expansion, deprecated terms, API field formatting.
 
@@ -161,7 +161,8 @@ Any skill can be run standalone on a file or folder:
 | 3a — Structure | In-place edits for structural compliance | Review the audit report; approve or adjust |
 | 3b — Voice | In-place edits for voice/tone/formatting | Review flags; approve or adjust |
 | 3c — Human | In-place edits removing AI writing patterns | Review; these are usually safe to approve |
-| 3d — Grammar | In-place fixes + flags for manual review | Review the flags — these need judgment |
+| 3d — Readability | In-place sentence rewrites, grade level before and after, wall paragraphs flagged | Check the rewrites kept your meaning; split the flagged wall paragraphs yourself |
+| 3e — Grammar | In-place fixes + flags for manual review | Review the flags — these need judgment |
 | 4a — Visuals | Recommendations only (no edits) | Decide which diagrams to create |
 | 4b — Links | Cross-link candidates (no edits) | Decide which links to add |
 | 4c — SME | Domain accuracy findings by severity | HIGH findings need your attention; verify against source of truth |

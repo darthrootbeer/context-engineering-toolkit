@@ -16,7 +16,8 @@ Each file is a `SKILL.md` — a prompt-based instruction set loaded by Claude Co
 | `docs-style-check-structure.md` | `/docs-style-check-structure` | 3a | Checks required sections, headings, and Diataxis structural rules |
 | `docs-style-check-voice.md` | `/docs-style-check-voice` | 3b | Applies general style guide voice, tone, list formatting, and terminology rules |
 | `docs-style-check-human.md` | `/docs-style-check-human` | 3c | Removes AI writing patterns (em dashes, filler phrases, uniform sentences) |
-| `docs-grammar-spelling.md` | `/docs-grammar-spelling` | 3d | Grammar, spelling, and domain terminology check |
+| `../../skills/docs-readability-check/SKILL.md` | `/docs-readability-check` | 3d | Estimates reading grade level, finds dense sentence patterns, and rewrites them to the target level for the doc type |
+| `docs-grammar-spelling.md` | `/docs-grammar-spelling` | 3e | Grammar, spelling, and domain terminology check |
 | `docs-visuals-review.md` | `/docs-visuals-review` | 4a | Recommends diagrams and visual aids; Mermaid-first |
 | `docs-links-review.md` | `/docs-links-review` | 4b | Finds cross-link candidates against the full docs corpus |
 | `docs-sme-review.md` | `/docs-sme-review` | 4c | Domain accuracy, reader journey, naming collisions, technical clarity |
@@ -40,8 +41,8 @@ Placeholder files with structure and instructions are already in `_knowledge/`. 
 ## Pipeline order
 
 ```
-workspace → audit → split → structure → voice → human → grammar
-         → visuals → links → SME → changes → decisions → publish → verify
+workspace → audit → split → structure → voice → human → readability
+         → grammar → visuals → links → SME → changes → decisions → publish → verify
 ```
 
 ## Usage

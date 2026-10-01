@@ -46,7 +46,7 @@ Use the `Read` tool to read each doc completely. As you read, note:
 - Tree structures using `├─`, `└─`, `│`
 - Step sequences written inline as `A → B → C`
 
-For each one found, record: file, approximate line number, what it represents, and whether a Mermaid equivalent exists. A suitable Mermaid type exists for flows and trees; it does not exist for progress bars or UI mockups (those stay as ASCII or become screenshots). Add each as a Medium or Strong recommendation accordingly.
+For each one found, record: file, approximate line number, what it represents, and whether a Mermaid equivalent exists. A suitable Mermaid type exists for flows and trees; it does not exist for progress bars or UI mockups (those stay as ASCII or become screenshots). Add each as a Critical, High, or Medium recommendation accordingly, and tag it as a diagram (flows and trees) or an image (UI mockups and progress bars).
 
 ### 3. Identify user personas
 
@@ -66,7 +66,7 @@ Keep personas to 2–3 max. Be specific: "payment engineer" not "developer."
 
 For each non-trivial section in each doc, assess against these patterns. A section qualifies as a candidate if it matches one or more:
 
-**Strong candidates (high signal):**
+**High-signal candidates (rate Critical or High):**
 - **Multi-party flow**: 3+ parties interacting across steps (e.g., app ↔ customer browser ↔ third-party API), especially with redirects or async steps. → Mermaid sequence diagram
 - **Decision tree with consequences**: Branching logic where the wrong branch has a real cost (failed transaction, incorrect settlement, data loss). 2+ branches, each with distinct outcomes. → Mermaid flowchart
 - **Lifecycle with stages**: A named sequence of phases where each phase feeds the next, especially when a time constraint (expiry, deadline) is attached. → Mermaid flowchart or stateDiagram
@@ -90,8 +90,9 @@ For each non-trivial section in each doc, assess against these patterns. A secti
 ### 5. Build recommendations list
 
 For each candidate:
-- Record: doc filename, section heading, approximate line range, candidate strength (Strong / Medium / Low), recommended visual type, and the one-sentence problem statement (what the reader can't easily do without a visual).
-- Discard any Low candidate if there are already 3+ Strong or Medium recommendations for the same doc — keep the report focused.
+- Record: doc filename, section heading, approximate line range, candidate priority (Critical / High / Medium / Low), recommended visual type, and the one-sentence problem statement (what the reader can't easily do without a visual).
+- Tag each recommendation as either **diagram** (a Mermaid diagram, an ASCII upgrade, an annotated table, a worked example) or **image** (a screenshot, an illustration, a UI mockup). The tag decides which report section it goes in.
+- Discard any Low candidate if there are already 3+ Critical, High, or Medium recommendations for the same doc — keep the report focused.
 
 ### 6. Validate output directory
 
@@ -116,7 +117,8 @@ After writing, output:
 Visual audit complete.
 
 Docs reviewed: [N]
-Recommendations: [N Strong] strong, [N Medium] medium, [N Low] low
+Diagrams: [N Critical] critical, [N High] high, [N Medium] medium, [N Low] low
+Images:   [N Critical] critical, [N High] high, [N Medium] medium, [N Low] low
 
 Report: docs/output/_process/visual-audit/visual-audit-[slug].md
 ```
@@ -125,9 +127,9 @@ Report: docs/output/_process/visual-audit/visual-audit-[slug].md
 
 ## When Implementing Diagrams
 
-This section applies whenever Mermaid diagrams or visual aids are implemented as part of a ticket — whether as a follow-up to this skill's recommendations or as standalone work.
+This section applies whenever Mermaid diagrams or visual aids are implemented — whether as a follow-up to this skill's recommendations or as standalone work. Step A (save the diagram as a file) always runs. Step B (post it to a tracker) is optional.
 
-**Trigger:** Any time a Mermaid diagram or markdown visual is embedded into a doc as part of a tracked ticket.
+**Trigger:** Any time a Mermaid diagram or markdown visual is embedded into a doc.
 
 ### Step A — Save each diagram as a standalone file
 
@@ -141,13 +143,13 @@ Using `.md` (not `.mermaid` or `.mmd`) ensures the file can be previewed in Curs
 **File location:** `docs/output/_process/visual-audit/diagrams/`
 - Create if missing: `mkdir -p docs/output/_process/visual-audit/diagrams/`
 
-**File naming:** Descriptive kebab-case slug matching the diagram's content, not the ticket:
+**File naming:** Descriptive kebab-case slug matching the diagram's content, not a ticket number:
 - ✅ `balance-session-capture-flow.md`
 - ✅ `straddle-rules.md`
 - ✅ `discount-proration-mixed-cart.md`
-- ❌ `doc-1204-diagram-1.md`
+- ❌ `ticket-1204-diagram-1.md`
 
-**File content for all `.md` diagram files** — include a plain markdown header, then wrap Mermaid in a fenced code block. Do NOT include the ticket ID — this is redundant when the file is posted as a comment on that same ticket:
+**File content for all `.md` diagram files** — include a plain markdown header, then wrap Mermaid in a fenced code block. Do not include a ticket ID in the file:
 ```markdown
 ### [Short title]
 
@@ -162,45 +164,9 @@ Used in: `[filename]`, §[Section heading]
 
 **Line breaks in Mermaid nodes:** Use `<br />` for line breaks inside Mermaid diagram node labels. `\n` and `<br>` do not work in Mermaid syntax.
 
-### Step B — Post diagrams to the ticket as a threaded comment
+### Step B (optional) — Post diagrams to your tracker
 
-Post one **parent comment** summarising what's attached, then one **sub-comment per diagram** nested under it — **all in the same script, in the same response.** Never post the parent without immediately posting the sub-comments. If you can't post them all at once, don't post the parent yet. Use the Linear GraphQL API directly — `linearis` doesn't support replies.
-
-```python
-import json, urllib.request, os
-
-TOKEN = open(os.path.expanduser("~/.linear_api_token")).read().strip()
-HEADERS = {"Authorization": TOKEN, "Content-Type": "application/json"}
-
-def gql(query, variables=None):
-    payload = {"query": query, "variables": variables or {}}
-    req = urllib.request.Request("https://api.linear.app/graphql",
-        data=json.dumps(payload).encode(), headers=HEADERS)
-    with urllib.request.urlopen(req) as r:
-        return json.loads(r.read())
-
-ISSUE_ID = "<TICKET-ID>"  # e.g. "DOC-102"
-
-# 1. Create parent comment
-parent = gql(
-    "mutation($input:CommentCreateInput!){commentCreate(input:$input){success comment{id}}}",
-    {"input": {"issueId": ISSUE_ID, "body": "Here are the diagrams created as part of this ticket — one comment per diagram below."}}
-)
-parent_id = parent["data"]["commentCreate"]["comment"]["id"]
-
-# 2. One sub-comment per diagram (paste full .md file content as body)
-diagrams = [
-    open("docs/output/_process/visual-audit/diagrams/diagram-one.md").read(),
-    open("docs/output/_process/visual-audit/diagrams/diagram-two.md").read(),
-]
-for body in diagrams:
-    gql(
-        "mutation($input:CommentCreateInput!){commentCreate(input:$input){success}}",
-        {"input": {"issueId": ISSUE_ID, "body": body, "parentId": parent_id}}
-    )
-```
-
-Do not use `linearis embeds upload` or `### Attachments` sections for diagram files.
+If your team tracks documentation work in a ticket tool, post one parent comment that summarises what is attached, then one sub-comment per diagram under it, all in the same pass. Never post the parent without the sub-comments. Use your tracker's API, and read the credential from an environment variable, never from a file path baked into the skill. If you do not use a tracker, stop after Step A.
 
 ---
 
@@ -211,7 +177,7 @@ Do not use `linearis embeds upload` or `### Attachments` sections for diagram fi
 
 This report was produced as part of the product documentation team's structured conversion process for [brief description of the doc or doc set]. It reviews each document as its target reader would and identifies where visual aids would most improve comprehension.
 
-Below you'll find prioritized recommendations sorted by impact — Strong where a visual clearly outperforms prose, Medium where it helps but prose is adequate — followed by a "Not recommended" section logging what was deliberately skipped.
+Below you'll find prioritized recommendations, split into diagrams and images and sorted by impact: Critical where the reader cannot finish the task from prose alone, High where a visual clearly outperforms prose, Medium where it helps but prose is adequate, Low where it is optional. A "Not recommended" section logs what was deliberately skipped.
 
 ## Who reads these docs
 
@@ -219,20 +185,41 @@ Below you'll find prioritized recommendations sorted by impact — Strong where 
 
 ---
 
-## Recommendations (sorted by strength)
+## Diagrams
+
+Mermaid diagrams, ASCII upgrades, tables, and worked examples: anything that can be written directly in markdown without outside tooling. Sorted by priority: Critical first, then High, Medium, Low.
 
 ---
 
 ### [N]. [Short label for the recommendation]
-**Strength:** Strong / Medium / Low
+**Priority:** Critical / High / Medium / Low
 **Doc:** `[filename]`
 **Location:** [Section heading]
-**Visual type:** [Mermaid sequence diagram / Mermaid flowchart / Mermaid stateDiagram / annotated table / screenshot / graphic image]
+**Visual type:** [Mermaid sequence diagram / Mermaid flowchart / Mermaid stateDiagram / annotated table / ASCII upgrade]
 **Problem it solves:** [One sentence. What the reader can't easily do with the text alone — don't describe the diagram, describe the gap.]
 
 ---
 
-[Repeat for each recommendation]
+[Repeat for each diagram recommendation]
+
+---
+
+## Images
+
+Screenshots, UI mockups, architecture illustrations, and anything that needs outside tooling or design work. Sorted by priority.
+
+---
+
+### [N]. [Short label for the recommendation]
+**Priority:** Critical / High / Medium / Low
+**Doc:** `[filename]`
+**Location:** [Section heading]
+**Visual type:** [screenshot / UI mockup / architecture illustration / graphic image]
+**Problem it solves:** [One sentence. What the reader can't easily do with the text alone.]
+
+---
+
+[Repeat for each image recommendation. If none, write: *No image recommendations — all candidates are addressable with diagrams.*]
 
 ---
 
@@ -248,9 +235,9 @@ Below you'll find prioritized recommendations sorted by impact — Strong where 
 **Voice:** Do not mention AI or automation tools. "The Product documentation team's structured conversion process" is the right framing for the intro sentence.
 
 **Ordering within the report:**
-1. Strong recommendations first, in doc order (top of doc → bottom)
-2. Medium recommendations next, in doc order
-3. Low recommendations last
+1. Diagrams first, then images
+2. Within each section: Critical first, then High, Medium, Low
+3. Within the same priority: in doc order (top of doc → bottom)
 
 ---
 
@@ -273,7 +260,12 @@ Use these Mermaid diagram types as defaults. Recommend a graphic image only when
 
 ## Scoring Criteria (reference)
 
-**Strong** — meets one or more:
+**Critical** — the text is genuinely incomprehensible without a visual; a reader cannot complete their task from prose alone:
+- Multi-party flow with 5+ parties, or async callbacks where the sequence is ambiguous
+- State machine with 6+ states and conditional transitions that prose cannot describe unambiguously
+- Architecture where component relationships are described only in prose across multiple paragraphs
+
+**High** — meets one or more:
 - Flow involves 3+ parties or 5+ steps, especially with redirects, async callbacks, or time constraints
 - Decision tree where misunderstanding a branch causes a real failure (wrong API call, incorrect settlement, data loss)
 - Math or proration in prose where the reader must hold multiple intermediate values in their head

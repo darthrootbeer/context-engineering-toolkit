@@ -2,6 +2,8 @@
 
 # Fixtures
 
+These files were written by directing Claude Code: the author set the rules and the expected results, reviewed the output, and checked the scores against the written rules.
+
 Everything in this folder is invented. Robin Sample is not a real person, the companies do not exist, and every link points at an example domain. The numbers were chosen for the tests and match no real pay, years or thresholds.
 
 ## Fictional names used

@@ -1,72 +1,174 @@
 # Pattern: a typed, size-bounded memory system
 
-A way to give an AI coding agent persistent memory across sessions that stays useful instead of turning into an unstructured, ever-growing dump that eventually can't be read in one pass.
+A way to give an AI coding agent memory that lasts across sessions and stays readable, instead of an ever-growing dump nobody can load in one pass.
+
+Written for Claude Code's file-based memory, where the limits below are real. Other tools will have different limits. Find yours before copying the numbers.
 
 ## The problem
 
-Long-lived agent memory — facts, preferences, and context that should persist between separate conversations — has an obvious failure mode: everything gets written to one growing file or one growing collection with no structure. Early on this works fine. Months in, it doesn't:
+Long-lived agent memory has an obvious failure mode: everything goes into one growing file with no structure. Early on that works. Months in:
 
-- The index (or the memory itself, if there's no index) crosses whatever size limit the harness can load in one read, and content past that point becomes invisible
-- There's no way to tell a standing behavioral rule from a one-time fact that's now stale
-- Corrections and confirmations both get written the same way, so the agent can't distinguish "this was validated, keep doing it" from "this was a mistake, don't repeat it"
-- Nobody prunes, because there's no criterion for what's safe to prune
+- The index crosses the size the harness will load, and everything past that point is cut off from the session.
+- A standing rule and a one-time fact look the same, so stale facts never get pruned.
+- Corrections and confirmations get written the same way, so the agent cannot tell "keep doing this" from "never do this again."
+- Nobody prunes, because there is no rule for what is safe to remove.
 
-## The fix: typed memories, a size-bounded index, and a maintenance contract
+## The fix: typed memories, a bounded index, a maintenance contract
 
-Three separate design decisions, each solving one part of the problem.
+### 1. Types, not one pile
 
-### 1. Memory types, not one undifferentiated pile
-
-Give every memory a type that describes *why* it's being kept, not just what it says. A working set of types that covers most of what an agent needs to remember:
+Give each memory a type that says why it is kept:
 
 | Type | What it holds | Written when |
 |---|---|---|
-| `user` | Facts about who the operator is — role, expertise, how they like to work | Learned incidentally, or stated directly |
-| `feedback` | A correction *or* a confirmation of an approach — both matter | The operator corrects a mistake, or explicitly validates a non-obvious choice |
-| `project` | Ongoing state — decisions, deadlines, who's doing what | Learned during work, converted to absolute dates |
-| `reference` | A pointer to where information lives in an external system | Learned once, rarely changes |
+| `user` | Who the operator is: role, expertise, how they like to work | Learned in passing, or stated |
+| `feedback` | A correction or a confirmation of an approach | The operator corrects a mistake, or validates a non-obvious choice |
+| `project` | Ongoing state: decisions, deadlines, who is doing what | Learned during work, with absolute dates |
+| `reference` | A pointer to where information lives elsewhere | Learned once, rarely changes |
 
-The `feedback` type matters more than it looks — most memory systems only capture corrections ("don't do X"), which silently teaches the agent to avoid things without ever confirming what to keep doing. Capturing confirmations too ("yes, that approach was right, keep doing it") prevents an agent from second-guessing a validated judgment call in a later session.
+The type goes in each file's frontmatter. In a real memory folder of several hundred files these four types cover everything, and `feedback` is by far the largest, because every correction becomes one.
 
-### 2. A hard-bounded index, with content living in linked files
+Capture confirmations as well as corrections. A memory system that only records "don't do X" teaches the agent to avoid things without ever saying what to keep doing. "Yes, that approach was right" stops the agent from second-guessing a good call in a later session.
 
-The index is not the memory — it's a table of contents. Each entry is a single line: a short title, a link to the full content, and a compressed hint of what it's about. The full content lives in a separate small file per topic, linked from the index by name.
+### 2. A bounded index, content in linked files
+
+The index is a table of contents, not the memory. Each entry is one line: a short title, a link, a few words of gist. The full content lives in one small file per topic.
 
 ```markdown
 # Memory Index
 
 ## Feedback
-- [Terse commits](feedback_terse_commits.md) — imperative mood, no body unless asked
-- [Test before merge](feedback_test_before_merge.md) — corrected 2026-03: skipped tests once, broke prod
+- [Terse commits](feedback_terse_commits.md) imperative mood, no body unless asked
+- [Test before merge](feedback_test_before_merge.md) skipped tests once, broke prod
 
 ## Project
-- [Q3 migration](project_q3_migration.md) — deadline 2026-09-01, blocks two other repos
+- [Q3 migration](project_q3_migration.md) deadline 2026-09-01, blocks two repos
 
 ## Reference
-- [Error tracking lives in Sentry](reference_error_tracking.md) — project slug: example-api
+- [Error tracking lives in Sentry](reference_error_tracking.md) project slug: example-api
 ```
 
-Because the index is deliberately kept small — a hard line-count or byte ceiling that the harness can always load in one pass — it can never silently exceed what gets read at session start. New memories add one line to the index and one new linked file; they never make the index itself unreadable.
+A topic file looks like this:
 
-### 3. A documented, non-destructive compaction process
+```markdown
+---
+name: feedback-test-before-merge
+description: one-line summary used to decide relevance
+metadata:
+  type: feedback
+---
+Run the test suite before merging.
+**Why:** a skipped test run once shipped a broken build.
+**How to apply:** before any merge command, run tests and read the result.
+```
 
-Once the index approaches its size ceiling, it needs a maintenance pass — but the fix must never delete memory content, only reorganize the pointers to it:
+### 3. Know the real limits
 
-1. Check for dead links — an index entry pointing at a file that's empty or missing gets dropped (nothing there to point to).
-2. Merge verbose entries into a denser bundled-link format — several short entries on one line instead of one line each, cutting explanatory clauses to a few words while keeping every link intact.
-3. Drop an index line only for a genuinely resolved one-time event that's now superseded by a live status document elsewhere — never for a standing rule or preference that's still true.
-4. Re-check the size after compacting, and aim for real headroom, not just barely under the ceiling.
+In Claude Code, the memory index is read in full at session start, and it has two limits that apply separately: **200 lines** and **25,000 bytes**. Whichever you hit first is the cutoff.
 
-This is a content-editing pass, not a data-loss event — every topic file survives; only how densely the index points to it changes.
+Three details that are easy to miss:
 
-## Why this is genuinely information architecture, not just "note-taking for AI"
+- **The limits apply to every file, not just the index.** A topic file over 200 lines gets cut the same way.
+- **Going over is loud, not silent.** The harness cuts at a line boundary and adds a visible warning naming the file and the limit. Everything past the cut is still missing from that session, so treat the warning as a fault to fix, not noise.
+- **Measure bytes, not characters.** The limit is in bytes. Emoji and accented letters are several bytes each, so a character count undercounts. Use `wc -c file`, never a script that counts decoded characters.
 
-The interesting part of this pattern isn't the file format — it's that it's IA applied to a reader that consumes information differently than a person does. A human skimming a wiki tolerates loose structure because they can visually scan and backtrack. An agent reading a memory index at the start of every session either gets the whole picture in one read or effectively doesn't have it — there's no skimming, no "I'll come back to that section later." That constraint (bounded read, no backtracking) is what forces the type system, the size ceiling, and the non-destructive compaction discipline. Designing for that constraint, deliberately, is the actual skill — not the specific file layout above, which is one implementation of it.
+Treat the numbers as working values that can change with the tool version. Re-check them when you update, and keep your warning threshold well under them: 80 percent (160 lines or 20,000 bytes) leaves room to compact on purpose instead of in a panic.
+
+### 4. A second tier: topic index files
+
+When the main index is capped, memories that no longer fit do not get deleted. They go into topic index files, such as `INDEX-todoist.md` or `INDEX-writing.md`, each listing the memories for one area. The main index links to each topic index with a short count and a line saying "read the relevant one before working in that area."
+
+```markdown
+## More memories: topic indexes
+- [Git and PRs](INDEX-git.md) 14 entries
+- [Todoist](INDEX-todoist.md) 5 entries
+- [Writing and output](INDEX-writing.md) 9 entries
+```
+
+The agent reads the one that matches the task. The cost is that these are not auto-loaded, so the main index must say they exist and when to open them. In the real setup this tier holds a dozen-plus files and is the most important change that came after the first version of this pattern.
+
+### 5. A weekly automatic check
+
+A size limit nobody checks gets crossed. Run a small script on a schedule that checks the index and every topic file against both limits, flags any topic file the index does not link to, and sends a message only when something needs a human. A weekly cron entry is enough:
+
+```
+0 22 * * 0  /path/to/memory-size-check.sh     # Sundays, 10pm
+```
+
+Make silence mean "clean" and nothing else. In the real setup a cron entry once pointed at a script that had never been written. Cron does not report a missing target, so a check that never ran looked like a check that found nothing, and the index drifted toward its limit unwarned. The fix was a wrapper that logs on every run, and tells you if it cannot find the checker. A job that has never run and a job that found nothing must not look the same.
+
+### 6. Compaction that never deletes content
+
+When the index nears its limit, reorganize the pointers. Never delete memory content.
+
+1. Never delete a topic file.
+2. Drop an index line whose file is empty or missing.
+3. Merge verbose entries into a denser bundled format: several short entries on one line, explanatory clauses cut to a few words, every link kept.
+4. Drop an index line only for a resolved one-time event that a live status document now covers. Never for a standing rule or preference that is still true.
+5. Before moving a note to an archive folder, search your rules, skills and scripts for its name. If something still cites it, keep it live.
+6. Check the size again in bytes and leave real headroom.
+7. Confirm every link in the index still resolves to a file.
+
+Bundled format, before and after:
+
+```markdown
+- [Terse commits](feedback_terse_commits.md) imperative mood, no body unless asked
+- [Test before merge](feedback_test_before_merge.md) skipped tests once, broke prod
+
+**Git:** [Terse commits](feedback_terse_commits.md) imperative, no body · [Test before merge](feedback_test_before_merge.md) tests first
+```
+
+## Why this is information architecture
+
+The interesting part is not the file format. It is that this is information architecture for a reader that consumes information differently from a person. A person can skim a wiki and backtrack. An agent reading an index at the start of a session gets the whole picture in one pass or does not have it. That constraint, a bounded read with no backtracking, is what forces the types, the size limits, the second-tier indexes and the habit of compacting without deleting.
 
 ## When to use this pattern
 
-Any agent workflow that needs to remember things across sessions longer than a single conversation, where the operator doesn't want to repeat the same context, correction, or preference more than once.
+Any agent workflow that has to remember things beyond one conversation, where you do not want to repeat the same context, correction or preference twice.
 
 ## When not to
 
-A single-session tool with no persistent state doesn't need this — it's solving a problem (index growth over months of accumulated memory) that doesn't exist yet for a short-lived or stateless workflow.
+A single-session tool with no saved state. It is solving index growth over months, which a stateless workflow does not have.
+
+## Related
+
+- [Rules-index architecture](rules-index-architecture.md) uses the same one-index-many-files idea for standing rules.
+- The [docs pipeline](../pipelines/docs-pipeline/) keeps a small bounded reference set of its own: a glossary and per-concern style guides in `_knowledge/`, read by each stage instead of re-explained each time.
+
+## How this was checked
+
+Every claim was compared against a working Claude Code memory folder: the four types (counted from file frontmatter), the index size against both limits, the topic index files, the weekly cron entry and its wrapper, and the written compaction steps. The limit numbers are the working values from that setup. They are not read from the program at run time, so re-check them for your version. The example files were written for this page.
+
+## Prompt for your AI model
+
+Give any AI model this file plus one of the prompts below. Paste the file text where the prompt says `[PASTE FILE]`.
+
+**1. Understand and teach it**
+
+```
+Here is a design pattern document: [PASTE FILE]
+
+Explain it to me as if I have never given an AI tool long-term memory. Use a different everyday analogy than the one in the document. Then ask me three questions, one at a time, that check I understand the difference between a correction and a confirmation, why the index has a size limit, and why compaction never deletes topic files. Wait for my answer before each next question.
+```
+
+**2. Review it against your setup**
+
+```
+Here is a design pattern document: [PASTE FILE]
+
+Below is a listing of my memory or notes folder with file sizes, plus the tool I use: [PASTE LISTING AND TOOL NAME]
+
+Tell me which parts of the pattern my setup already has and which it lacks. Flag any number in the document (line limit, byte limit) that may be different for my tool and tell me how to find the real one. Name my biggest risk of hitting a size limit and one check I could automate.
+```
+
+**3. Adapt and test it**
+
+```
+Here is a design pattern document: [PASTE FILE]
+
+My tool is: [YOUR AGENT TOOL]. Here are five things I want it to remember: [LIST FIVE FACTS, PREFERENCES AND CORRECTIONS]
+
+Sort each into a memory type, write the topic files and the index for them, and then write a short script that checks the index against a size limit in bytes. Finish with a test: how I check the next session actually loaded the index, and how I confirm the size check fails when I add too much.
+```
+
+**How these prompts were checked.** Each of the three prompts was run once with a small model (Claude Haiku) through the `claude` command line, with the full text of this file pasted in and sample details filled in. All three gave an on-topic answer that matched what this file says. In two runs a placeholder was left unfilled by my test setup, and the model noticed and said so or asked for the missing text instead of making something up. That is the behavior you want. One run per prompt is a light check, not a benchmark, so read the answers critically.

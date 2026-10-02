@@ -1,0 +1,154 @@
+# FICTIONAL EXAMPLE DATA. Not a real person.
+#
+# A second career profile that passes scripts/validate_profile.py with no errors
+# and no warnings, but has weak spots only a careful reader can find. It is the
+# held-out test file for the "find gaps in my central file" prompt: the prompt
+# was written and tuned against fixtures/gappy-profile.yaml, and nothing in the
+# prompt describes the gaps in this one. The list of planted gaps is kept in
+# tests/test_validate_profile.py, not here.
+schema_version: 1
+person:
+  display_name: Quinn Example
+  target_roles: [API Technical Writer]
+  years_experience: 14
+  location_label: Region C
+  working_style: gather_from_experts
+sources:
+  - {key: board-a, emoji: "📋", label: Job board A}
+hard_blocks:
+  - id: non_remote
+    label: "🏢 Must be in an office"
+    why: Quinn works from home and will not relocate.
+    match_hints: [remote, work from home, distributed team]
+  - id: crypto
+    label: "🪙 Cryptocurrency products"
+    why: Quinn does not want to write for speculative trading products.
+    match_hints: [crypto, token sale, nft]
+named_exceptions: []
+comp:
+  currency: USD
+  floor: 64000
+  min: 69000
+  open_ask: 76000
+  target: 83000
+  stretch_ceiling: 97000
+culture:
+  perks:
+    - {id: unlimited_pto, label: Unlimited PTO, kind: big}
+    - {id: learning_budget, label: Learning budget, kind: nice}
+  low_time_off_days: 15
+  hustle_phrases: [rockstar, fast-paced, always on]
+  free_phrases: [fast-paced, flexible hours]
+soft_flags:
+  - {id: vague_title, label: Vague job title, why: Often means the role is still being decided.}
+benefits_and_terms:
+  - {id: health, label: Health insurance from day one, why: Quinn pays for a dependent.}
+company_criteria:
+  high_interest:
+    - {name: Fictional Api Tools Inc., why: Builds tools Quinn already uses.}
+  good_not_dream: []
+lanes:
+  - name: api-docs
+    emoji: "📚"
+    description: Roles writing and maintaining API reference and guides.
+    requirements:
+      - id: api_owner
+        label: "🔌 Owns the API docs"
+        severity: strong
+        why: Quinn wants to own the reference, not edit someone else's.
+      - id: expert_access
+        label: "🧑‍🔬 Regular access to engineers"
+        severity: strong
+        why: Accurate API docs need answers from the people who built it.
+      - id: small_team
+        label: "👥 Small team"
+        severity: soft
+    autonomy:
+      positive_signals: [own the roadmap, self-directed]
+      negative_signals: [tickets assigned daily]
+    keyword_signals:
+      strong_positive:
+        - {phrase: docs as code, why: Matches how Quinn works.}
+      positive: []
+      negative: []
+      strong_negative: []
+    known_gaps:
+      - {id: gap_sql, label: SQL, skill_id: sql}
+employers:
+  - id: harbor
+    name: Harbor Example Works
+    title: Technical Writer
+    start: 2021-03
+    end: 2023-06
+    summary: Wrote the admin and API guides for a scheduling product.
+  - id: tidewater
+    name: Tidewater Placeholder Inc.
+    title: Senior Technical Writer
+    start: 2023-07
+    end: present
+    summary: Runs the help center and its build for a developer platform.
+evidence:
+  - id: ev-harbor-onboarding
+    employer_id: harbor
+    claim: Wrote the customer onboarding guide that new accounts follow in their first week.
+    dates: {start: 2018-01, end: 2018-06}
+    authorship: WROTE
+    proof: checked
+    source: {type: document, ref: "onboarding-guide.pdf#overview", captured_on: 2026-10-01}
+  - id: ev-tidewater-migration
+    employer_id: tidewater
+    claim: Wrote every page of the help center again when it moved to a docs-as-code build.
+    dates: {start: 2024-01, end: 2024-09}
+    authorship: REVIEWED
+    proof: checked
+    source: {type: link, ref: "https://example.com/fictional/help-center", captured_on: 2026-10-01}
+  - id: ev-tidewater-glossary
+    employer_id: tidewater
+    claim: Built the product glossary and the rule for adding terms to it.
+    dates: {start: 2024-02, end: 2024-03}
+    authorship: WROTE
+    proof: unchecked
+    source: {type: interview, ref: "interview:2026-10-01:s2.q5", captured_on: 2026-10-01}
+skills:
+  - id: docs_as_code
+    label: Docs as code
+    group: tooling
+    match: ['docs.as.code|docs-as-code']
+    self_score: 4
+    next: more
+    last: 2y
+    how: [self, team]
+    evidence_ids: [ev-tidewater-migration]
+  - id: user_guides
+    label: User guides and onboarding
+    group: writing
+    match: ['onboarding|user guide']
+    self_score: 4
+    next: neutral
+    last: 2y
+    how: [self]
+    evidence_ids: [ev-harbor-onboarding]
+  - id: glossaries
+    label: Glossaries and term lists
+    group: writing
+    match: ['glossary|terminology']
+    self_score: 3
+    next: neutral
+    last: 2y
+    how: [self]
+    evidence_ids: [ev-tidewater-glossary]
+  - id: sql
+    label: SQL
+    group: data
+    match: ['\bsql\b']
+    self_score: 1
+    next: neutral
+    last: 5y
+    how: [self]
+    evidence_ids: []
+writing_samples:
+  - {id: ws-help-center, title: Help center home page, link: "https://example.com/fictional/help-center", evidence_id: ev-tidewater-migration}
+meta:
+  updated: 2026-10-01
+  intake:
+    stages_done: [1, 2, 3, 4, 5, 6]

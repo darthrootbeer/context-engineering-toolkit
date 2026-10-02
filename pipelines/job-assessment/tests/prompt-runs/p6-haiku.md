@@ -1,11 +1,9 @@
 <!-- FICTIONAL EXAMPLE DATA. Not a real person. Saved by tests/prompt-runs/run_prompts.py -->
 # Prompt run: Fix errors, on haiku
 
-Note: the pay figures in this record were changed after the run to fictional ones. Nothing else was edited; the scores and verdicts are as recorded.
-
 - Prompt file: `prompts/06-fix-errors.txt`
 - Date: 2026-10-01. Model alias `haiku`, which ran as `claude-haiku-4-5-20251001` (Claude Code can add a small helper model call of its own).
-- Turns: 1. Cost: $0.03 (the simulated user's calls are not included).
+- Turns: 1. Cost: $0.02 (the simulated user's calls are not included).
 - Grade: see `GRADES.md`.
 
 ## Conversation
@@ -18,10 +16,10 @@ I'm attaching the output of a failed command from this tool (the validator, the 
 
 ### Model
 
-# Problem 1: evidence[2].authorship
-**Cause:** The authorship value "AUTHORED" is not in the allowed list. Based on the claim "Rewrote the release notes template," WROTE is the appropriate value.
+## Problem 1: evidence[2].authorship
+**Cause:** The value `AUTHORED` is not in the allowed list for the authorship field.
 
-**Location:** `evidence[2].authorship`
+**Path:** `evidence[2].authorship`
 
 **Fix:**
 ```yaml
@@ -34,28 +32,28 @@ authorship: WROTE
 
 ---
 
-# Problem 2: skills[1].evidence_ids
-**Cause:** The skill references `ev-placeholder-style-guide`, but no evidence entry with that id exists in the file. The evidence section only contains `ev-northwind-api-rebuild`, `ev-placeholder-docs-ci`, and `ev-placeholder-release-notes`.
+## Problem 2: skills[1].evidence_ids
+**Cause:** The skill "Style guides" references `ev-placeholder-style-guide`, but that evidence id doesn't exist in the file (only three evidence items are defined).
 
-**Location:** `skills[1].evidence_ids`
+**Path:** `skills[1].evidence_ids`
 
-**Fix:** You must either create a matching evidence entry or change the reference to an existing evidence id. If this skill should reference an existing entry, replace the reference:
+**Fix:** Either remove the reference or create the missing evidence. If removing:
 ```yaml
 # Before
 evidence_ids: [ev-placeholder-style-guide]
 
 # After
-evidence_ids: [<existing-evidence-id>]  # e.g., ev-placeholder-docs-ci
+evidence_ids: []
 ```
 
 ---
 
-# Problem 3: comp
-**Cause:** The compensation values are not in ascending order—min (98000) exceeds open_ask (85000). The correct order must be: floor ≤ min ≤ open_ask ≤ target ≤ stretch_ceiling.
+## Problem 3: comp pay order
+**Cause:** The `min` value (98000) exceeds `open_ask` (85000), violating the required ordering: floor ≤ min ≤ open_ask ≤ target ≤ stretch_ceiling.
 
-**Location:** `comp.min` and `comp.open_ask`
+**Path:** `comp.min` and `comp.open_ask`
 
-**Fix:** Reorder the pay values:
+**Fix:** You need to decide the correct values. Choose one:
 ```yaml
 # Before
 floor: 75000
@@ -64,7 +62,7 @@ open_ask: 85000
 target: 100000
 stretch_ceiling: 175000
 
-# After
+# After (choose your value)
 floor: 75000
 min: <your value>
 open_ask: <your value>
@@ -74,44 +72,39 @@ stretch_ceiling: 175000
 
 ---
 
-# Problem 4: evidence[1].proof
-**Cause:** Interview sources cannot have `proof: checked` because interviews cannot be independently verified like documents or links. Either change the proof to `unchecked` or change the source type to document/link.
+## Problem 4: evidence[1].proof
+**Cause:** Interview sources cannot be marked as `checked` proof since there's no document to verify; they must use `unchecked`.
 
-**Location:** `evidence[1].proof` and `evidence[1].source.type`
+**Path:** `evidence[1].proof`
 
 **Fix:**
 ```yaml
 # Before
 proof: checked
-source: {type: interview, ref: "interview:2026-10-01:s2.q3", captured_on: 2026-10-01}
 
-# After (option 1: mark proof as unchecked)
+# After
 proof: unchecked
-source: {type: interview, ref: "interview:2026-10-01:s2.q3", captured_on: 2026-10-01}
-
-# After (option 2: change source to document/link and keep checked)
-proof: checked
-source: {type: document, ref: "<document-path>", captured_on: 2026-10-01}
 ```
 
 ---
 
-# Problem 5: skills[2]
-**Cause:** A self_score of 5 requires recent use, but `last: never` indicates no recent use. Either lower the score or update the last field to a recent timeframe.
+## Problem 5: skills[2] score/last mismatch
+**Cause:** A `self_score` of 5 requires recent real-world use, but `last: never` indicates no recent experience.
 
-**Location:** `skills[2]` (graphql skill)
+**Path:** `skills[2]`
 
-**Fix:**
+**Fix:** Either lower the score or update the last-used date:
 ```yaml
 # Before
 self_score: 5
 last: never
 
-# After (option 1: lower the score)
-self_score: <your value>  # 3 or lower
+# After (choose one)
+# Option A: lower the score
+self_score: 3
 last: never
 
-# After (option 2: update last to recent use)
+# Option B: add recent use
 self_score: 5
-last: <your value>  # e.g., 1y, 6m, 1m
+last: <your value>  # e.g., 1y, 2y, 6m
 ```

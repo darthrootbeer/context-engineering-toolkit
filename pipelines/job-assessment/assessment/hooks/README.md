@@ -42,10 +42,10 @@ Add it to your Claude Code settings (`.claude/settings.json` in a project, or th
 }
 ```
 
-The guard needs `python3` and nothing else. You can also run the same check by hand:
+The guard needs `python3` and nothing else. You can also run the same check by hand. This example checks the card the quickstart in the main README wrote:
 
 ```text
-python3 assessment/scripts/check_email.py out/example-co-docs-writer.html
+python3 assessment/scripts/check_email.py /tmp/ja-out/email/*.html
 ```
 
 It prints `check_email: card passes` and exits 0, or lists each problem and exits 2.

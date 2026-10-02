@@ -83,7 +83,32 @@ FILE=$(echo "$INPUT" | jq -r '.tool_input.file_path // ""')
 exit 0
 ```
 
-Register both in `~/.claude/settings.json` under `hooks`, each with a `matcher` for the tool names it should watch. The marker is keyed by session id so one session's read does not clear another session's block.
+Register both in `~/.claude/settings.json` under `hooks`. Each event holds a list of entries, and each entry has a `matcher` (a tool name, or several joined with `|`) and a `hooks` list of commands:
+
+```json
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          { "type": "command", "command": "~/.claude/hooks/deploy-changelog-guard.sh" }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Read|Edit|Write",
+        "hooks": [
+          { "type": "command", "command": "~/.claude/hooks/deploy-changelog-marker.sh" }
+        ]
+      }
+    ]
+  }
+}
+```
+
+The event name (`PreToolUse`, `PostToolUse`) is the key, not a field inside the entry. The matcher is one string, not a list. List every tool that can touch the file, or a write through the tool you left out slips past. The marker is keyed by session id so one session's read does not clear another session's block.
 
 ## Three sharp edges
 
@@ -124,6 +149,8 @@ Give any AI model this file plus one of the prompts below. Paste the file text w
 Here is a design pattern document: [PASTE FILE]
 
 Explain it to me as if I know what a script is but have never used hooks. Use a different everyday analogy than the one in the document. Then ask me three questions, one at a time, that check I understand why exit code 2 matters and why a guard needs a release path. Wait for my answer before each next question.
+
+A good answer uses an analogy that is not the document's, covers why exit 2 blocks and exit 1 does not, and explains why a guard with no release path locks the agent out. It asks exactly three questions, one at a time, and waits for my answer before the next.
 ```
 
 **2. Review it against your setup**
@@ -134,6 +161,8 @@ Here is a design pattern document: [PASTE FILE]
 Below is a description of my own agent setup (tool, hook support, rules I currently rely on): [DESCRIBE YOUR SETUP]
 
 List which parts of the pattern apply to my setup and which do not. Flag any claim that may be false for my tool, for example how it treats exit codes. Name one rule of mine that is a good candidate for a guard and one that is not, with a reason for each.
+
+A good answer sorts the pattern into parts that apply and parts that do not for my stated tool, says plainly where the tool's exit-code behavior should be checked and does not assume it, and names one rule that suits a guard and one that does not, with a reason for each.
 ```
 
 **3. Adapt and test it**
@@ -144,6 +173,8 @@ Here is a design pattern document: [PASTE FILE]
 My rule is: [YOUR "ALWAYS DO X FIRST" RULE]. My tool is: [YOUR AGENT TOOL].
 
 Write the guard and marker scripts for my rule in my tool's hook format. Then give me a three-step test plan: one test where the guard must block, one where it must allow after the marker is written, and one where I confirm the release path works. Tell me what output proves each test passed.
+
+A good answer gives a guard that exits 2 with a message on stderr and a marker script keyed by session id, shows the exact settings entry for my tool, and watches every tool that can change the file (for example both Edit and Write). Its three tests cover block, allow after the marker, and the release path, each with the output that proves it passed.
 ```
 
-**How these prompts were checked.** Each of the three prompts was run once with a small model (Claude Haiku) through the `claude` command line, with the full text of this file pasted in and sample details filled in. All three gave an on-topic answer that matched what this file says. In two runs a placeholder was left unfilled by my test setup, and the model noticed and said so or asked for the missing text instead of making something up. That is the behavior you want. One run per prompt is a light check, not a benchmark, so read the answers critically. I did not save those answers, so there is no record to read here, unlike the saved runs in `pipelines/job-assessment/tests/`.
+**How these prompts were checked.** On 2026-10-01 each of the three prompts was run once on Claude Sonnet and once on Claude Haiku, with this file pasted in and sample details filled in. A Claude model (Sonnet 5.5) graded each answer against the "A good answer ..." sentence under the prompt. I have not re-read every answer. Sonnet met all three. Haiku met the first, and met the second and third only in part: it told me not to check the exit-code claim for my tool, and its guard matched only a relative path, so an absolute path would pass it. The settings example above was added after an earlier Haiku run invented the wrong registration shape, and the saved Haiku run now has it right. The answers are in [`tests/prompt-runs/`](tests/prompt-runs/).

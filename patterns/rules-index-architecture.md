@@ -141,6 +141,8 @@ Give any AI model this file plus one of the prompts below. Paste the file text w
 Here is a design pattern document: [PASTE FILE]
 
 Explain it to me as if I have one long instructions file and have never split it. Use a different everyday analogy than the one in the document. Then ask me three questions, one at a time, that check I understand why splitting files does not shrink what is loaded, and what the two opt-outs are. Wait for my answer before each next question.
+
+A good answer uses an analogy that is not the document's, says that splitting a file does not shrink what is loaded at startup, and names both opt-outs. It asks exactly three questions, one at a time, and waits for my answer before the next.
 ```
 
 **2. Review it against your setup**
@@ -151,6 +153,8 @@ Here is a design pattern document: [PASTE FILE]
 Below is the folder listing and approximate line counts of my own instruction files, plus the agent tool I use: [PASTE LISTING AND TOOL NAME]
 
 Tell me whether my setup needs this pattern yet. Flag any claim in the document that may not be true for my tool, especially about what gets loaded at startup. Suggest which of my files should be split out, which should stay, and which belong in a reference folder, and give a reason for each.
+
+A good answer judges from my listing whether the pattern is needed yet, says which startup-loading claims should be checked for my tool and does not assume them, and sorts my files into split out, stay, and reference folder with a reason for each.
 ```
 
 **3. Adapt and test it**
@@ -163,6 +167,8 @@ My instructions file is pasted below. My tool is: [YOUR AGENT TOOL].
 [PASTE YOUR INSTRUCTIONS FILE]
 
 Propose a split into domain files with an index table, and tell me which files should be excluded from startup loading. Then give me a way to test that the split worked: how to measure total loaded size before and after, and one question to ask the agent that only a specific rule file can answer.
+
+A good answer proposes domain files and an index table built from my file's own contents, names which files to exclude from startup loading, and gives a before-and-after way to measure loaded size plus one question that only a specific rule file can answer.
 ```
 
-**How these prompts were checked.** Each of the three prompts was run once with a small model (Claude Haiku) through the `claude` command line, with the full text of this file pasted in and sample details filled in. All three gave an on-topic answer that matched what this file says. In two runs a placeholder was left unfilled by my test setup, and the model noticed and said so or asked for the missing text instead of making something up. That is the behavior you want. One run per prompt is a light check, not a benchmark, so read the answers critically. I did not save those answers, so there is no record to read here, unlike the saved runs in `pipelines/job-assessment/tests/`.
+**How these prompts were checked.** On 2026-10-01 each of the three prompts was run once on Claude Sonnet and once on Claude Haiku, with this file pasted in and sample details filled in. A Claude model (Sonnet 5.5) graded each answer against the "A good answer ..." sentence under the prompt. I have not re-read every answer. Sonnet met all three. Haiku met the first and only partly met the other two: it checked only one of the document's claims about startup loading, invented a saving figure, and told me to split a file of about 15 lines when this document says that is too small to bother. The answers are in [`tests/prompt-runs/`](tests/prompt-runs/).

@@ -128,7 +128,7 @@ Skip if `{PROJECT_PATH}/_shared` already exists. If `SHARED_CONFIG_DIR` is unset
 
 ### CLAUDE.md
 
-Write `{PROJECT_PATH}/CLAUDE.md`:
+Write `{PROJECT_PATH}/CLAUDE.md`. If `{YOUR_TICKET_URL}` still reads as a placeholder (it starts with `{`), write the ticket line as the plain ticket ID with no link. The `.gitignore` template already excludes the optional `_shared` link, so no `.git/info/exclude` is needed:
 
 ```markdown
 # Guide Workspace — {TICKET_ID}: {SLUG}
@@ -198,15 +198,6 @@ Write `{PROJECT_PATH}/README.md`:
 ### .gitignore
 
 Copy `{PIPELINE_DIR}/workspace-gitignore.template` to `{PROJECT_PATH}/.gitignore`. Skip if `.gitignore` already exists.
-
-### .git/info/exclude
-
-Write `{PROJECT_PATH}/.git/info/exclude`:
-
-```
-# Optional shared config link
-_shared
-```
 
 ---
 
@@ -281,7 +272,6 @@ Done.
     - CLAUDE.md
     - README.md
     - .gitignore
-    - .git/info/exclude
 
   Knowledge files:
     - _knowledge/      (copied from {PIPELINE_DIR})

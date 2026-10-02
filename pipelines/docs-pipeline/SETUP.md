@@ -2,7 +2,7 @@
 
 This is a set of Claude Code skills that takes existing documentation through a structured improvement pipeline: audit → split → style passes → reviews → publish. Each skill is a markdown instruction file. Claude Code reads the file and executes the steps when you invoke the corresponding `/skill-name` command.
 
-This guide is for an AI agent setting up the pipeline for a new documentation project. Read it top to bottom before running anything.
+This guide is for you, or an AI agent working for you, setting up the pipeline for a new documentation project. Read it top to bottom before running anything.
 
 ---
 
@@ -16,6 +16,7 @@ Before running any skill:
 - **Node.js** with `markdownlint-cli` available (`npm install -g markdownlint-cli`) — required by `docs-publish`
 - A docs repository with markdown files to improve
 - A published docs site (or a staging environment) that the repo syncs to
+- A docs platform that matches the skills' assumption. Stages 2, 4b and 6 assume a git repo that syncs to ReadMe (readme.com): flat slugs, ReadMe frontmatter, blockquote callouts. Other platforms need those three skills adapted.
 
 ---
 
@@ -88,6 +89,8 @@ If the count is lower, the loop wrote to a different folder than the one Claude 
 ---
 
 ## 4. Smoke test
+
+The starter `_knowledge/product-kb/index.md` ships with an `extracted:` date. Once that date is more than 90 days old, Stage 4c reports a staleness warning on the starter data. Update the date to today when you replace the starter KB (section 5).
 
 First, an offline check that needs no model. From the root of your clone, run `python3 pipelines/docs-pipeline/tests/check_pipeline.py`. It confirms that every knowledge file the skills name exists and that the folder holds no private paths. It should print `check_pipeline: clean`.
 
@@ -203,7 +206,7 @@ Following section 5.1 of the guide and the structure in the placeholder file, dr
 A good answer uses the field names from the placeholder file exactly, has no more than 10 entries, and marks everything it could not know as "needs review".
 ```
 
-**How this prompt was checked.** On 2026-10-01 I ran it against Claude Sonnet and Claude Haiku, attaching this guide and `_knowledge/glossary.yaml`, with a made-up paragraph of product text. Sonnet passed. The first version made Haiku invent capitalization rules from how words happened to be capitalized in my sample. The prompt now forbids that, and both models passed on the rerun.
+**How this prompt was checked.** On 2026-10-01 this prompt was run under my direction against Claude Sonnet and Claude Haiku, with this guide and `_knowledge/glossary.yaml` attached and a made-up paragraph of product text. A Claude model (Sonnet 5.5) graded each answer against the prompt's "good answer" line; I have not re-read every answer. Sonnet passed. The first version made Haiku invent capitalization rules from how words happened to be capitalized in my sample. The prompt now forbids that, and both models passed on the rerun.
 
 ---
 
@@ -342,7 +345,7 @@ Rewrite the smoke test in section 4 for my doc. Change only what has to change f
 A good answer keeps the guide's commands and order, changes only the file name and where the guide's expected results depend on the sample doc, stops before the publish stage, repeats the guide's undo step, and says that Stage 4c checks my doc against the knowledge files, which describe a made-up product until I replace them.
 ```
 
-**How these prompts were checked.** On 2026-10-01 I ran every prompt in this document through the Claude Code command line, once against Claude Sonnet and once against Claude Haiku (the `sonnet` and `haiku` model names in Claude Code 2.1.287). Each run was a fresh session with no tools and no other instructions. I attached this document and any other file the prompt names, replaced each bracketed input with a made-up sample, and read every answer against that prompt's "good answer" list. One run per prompt per model: a Pass means that run met the list, not that the prompt always does. I re-ran all four prompts after the fresh-clone fixes on the same day, and the answers are saved in [`tests/prompt-runs/`](./tests/prompt-runs/README.md). I have not run them against models from other vendors, so "any AI model" means "should work", not "verified".
+**How these prompts were checked.** On 2026-10-01 every prompt in this document was run under my direction through the Claude Code command line, once against Claude Sonnet and once against Claude Haiku (the `sonnet` and `haiku` model names in Claude Code 2.1.287). Each run was a fresh session with no tools and no other instructions. This document and any other file the prompt names were attached, each bracketed input was replaced with a made-up sample, and a Claude model (Sonnet 5.5) graded each answer against that prompt's "good answer" list, which was written before the run. I have not re-read every answer. One run per prompt per model: a Pass means that run met the list, not that the prompt always does. I re-ran all four prompts after the fresh-clone fixes on the same day, and the answers are saved in [`tests/prompt-runs/`](./tests/prompt-runs/README.md). I have not run them against models from other vendors, so "any AI model" means "should work", not "verified".
 
 | Prompt | Sonnet | Haiku |
 | --- | --- | --- |

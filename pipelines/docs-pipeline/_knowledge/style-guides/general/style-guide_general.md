@@ -269,9 +269,11 @@ Not this:
 
 ## END EVERY DOC WITH A PROMPT FOR THE READER'S AI MODEL
 
+*Optional house rule. This section is a suggestion, not a requirement. Delete it, and the matching check in `docs-style-check-structure`, if your docs do not carry reader prompts.*
+
 Readers now work with an AI model beside the doc. Give them a prompt that is ready to paste, so the doc teaches, checks, and adapts itself on request.
 
-- End every doc with a prompt block.
+- If you adopt this rule, end every doc with a prompt block.
 - End every H2 section with a prompt block when the section is self-contained and longer than about 40 lines of prose (code blocks and tables do not count).
 - Use the exact block shape below. Do not rename the heading.
 - Each prompt is self-contained. It says which files the reader attaches, what the model must do, and what a good answer contains.
@@ -373,7 +375,7 @@ Write the closing prompt block for my doc in the exact shape the guide gives, wi
 A good answer uses the exact heading and intro sentence from the guide, has three labeled prompts, gives every prompt a checkable good-answer clause, explains how to run, judge, and record each test, and leaves the test result blank.
 ```
 
-**How these prompts were checked.** On 2026-10-01 I ran every prompt in this document through the Claude Code command line, once against Claude Sonnet and once against Claude Haiku (the `sonnet` and `haiku` model names in Claude Code 2.1.287). Each run was a fresh session with no tools and no other instructions. I attached this document and any other file the prompt names, replaced each bracketed input with a made-up sample, and read every answer against that prompt's "good answer" list. I have not run them against models from other vendors, so "any AI model" means "should work", not "verified".
+**How these prompts were checked.** On 2026-10-01 every prompt in this document was run under my direction through the Claude Code command line, once against Claude Sonnet and once against Claude Haiku (the `sonnet` and `haiku` model names in Claude Code 2.1.287). Each run was a fresh session with no tools and no other instructions. This document and any other file the prompt names were attached, each bracketed input was replaced with a made-up sample, and a Claude model (Sonnet 5.5) graded each answer against that prompt's "good answer" list, which was written before the run. I have not re-read every answer. I have not run them against models from other vendors, so "any AI model" means "should work", not "verified".
 
 | Prompt | Sonnet | Haiku |
 | --- | --- | --- |

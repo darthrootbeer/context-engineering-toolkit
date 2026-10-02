@@ -24,7 +24,7 @@ It never edits tables, code blocks or callouts, and it does not add or remove in
 
 ## Output
 
-A report in `_process/style-audit/` named `readability-audit-{folder-name}.md`, relative to the project root. If the input sits inside an Obsidian vault, the report goes to `_system-audits/` in the vault instead.
+A report in `_process/style-audit/` named `readability-audit-{folder-name}.md`, relative to the project root. If the input sits inside a notes folder that has a `_system-audits/` folder, the report goes there instead.
 
 ## Install
 
@@ -88,7 +88,7 @@ Write me a trial plan. Use the install commands and the slash command from the R
 A good answer uses the README's install commands and the exact command `/docs-readability-check [folder-or-file]`, tells me to work on a copy because the skill edits in place, names the report folder the README gives, and does not promise a particular grade level for my doc.
 ```
 
-**How these prompts were checked.** On 2026-10-01 I ran every prompt in this document through the Claude Code command line, once against Claude Sonnet and once against Claude Haiku (the `sonnet` and `haiku` model names in Claude Code 2.1.287). Each run was a fresh session with no tools and no other instructions. I attached this document, replaced each bracketed input with a made-up sample, and read every answer against that prompt's "good answer" list. One run per prompt per model: a Pass means that run met the list, not that the prompt always does. The answers are saved in [`pipelines/docs-pipeline/tests/prompt-runs/`](../../pipelines/docs-pipeline/tests/prompt-runs/README.md) (the files that start with `RC-`). I have not run them against models from other vendors, so "any AI model" means "should work", not "verified".
+**How these prompts were checked.** On 2026-10-01 every prompt in this document was run under my direction through the Claude Code command line, once against Claude Sonnet and once against Claude Haiku (the `sonnet` and `haiku` model names in Claude Code 2.1.287). Each run was a fresh session with no tools and no other instructions. This document was attached, each bracketed input was replaced with a made-up sample, and a Claude model (Sonnet 5.5) graded each answer against that prompt's "good answer" list, which was written before the run. I have not re-read every answer. One run per prompt per model: a Pass means that run met the list, not that the prompt always does. The answers are saved in [`pipelines/docs-pipeline/tests/prompt-runs/`](../../pipelines/docs-pipeline/tests/prompt-runs/README.md) (the files that start with `RC-`). I have not run them against models from other vendors, so "any AI model" means "should work", not "verified".
 
 | Prompt | Sonnet | Haiku |
 | --- | --- | --- |

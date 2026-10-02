@@ -193,7 +193,7 @@ For each doc, run the checks defined below for its type. Record every finding as
 
 #### 4f. All doc types: prompt block for the reader's AI model
 
-Run this check on every doc, whatever its type. The rule lives in the general style guide under "End every doc with a prompt for the reader's AI model". Read that section first.
+This is an optional house rule, so treat every finding here as a suggestion. If the style guide has no "End every doc with a prompt for the reader's AI model" section, or the user says the docs do not carry reader prompts, skip this check and say so in the report. Otherwise run it on every doc, whatever its type. The rule lives in the general style guide under "End every doc with a prompt for the reader's AI model". Read that section first.
 
 Skip a doc if it is exempt: a skill file, a file under `_archive/`, `_templates/`, `_attachments/` or `_process/`, or an index or README under about 25 lines that only routes the reader elsewhere.
 

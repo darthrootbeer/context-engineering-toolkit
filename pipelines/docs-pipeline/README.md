@@ -4,7 +4,7 @@
 
 **Why it is the best thing in this repo.** I used a version of it every working day on real documentation, and no other piece here has had that much real use. What makes it work is that the order and the gates are fixed. Style passes run before reviews, so the reviewers never read prose that still needs cleaning. Each stage commits its output, so every change can be traced to the stage that made it. And the human decision comes last, where it counts. The reason to read it is the structure, which you can copy to other kinds of work, more than any single skill.
 
-**How it was built, and what it does not claim.** Claude Code wrote these skills under my direction. I set the requirements, ran them on real documentation, read what came out, and corrected what was wrong. I did not type them by hand. This is prompts, ordering, and checks. There is no model training, no machine-learning pipeline, no retrieval system, and no claim to production ML experience. The copy here is a generic export of the version I used: you fill in the placeholders and the knowledge files before it fits your docs, and the publish and verify stages assume a git-based docs repo. I can vouch for how it behaved on my own docs, not on yours.
+**How it was built, and what it does not claim.** Claude Code wrote these skills under my direction. I set the requirements, ran them on real documentation, read what came out, and corrected what was wrong. I did not type them by hand. This is prompts, ordering, and checks. There is no model training, no machine-learning pipeline, no retrieval system, and no claim to production ML experience. The copy here is a generic export of the version I used: you fill in the placeholders and the knowledge files before it fits your docs, and the publish and verify stages assume a git-based docs repo. Stages 2, 4b and 6 assume a git repo that syncs to ReadMe (readme.com): flat slugs, ReadMe frontmatter, blockquote callouts. Other platforms need those three skills adapted. I can vouch for how it behaved on my own docs, not on yours.
 
 Each skill is a markdown file that Claude Code loads when you run the matching `/skill-name` command.
 
@@ -44,7 +44,7 @@ The pipeline loads three knowledge sources at runtime. They ship as working star
 |------|--------------|
 | `_knowledge/glossary.yaml` | Your domain terminology, canonical forms, and common mistakes |
 | `_knowledge/product-kb/` | Your product model: integration types, API endpoints, domain objects, webhooks, error codes |
-| `_knowledge/style-guides/general/style-guide_general.md` | Your voice, tone, and formatting rules |
+| `_knowledge/style-guides/general/style-guide_general.md` | Your voice, tone, and formatting rules. It also holds an optional house rule that every doc ends with a "Prompt for your AI model" block; delete that section if your docs do not carry reader prompts |
 
 Each file has fill-in instructions at the top. Stage 0 copies the whole `_knowledge/` folder into every new workspace, so fill these in before you create one.
 
@@ -60,7 +60,7 @@ workspace → audit → split → overview → structure → voice → human →
 Run the full pipeline with:
 
 ```
-/docs-pipeline TICKET-1319 setup-and-credentials
+/docs-pipeline TICKET-1234 setup-and-credentials
 ```
 
 Or invoke individual skills directly for targeted work:
@@ -136,7 +136,7 @@ Write me a trial plan that uses only the stages that do not need a docs platform
 A good answer uses the real command names from the README, leaves out the publish and verify stages, describes each stage's output only as the README does, and does not predict what the stage will find in my document.
 ```
 
-**How these prompts were checked.** On 2026-10-01 I ran every prompt in this document through the Claude Code command line, once against Claude Sonnet and once against Claude Haiku (the `sonnet` and `haiku` model names in Claude Code 2.1.287). Each run was a fresh session with no tools and no other instructions. I attached this document, replaced each bracketed input with a made-up sample, and read every answer against that prompt's "good answer" list. One run per prompt per model: a Pass means that run met the list, not that the prompt always does. I re-ran all three after the fresh-clone fixes on the same day, and the answers are saved in [`tests/prompt-runs/`](./tests/prompt-runs/README.md). I have not run them against models from other vendors, so "any AI model" means "should work", not "verified".
+**How these prompts were checked.** On 2026-10-01 every prompt in this document was run under my direction through the Claude Code command line, once against Claude Sonnet and once against Claude Haiku (the `sonnet` and `haiku` model names in Claude Code 2.1.287). Each run was a fresh session with no tools and no other instructions. This document was attached, each bracketed input was replaced with a made-up sample, and a Claude model (Sonnet 5.5) graded each answer against that prompt's "good answer" list, which was written before the run. I have not re-read every answer. One run per prompt per model: a Pass means that run met the list, not that the prompt always does. I re-ran all three after the fresh-clone fixes on the same day, and the answers are saved in [`tests/prompt-runs/`](./tests/prompt-runs/README.md). I have not run them against models from other vendors, so "any AI model" means "should work", not "verified".
 
 | Prompt | Sonnet | Haiku |
 | --- | --- | --- |

@@ -221,7 +221,7 @@ Using only the "Stage details" section, build a table with three columns: my ste
 A good answer has one row per step of mine, writes stage names exactly as the document does, and says "none" instead of forcing a match.
 ```
 
-**How this prompt was checked.** On 2026-10-01 I ran it against Claude Sonnet and Claude Haiku in the same way as the prompts at the end of this document. The first version let Sonnet match steps to stages that do not do the same job. The prompt now says to write "none" and not to stretch a stage to fit, and Sonnet passed on the rerun. Haiku still stretched one step (rewriting by hand) onto the style passes, so treat this prompt as verified on Sonnet only.
+**How this prompt was checked.** On 2026-10-01 this prompt was run under my direction against Claude Sonnet and Claude Haiku in the same way as the prompts at the end of this document, and a Claude model (Sonnet 5.5) graded the answers; I have not re-read every answer. The first version let Sonnet match steps to stages that do not do the same job. The prompt now says to write "none" and not to stretch a stage to fit, and Sonnet passed on the rerun. Haiku still stretched one step (rewriting by hand) onto the style passes, so treat this prompt as verified on Sonnet only.
 
 ---
 
@@ -305,7 +305,7 @@ For each check give the action to take, the result I should see, and what a fail
 A good answer has exactly these four checks, does not invent commands or file names, and points out where the document is silent.
 ```
 
-**How these prompts were checked.** On 2026-10-01 I ran every prompt in this document through the Claude Code command line, once against Claude Sonnet and once against Claude Haiku (the `sonnet` and `haiku` model names in Claude Code 2.1.287). Each run was a fresh session with no tools and no other instructions. I attached this document and any other file the prompt names, replaced each bracketed input with a made-up sample, and read every answer against that prompt's "good answer" list. I have not run them against models from other vendors, so "any AI model" means "should work", not "verified". The answers for these prompts were not saved.
+**How these prompts were checked.** On 2026-10-01 every prompt in this document was run under my direction through the Claude Code command line, once against Claude Sonnet and once against Claude Haiku (the `sonnet` and `haiku` model names in Claude Code 2.1.287). Each run was a fresh session with no tools and no other instructions. This document and any other file the prompt names were attached, each bracketed input was replaced with a made-up sample, and a Claude model (Sonnet 5.5) graded each answer against that prompt's "good answer" list, which was written before the run. I have not re-read every answer. I have not run them against models from other vendors, so "any AI model" means "should work", not "verified". The answers for these prompts were not saved.
 
 | Prompt | Sonnet | Haiku |
 | --- | --- | --- |

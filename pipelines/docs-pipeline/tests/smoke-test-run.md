@@ -8,7 +8,7 @@ This is the real output of following the Install and Smoke test sections of [SET
 
 Commit under test: `e035975`.
 
-```text
+~~~text
 $ git clone -b fix/docs-pipeline-runnable https://github.com/darthrootbeer/context-engineering-toolkit.git repo
 commit e035975 docs(docs-pipeline): add saved prompt runs, offline check and readability skill readme
 
@@ -45,7 +45,7 @@ Done.
     - docs/output/_process/style-audit/
     - docs/output/_process/visual-audit/diagrams/
     - docs/output/docs/
-```
+~~~
 
 I skipped three optional steps because their settings are still placeholders:
 - **Shared config link:** `SHARED_CONFIG_DIR` is unset, so there is no `_shared` link.

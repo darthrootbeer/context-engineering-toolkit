@@ -13,7 +13,7 @@ Each skill is a markdown file that Claude Code loads when you run the matching `
 | File | Slash command | Stage | What it does |
 |------|--------------|-------|--------------|
 | `docs-pipeline.md` | `/docs-pipeline` | Orchestrator | Runs the full pipeline end-to-end, stage by stage |
-| `docs-workspace-setup.md` | `/docs-workspace-setup` | 0 | Creates the workspace directory, symlinks, and project note |
+| `docs-workspace-setup.md` | `/docs-workspace-setup` | 0 | Creates the workspace directory, copies in the knowledge files, and writes the starter files |
 | `docs-diataxis-audit.md` | `/docs-diataxis-audit` | 1 | Classifies doc content by Diataxis type, produces audit report + JSON mapping |
 | `docs-diataxis-split.md` | `/docs-diataxis-split` | 2 | Extracts content into typed output files (how-to, explanation, reference, tutorial) |
 | `docs-diataxis-create-overview.md` | `/docs-diataxis-create-overview` | 2b | Creates the overview/index entry-point doc after a split |
@@ -30,17 +30,23 @@ Each skill is a markdown file that Claude Code loads when you run the matching `
 | `docs-publish.md` | `/docs-publish` | 6 | Copies output to docs repo, adds frontmatter, creates branch + PR |
 | `docs-work-verify.md` | `/docs-work-verify` | Post | Verifies the PR merged and changes are live |
 
+## Quick start
+
+1. Install the skills with the loop in section 3 of [SETUP.md](./SETUP.md).
+2. Run the smoke test in section 4 of [SETUP.md](./SETUP.md). It uses the sample doc in [`sample/`](./sample/acme-orders-cancellations.md) and needs no configuration.
+3. Replace the made-up product knowledge in `_knowledge/` with your own (next section), then fill in the placeholders under Configuration.
+
 ## Knowledge sources
 
-The pipeline loads three knowledge sources at runtime. Populate these before running:
+The pipeline loads three knowledge sources at runtime. They ship as working starters, so it runs from a fresh clone. The product knowledge base describes a made-up product (the "Acme Orders API"), so replace it with your own before you trust Stage 4c on real docs:
 
 | Path | What it needs |
 |------|--------------|
 | `_knowledge/glossary.yaml` | Your domain terminology, canonical forms, and common mistakes |
 | `_knowledge/product-kb/` | Your product model: integration types, API endpoints, domain objects, webhooks, error codes |
-| `_knowledge/style-guides/style-guide.md` | Your voice, tone, and formatting rules |
+| `_knowledge/style-guides/general/style-guide_general.md` | Your voice, tone, and formatting rules |
 
-Placeholder files with structure and instructions are already in `_knowledge/`. Fill them in before running `docs-grammar-spelling`, `docs-sme-review`, or `docs-style-check-voice`.
+Each file has fill-in instructions at the top. Stage 0 copies the whole `_knowledge/` folder into every new workspace, so fill these in before you create one.
 
 ## Pipeline order
 
@@ -81,6 +87,8 @@ Before using this pipeline on your docs, replace these placeholders throughout t
 | `{YOUR_DOCS_REPO_PATH}` | Local filesystem path to your docs repo clone |
 | `{YOUR_DEFAULT_OG_IMAGE_URL}` | Default Open Graph image URL for published docs |
 
+Two placeholders are optional. `{SHARED_CONFIG_DIR}` (a folder of your own shared tools) and `{NOTES_DIR}` (a notes folder for a project note) can stay as they are: any step that needs them is skipped. `{YOUR_PIPELINE_DIR}` is filled in by the install loop in SETUP.md, so you do not set it by hand.
+
 ---
 
 ### Prompt for your AI model
@@ -94,10 +102,10 @@ I have attached the README for "docs-pipeline", a set of Claude Code skills that
 
 1. In plain language, say what problem it solves and what it does not do.
 2. List the stages in order, one line each, and explain why the style passes come before the reviews.
-3. Say where a person has to decide something and where the AI works alone.
+3. Say exactly what the person does between every two stages, and what the AI does alone inside a stage.
 4. Then ask me three questions to check that I understood, one at a time. Wait for my answer before the next one, and correct me where I am wrong.
 
-A good answer names every stage in order, names the readability check as Stage 3d and grammar as Stage 3e, explains that nothing moves forward without a person's go-ahead, and repeats the limits the README states. It must not invent a stage, a command, or a file that is not in the README.
+A good answer names every stage in order, names the readability check as Stage 3d and grammar as Stage 3e, explains that nothing moves forward without a person's go-ahead (so it never says the person does not touch a stage), and repeats the limits the README states. It must not invent a stage, a command, or a file that is not in the README.
 ```
 
 **Review against your own setup**

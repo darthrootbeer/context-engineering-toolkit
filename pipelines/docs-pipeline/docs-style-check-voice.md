@@ -24,7 +24,7 @@ This should be a path to a **folder** (all `.md` files inside) or a single `.md`
 ## Constants
 
 ```
-STYLE_GUIDE=./_knowledge/style-guides/style-guide.md
+STYLE_GUIDE=./_knowledge/style-guides/general/style-guide_general.md
 ```
 
 ---
@@ -155,7 +155,7 @@ Track every edit: `{filename}: {what changed}`.
 
 Write to the `_process/style-audit/` directory relative to the project's output root. Resolve the output root by walking up from the input path until you find a directory containing `_process/` (or create `_process/style-audit/` as a sibling of the docs folder).
 
-**Filename:** `style-audit-general-{folder-name}.md` (where `{folder-name}` is the input folder's basename, e.g. `caper-refunds`)
+**Filename:** `style-audit-general-{folder-name}.md` (where `{folder-name}` is the input folder's basename, e.g. `order-cancellations`)
 
 For a single file input, use the filename without extension instead of folder name.
 

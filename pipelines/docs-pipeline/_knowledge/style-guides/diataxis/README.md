@@ -30,7 +30,7 @@ Maintain strict separation between types. Common violations:
 - **Reference → Explanation**: Explaining design decisions or reasoning
 - **Explanation → How-to**: Prescribing specific actions
 
-## The Product Guide Sets
+## Acme Orders Guide Sets
 
 Every multi-doc guide includes a **guide set overview** (not a Diataxis type) as the entry point, plus the relevant typed docs:
 

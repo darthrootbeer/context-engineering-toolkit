@@ -1,6 +1,6 @@
 # Image Style Guide
 
-Rules for when and how to use images in The Product documentation. Content TBD.
+Rules for when and how to use images in Acme Orders documentation. Content TBD.
 
 ## Style Guides
 

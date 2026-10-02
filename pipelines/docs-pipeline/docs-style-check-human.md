@@ -9,7 +9,7 @@ allowed-tools: [Read, Write, Edit, Glob, Bash]
 
 Final editing pass on one or more docs to detect and rewrite AI writing patterns. Applies every rule from the "Write Like a Human" style guide. Edits docs in place. Produces an audit report summarizing findings and fixes.
 
-This is the last style pass in the pipeline. Run it after `/docs-style-check-structure` (structure) and `/docs-style-check-voice` (The Product conventions) so it operates on settled prose.
+This is the last style pass in the pipeline. Run it after `/docs-style-check-structure` (structure) and `/docs-style-check-voice` (Acme Orders conventions) so it operates on settled prose.
 
 ## Arguments
 
@@ -24,7 +24,7 @@ This should be a path to a **folder** (all `.md` files inside) or a single `.md`
 ## Constants
 
 ```
-STYLE_GUIDE=~/projects/example-docs-repo/_extras/style-guides/write-like-a-human/style-guide_write-like-a-human.md
+STYLE_GUIDE=./_knowledge/style-guides/write-like-a-human/style-guide_write-like-a-human.md
 ```
 
 ---
@@ -160,7 +160,7 @@ For each doc, work through the checks in the exact order specified by the style 
 
 **What to find:** significant, crucial, essential, effective, optimal, comprehensive, important, powerful, key, major, fundamental, core
 
-**Fix:** Ask what specifically makes it [adjective]. Replace with the specific answer. "This is a significant part of the system" → "This determines whether the payment captures or fails."
+**Fix:** Ask what specifically makes it [adjective]. Replace with the specific answer. "This is a significant part of the system" → "This determines whether the order is created or rejected."
 
 #### Pass 14: Passive voice
 
@@ -190,7 +190,7 @@ Track every edit: `{filename}: {what changed}`.
 
 Write to the `_process/style-audit/` directory relative to the project's output root. Resolve the output root by walking up from the input path until you find a directory containing `_process/` (or create `_process/style-audit/` as a sibling of the docs folder).
 
-**Filename:** `style-audit-human-{folder-name}.md` (where `{folder-name}` is the input folder's basename, e.g. `caper-refunds`)
+**Filename:** `style-audit-human-{folder-name}.md` (where `{folder-name}` is the input folder's basename, e.g. `order-cancellations`)
 
 For a single file input, use the filename without extension instead of folder name.
 

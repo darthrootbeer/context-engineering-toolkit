@@ -22,7 +22,7 @@ The user provided: $ARGUMENTS
 ## Constants
 
 ```
-REFERENCE_DOC=~/projects/example-docs-repo/docs/AcmePay/acmepay-guide/index.md
+REFERENCE_DOC=./_knowledge/style-guides/diataxis/style-guide_guide-set-overview.md
 ```
 
 ---
@@ -84,8 +84,8 @@ If found, read it and extract:
 If no source doc exists, synthesize these from the output docs:
 - **Guide title**: Humanize the area prefix (e.g., `webhooks` → "Webhooks", `configure-webhooks` → "Configure Webhooks")
 - **Opening paragraph**: Synthesize from the typed docs' titles and purposes: `"This guide covers everything you need to [action implied by how-to title] using the product API."`
-- **Audience**: `"Payment engineers and payment product managers integrating with the product API."`
-- **Prerequisites**: `"An active The Product integration. If you haven't set that up yet, start with [getting started with The Product](https://docs.example-docs.app/docs/get-started)."`
+- **Audience**: `"Integration engineers and product managers integrating with the Acme Orders API."`
+- **Prerequisites**: `"An active Acme Orders integration. If you haven't set that up yet, start with [getting started with Acme Orders](https://docs.example.com/docs/get-started)."`
 
 ---
 
@@ -109,7 +109,7 @@ The one-sentence description names the reader's purpose, not just the doc type:
 
 ### 5. Write the overview doc
 
-**Filename:** `{GUIDE_PREFIX}_overview.md` during drafting (in the workspace), where `GUIDE_PREFIX` is the guide name slug from the workspace folder name (e.g., `intro-to-billing` from `workspace-doc-1318-intro-to-billing`). At publish time, `/docs-publish` renames this to `index.md` in the guide's subdirectory.
+**Filename:** `{GUIDE_PREFIX}_overview.md` during drafting (in the workspace), where `GUIDE_PREFIX` is the guide name slug from the workspace folder name (e.g., `intro-to-billing` from `workspace_doc-1318_intro-to-billing`). At publish time, `/docs-publish` renames this to `index.md` in the guide's subdirectory.
 
 If no workspace context exists (standalone run), fall back to `index.md`.
 
@@ -191,7 +191,7 @@ Created: {DOCS_DIR}/index.md
 
 ## Reference
 
-The overview doc follows the same pattern as `acmepay-overview.md` in `example-docs-repo`. Key characteristics:
+The overview doc follows the rules in `REFERENCE_DOC` (`_knowledge/style-guides/diataxis/style-guide_guide-set-overview.md`). Key characteristics:
 
 - Short (15–25 body lines). Its job is to route, not inform.
 - Opening paragraph orients the reader to the product capability, not to the docs themselves.

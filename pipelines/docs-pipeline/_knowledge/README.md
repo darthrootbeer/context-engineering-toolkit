@@ -14,7 +14,9 @@ This folder holds the knowledge sources the pipeline skills load at runtime. Pop
 | `product-kb/error-codes.md` | `docs-sme-review` | Error codes and their meanings |
 | `product-kb/webhooks.md` | `docs-sme-review` | Webhook events, payloads, and integration scopes |
 | `product-kb/recent-changes.md` | `docs-sme-review` | Recent API changes that may affect existing docs |
-| `style-guides/style-guide.md` | `docs-style-check-voice` | General voice, tone, and formatting rules for your docs |
+| `style-guides/general/style-guide_general.md` | `docs-style-check-voice` | General voice, tone, and formatting rules for your docs |
+| `style-guides/diataxis/` | `docs-diataxis-audit`, `docs-style-check-structure` | Diataxis framework and per-type structure rules |
+| `style-guides/write-like-a-human/` | `docs-style-check-human` | Rules for removing machine-written patterns |
 
 ## Keeping knowledge current
 
@@ -22,4 +24,6 @@ The SME review skill checks the `extracted:` frontmatter date on `product-kb/ind
 
 ## Note on this copy of the pipeline
 
-The `product-kb/` files listed above are intentionally not included in this repo — they hold a specific product's proprietary API surface and domain model, which is exactly the kind of content this knowledge folder is designed to hold *for your own project*, not something to ship generically. Populate `product-kb/` with your own product's equivalent before running `docs-sme-review`. Everything else in this folder (the glossary, the style guides) is generic and ready to use or adapt.
+Every file here is a working starter. The `product-kb/` files describe a made-up product, the "Acme Orders API" with orders, customers and invoices, and are marked `FICTIONAL EXAMPLE DATA`. They are there so the pipeline runs end to end on the sample doc in `../sample/`. Replace the example rows with facts about your own product before you run `docs-sme-review` on real docs. The glossary and the style guides are generic: their examples use the same made-up product, and every rule applies to any API docs.
+
+Stage 0 (`/docs-workspace-setup`) copies this whole folder into each new workspace, because the skills read `./_knowledge/` relative to the workspace.

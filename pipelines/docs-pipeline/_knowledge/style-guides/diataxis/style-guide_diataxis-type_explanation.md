@@ -22,7 +22,7 @@ Clarify concepts and provide understanding. Answer "why" and "how it works," not
 
 Required patterns: "Understanding [concept]", "How [system] works", "[Concept] explained", "About [topic]", or direct concept name.
 
-✅ "Understanding benefits-card transaction flow", "How eligibility-program eligibility works", "Authentication models explained"
+✅ "Understanding the order lifecycle", "How invoice matching works", "Authentication models explained"
 ❌ "How to implement webhooks" (How-to), "Create your first webhook" (Tutorial)
 
 ### Opening Section (Required)
@@ -63,9 +63,9 @@ Exclude: repetitive summaries, calls to action, instructions.
 
 ✅ Right (explanatory): "Webhook handling requires an endpoint and signature verification. The signature mechanism prevents attackers from sending fake events."
 
-❌ Wrong (reference): "POST /v1/payments | Parameters: amount (number, required)..."
+❌ Wrong (reference): "POST /v1/orders | Parameters: total (number, required)..."
 
-✅ Right (explanatory): "Payment amounts are specified in smallest currency units (cents for USD) to avoid floating-point precision issues that could accumulate across transactions."
+✅ Right (explanatory): "Order totals are specified in smallest currency units (cents for USD) to avoid floating-point precision issues that could accumulate across invoices."
 
 ## Writing Style Rules
 
@@ -93,10 +93,10 @@ Exclude: repetitive summaries, calls to action, instructions.
 "Idempotency keys are like package tracking numbers. They always refer to the same operation regardless of how many times submitted."
 
 **Contrasts:**
-"Unlike credit cards with separate auth/capture, benefits-program transactions are always real-time because benefits are actual funds, not credit."
+"Unlike invoices that are paid after delivery, prepaid orders are always confirmed in real time because the payment has already cleared."
 
 **Causation chains:**
-"USDA requires PIN → mandates online processing → needs connectivity → affects offline-first architecture"
+"Tax rules require a signed total → mandates online validation → needs connectivity → affects offline-first architecture"
 
 ## Visual Elements
 
@@ -118,7 +118,7 @@ def verify_signature(payload, signature, secret):
 
 ### Tables (For Comparisons)
 
-Use to contrast payment methods, authorization models, refund windows, etc.
+Use to contrast order types, payment terms, cancellation windows, etc.
 
 ## Common Mistakes
 
@@ -128,23 +128,23 @@ Use to contrast payment methods, authorization models, refund windows, etc.
 4. **Too Surface**: Doesn't deepen understanding → Fix: Go deeper into "why" and "how it works"
 5. **Assumes Too Much**: Unexplained jargon → Fix: Define terms, build understanding progressively
 
-## benefits-card/Compliance Context
+## Domain and Compliance Context
 
-### eligibility-program Regulations
+### Tax and Shipping Rules
 
-When explaining benefits-program requirements:
+When explaining tax or shipping requirements:
 
-- State regulatory mandates clearly (USDA, state rules)
-- Explain why requirements exist (fraud prevention, recipient protection, taxpayer accountability)
-- Connect regulations to technical implications (PIN → online processing → connectivity requirements)
+- State regulatory mandates clearly (tax authority and regional rules)
+- Explain why requirements exist (fraud prevention, customer protection, audit accountability)
+- Connect regulations to technical implications (signed total → online validation → connectivity requirements)
 
-### Eligible Item Verification
+### Taxable Item Verification
 
-Explain complexity of eligibility-program eligible item rules, variability across states, technical challenges in real-time verification.
+Explain the complexity of taxable item rules, variability across regions, and technical challenges in real-time verification.
 
-### Real-time Authorization
+### Real-time Confirmation
 
-Contrast with credit card auth/capture model. Explain why benefits-card requires immediate settlement.
+Contrast with the invoice-after-delivery model. Explain why prepaid orders require immediate confirmation.
 
 ## Template
 

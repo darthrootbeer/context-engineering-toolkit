@@ -18,6 +18,8 @@ This should be the path to the markdown file to audit.
 
 `/docs-diataxis-audit [file-path]`
 
+**Optional shared folder:** `{SHARED_CONFIG_DIR}` may point at a folder of your own shared tools. If it is empty or still reads `{SHARED_CONFIG_DIR}`, treat it as unset and skip every step that needs it.
+
 **Required:** The `[file-path]` parameter is mandatory. If not provided, stop and ask for the source document to audit.
 
 ## Steps
@@ -27,13 +29,13 @@ This should be the path to the markdown file to audit.
    - Check that `[file-path]` is provided in $ARGUMENTS
    - If not provided, stop: "Please provide the file path to audit: `/docs-diataxis-audit [file-path]`"
    - Determine `INPUT_BASENAME` for output naming:
-     - **If running inside a workspace** (directory name starts with `workspace-`): Extract the guide name slug from the workspace folder name. The slug is everything after the ticket number portion. Example: `workspace-doc-1318-intro-to-billing` → `INPUT_BASENAME = "intro-to-billing"`
+     - **If running inside a workspace** (directory name starts with `workspace_`): Extract the guide name slug from the workspace folder name. The slug is everything after the ticket number portion. Example: `workspace_doc-1318_intro-to-billing` → `INPUT_BASENAME = "intro-to-billing"`
      - **Otherwise**: Get filename from `basename [file-path]`, remove extension (`.md`, `.markdown`). Example: `docs/source/guide.md` → `INPUT_BASENAME = "guide"`
    - All output files (audit report, mapping JSON, SVGs) are prefixed with `{INPUT_BASENAME}_`. This ensures every artifact is traceable to its guide, even when moved or referenced outside the workspace.
 
 2. **Read the framework**
 
-   - Read and understand: `~/projects/example-docs-repo/_extras/style-guides/diataxis/README.md`
+   - Read and understand: `./_knowledge/style-guides/diataxis/README.md`
    - Focus on: four types, classification axes, boundary rules
    - Use `Read` tool
    - Note: Multiple files can be read in parallel if needed
@@ -204,7 +206,7 @@ This should be the path to the markdown file to audit.
    | `00-overview.svg`, `01-*.svg`, ... | Visual mapping diagrams — overview shows all source → target flows; per-target-doc pages show the full source with relevant sections highlighted |
    ```
 
-   Do not mention AI or automation tools. "The Product documentation team's structured conversion process" is the right framing.
+   Do not mention AI or automation tools. "Acme Orders documentation team's structured conversion process" is the right framing.
 
    Fill in `[N] sections` and `[N] output documents` with the actual numbers from your analysis before writing the file.
 
@@ -263,12 +265,11 @@ This should be the path to the markdown file to audit.
 
 12. **Generate and write JSON mapping**
 
-    Create JSON mapping following schema: `_shared/schemas/diataxis-audit-mapping/schema.json`
+    Create JSON mapping following the structure described in this step. If the optional schema `{SHARED_CONFIG_DIR}/schemas/diataxis-audit-mapping/schema.json` exists, follow it too. If `{SHARED_CONFIG_DIR}` is not set, use only the structure described here.
 
     a. **Read schema files**
-       - Read: `_shared/schemas/diataxis-audit-mapping/schema.json`
-       - Read: `_shared/schemas/diataxis-audit-mapping/README.md`
-       - Use `Read` tool (can read both in parallel)
+       - Only if `{SHARED_CONFIG_DIR}` is set and `{SHARED_CONFIG_DIR}/schemas/diataxis-audit-mapping/schema.json` exists: read it, and read `README.md` in the same folder if present. Use the `Read` tool.
+       - Otherwise skip this sub-step and use the structure and validation rules written out in sub-steps b to d below. Print: "Optional schema not found, using the built-in structure."
        - Understand structure, validation rules, dual-ID system
 
     b. **Generate section IDs**
@@ -313,7 +314,8 @@ This should be the path to the markdown file to audit.
 
 13. **Generate SVG visualizations**
 
-    - Command: `node _shared/tools/diataxis-mapper/generate-svg.js --multi --prefix {INPUT_BASENAME} docs/output/_process/diataxis-audit/{INPUT_BASENAME}_mapping.json docs/output/_process/diataxis-audit/`
+    - This step is optional. Only run it if `{SHARED_CONFIG_DIR}` is set and `{SHARED_CONFIG_DIR}/tools/diataxis-mapper/generate-svg.js` exists and `node` is installed. Otherwise skip it and print: "SVG step skipped: optional diagram tool not installed."
+    - Command: `node {SHARED_CONFIG_DIR}/tools/diataxis-mapper/generate-svg.js --multi --prefix {INPUT_BASENAME} docs/output/_process/diataxis-audit/{INPUT_BASENAME}_mapping.json docs/output/_process/diataxis-audit/`
     - Use `Bash` tool to execute the command
     - Output files (all prefixed with `{INPUT_BASENAME}_`):
       - `{INPUT_BASENAME}_00-overview.svg` — Complete overview showing all source → target mappings
@@ -526,7 +528,7 @@ Handle these error conditions gracefully:
 
 ## Diataxis Framework Reference
 
-**Full framework**: `~/projects/example-docs-repo/_extras/style-guides/diataxis/README.md`
+**Full framework**: `./_knowledge/style-guides/diataxis/README.md`
 
 ### Quick Reference
 
@@ -553,14 +555,12 @@ Handle these error conditions gracefully:
 
 **For complete details** (type definitions, classification decision tree, content patterns, anti-patterns, language requirements, content migration rules):
 
-Read: `~/projects/example-docs-repo/_extras/style-guides/diataxis/README.md`
+Read: `./_knowledge/style-guides/diataxis/README.md`
 
 ## Reference
 
-- Framework source: `~/projects/example-docs-repo/_extras/style-guides/diataxis/README.md`
-- Schema directory: `_shared/schemas/diataxis-audit-mapping/`
-  - JSON schema: `_shared/schemas/diataxis-audit-mapping/schema.json`
-  - Schema documentation: `_shared/schemas/diataxis-audit-mapping/README.md`
+- Framework source: `./_knowledge/style-guides/diataxis/README.md`
+- Optional schema directory (only if `{SHARED_CONFIG_DIR}` is set): `{SHARED_CONFIG_DIR}/schemas/diataxis-audit-mapping/`
 
 ## Sources
 

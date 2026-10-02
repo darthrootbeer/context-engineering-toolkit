@@ -63,7 +63,7 @@ This should be a path to a **folder** or a single `.md` **file**, with an option
 - If the file is missing, stop with error: "Product KB not found at _knowledge/product-kb/ — populate the placeholder files before running SME review."
 - Check the `extracted:` frontmatter date. If it is more than 90 days old, include a warning in every report header: "Product KB last extracted [date] (>90 days ago) — findings may be stale. Re-run extraction before acting on domain accuracy flags."
 - Then load the three core KB files for domain accuracy checks:
-  - `./_knowledge/product-kb/integration-types.md` (scopes, capabilities, credit routing)
+  - `./_knowledge/product-kb/integration-types.md` (scopes, capabilities, limits)
   - `./_knowledge/product-kb/endpoints.md` (API surface, params, responses)
   - `./_knowledge/product-kb/domain-models.md` (objects, lifecycles, relationships)
 - Load additional KB files based on what the draft content covers:
@@ -76,7 +76,9 @@ This should be a path to a **folder** or a single `.md` **file**, with an option
 
 Build a lightweight index of all published doc titles to check for naming collisions.
 
-Do a fresh shallow clone of the docs repo:
+**Optional step.** If `{YOUR_ORG}` or `{YOUR_DOCS_REPO}` still reads as a placeholder (it starts with `{`), or `gh` is not installed or not logged in, skip this whole step. Set `CORPUS_TMP` to unset, print "Naming-collision check skipped: no docs repo configured" in the report header, and skip Category C in step 5.
+
+Otherwise do a fresh shallow clone of the docs repo:
 
 ```bash
 mktemp -d /tmp/docs-corpus-XXXXXX
@@ -178,7 +180,7 @@ See **Report Format** below.
 
 ### 9. Clean up and display summary
 
-Remove the temp corpus clone:
+Remove the temp corpus clone (only if step 4 created one):
 ```bash
 rm -r CORPUS_TMP_PATH
 ```
@@ -189,7 +191,7 @@ Print the summary:
 SME review complete.
 
 Draft files analyzed: [N]
-Corpus titles indexed: [N]
+Corpus titles indexed: [N] (or "skipped")
 Product model verified: [date]
 
 Reports:
@@ -318,7 +320,7 @@ For sections with no findings, show the `> No [category] found.` line and skip t
 | Directory has no `.md` files | Stop: "No markdown files found in: [path]" |
 | Draft file >1500 lines | Note in report header; continue |
 | Product KB missing | Stop: "Product KB not found" |
-| Corpus clone fails | Stop: "Failed to clone docs repo. Check gh auth and network." |
+| Corpus clone fails or no docs repo configured | Skip Category C, note "Naming-collision check skipped" in the report header, continue |
 | Title index file unreadable | Skip it; note count of skipped files |
 | Output directory creation fails | Stop: "Cannot create output directory" |
 | Report write fails | Stop: "Cannot write report: [path]" |

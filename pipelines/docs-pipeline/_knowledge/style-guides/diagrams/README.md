@@ -1,6 +1,6 @@
 # Diagram Style Guide
 
-Rules for when and how to use diagrams in The Product documentation. Covers diagram type selection, Mermaid conventions, color palette, complexity limits, and context requirements.
+Rules for when and how to use diagrams in Acme Orders documentation. Covers diagram type selection, Mermaid conventions, color palette, complexity limits, and context requirements.
 
 ## Style Guides
 

@@ -60,7 +60,7 @@ For each doc (or the doc set as a whole if a folder):
    - Introduction → any first-time reader; both engineers and PMs
    - Tutorial → hands-on learner, following along
 
-Keep personas to 2–3 max. Be specific: "payment engineer" not "developer."
+Keep personas to 2–3 max. Be specific: "integration engineer" not "developer."
 
 ### 4. Assess each section for visual aid candidates
 
@@ -68,7 +68,7 @@ For each non-trivial section in each doc, assess against these patterns. A secti
 
 **High-signal candidates (rate Critical or High):**
 - **Multi-party flow**: 3+ parties interacting across steps (e.g., app ↔ customer browser ↔ third-party API), especially with redirects or async steps. → Mermaid sequence diagram
-- **Decision tree with consequences**: Branching logic where the wrong branch has a real cost (failed transaction, incorrect settlement, data loss). 2+ branches, each with distinct outcomes. → Mermaid flowchart
+- **Decision tree with consequences**: Branching logic where the wrong branch has a real cost (failed order, incorrect fulfillment, data loss). 2+ branches, each with distinct outcomes. → Mermaid flowchart
 - **Lifecycle with stages**: A named sequence of phases where each phase feeds the next, especially when a time constraint (expiry, deadline) is attached. → Mermaid flowchart or stateDiagram
 - **Error-prone calculation in prose**: A math/proration example described only in words, where the reader must hold intermediate values in their head to follow it. → Annotated table or worked example
 
@@ -138,15 +138,15 @@ For every diagram implemented:
 1. **Mermaid diagrams** → save as `.md` file with a fenced ```` ```mermaid ```` code block
 2. **Non-Mermaid visuals** (tables, worked examples) → save as `.md` file
 
-Using `.md` (not `.mermaid` or `.mmd`) ensures the file can be previewed in Cursor with Command+Shift+V via the `bierner.markdown-mermaid` extension.
+Using `.md` (not `.mermaid` or `.mmd`) ensures the file can be previewed in any Markdown preview that supports Mermaid (for example VS Code with the `bierner.markdown-mermaid` extension).
 
 **File location:** `docs/output/_process/visual-audit/diagrams/`
 - Create if missing: `mkdir -p docs/output/_process/visual-audit/diagrams/`
 
 **File naming:** Descriptive kebab-case slug matching the diagram's content, not a ticket number:
-- ✅ `balance-session-capture-flow.md`
-- ✅ `straddle-rules.md`
-- ✅ `discount-proration-mixed-cart.md`
+- ✅ `order-session-flow.md`
+- ✅ `cancellation-rules.md`
+- ✅ `discount-proration-mixed-order.md`
 - ❌ `ticket-1204-diagram-1.md`
 
 **File content for all `.md` diagram files** — include a plain markdown header, then wrap Mermaid in a fenced code block. Do not include a ticket ID in the file:
@@ -160,7 +160,7 @@ Used in: `[filename]`, §[Section heading]
 ```
 ```
 
-**Dollar signs in prose:** Escape with `\$` in all inline prose text (e.g., `\$10 off a \$100 cart`). Dollar signs inside table cells render correctly and do not need escaping. Unescaped `$...$` pairs in prose are parsed as LaTeX math delimiters by VS Code preview and other renderers.
+**Dollar signs in prose:** Escape with `\$` in all inline prose text (e.g., `\$10 off a \$100 order`). Dollar signs inside table cells render correctly and do not need escaping. Unescaped `$...$` pairs in prose are parsed as LaTeX math delimiters by VS Code preview and other renderers.
 
 **Line breaks in Mermaid nodes:** Use `<br />` for line breaks inside Mermaid diagram node labels. `\n` and `<br>` do not work in Mermaid syntax.
 
@@ -181,7 +181,7 @@ Below you'll find prioritized recommendations, split into diagrams and images an
 
 ## Who reads these docs
 
-[2–4 sentences. Name the personas (by role), what they're trying to do, and where they typically enter the doc set. Be specific — "payment engineer building their first AcmePay integration" not "developers."]
+[2–4 sentences. Name the personas (by role), what they're trying to do, and where they typically enter the doc set. Be specific — "integration engineer building their first Acme Orders integration" not "developers."]
 
 ---
 
@@ -232,7 +232,7 @@ Screenshots, UI mockups, architecture illustrations, and anything that needs out
 [Include only notable skips — things where a visual might seem obvious but isn't warranted. Omit trivially short or lookup-only sections.]
 ```
 
-**Voice:** Do not mention AI or automation tools. "The Product documentation team's structured conversion process" is the right framing for the intro sentence.
+**Voice:** Do not mention AI or automation tools. "Acme Orders documentation team's structured conversion process" is the right framing for the intro sentence.
 
 **Ordering within the report:**
 1. Diagrams first, then images
@@ -267,7 +267,7 @@ Use these Mermaid diagram types as defaults. Recommend a graphic image only when
 
 **High** — meets one or more:
 - Flow involves 3+ parties or 5+ steps, especially with redirects, async callbacks, or time constraints
-- Decision tree where misunderstanding a branch causes a real failure (wrong API call, incorrect settlement, data loss)
+- Decision tree where misunderstanding a branch causes a real failure (wrong API call, incorrect fulfillment, data loss)
 - Math or proration in prose where the reader must hold multiple intermediate values in their head
 
 **Medium** — meets one or more:

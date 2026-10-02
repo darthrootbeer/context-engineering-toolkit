@@ -14,7 +14,7 @@ Think of it like a car wash with stations: soap, rinse, wax, dry. You don't skip
 
 Each stage is a **skill** — a markdown file full of instructions that Claude Code reads and follows. When you type `/docs-diataxis-audit`, Claude loads that skill file and executes the steps inside it. The skill tells Claude what to look at, what to produce, and what to check before moving on.
 
-Skills are just text files. They live in `~/.claude/skills/`. You can read them, edit them, and version them like any other file.
+Skills are just text files. They live in `~/.claude/skills/<name>/SKILL.md` once installed (section 3 of [SETUP.md](./SETUP.md) has the exact install loop). You can read them, edit them, and version them like any other file.
 
 ---
 
@@ -24,15 +24,15 @@ Three knowledge files live in `_knowledge/` and are loaded by accuracy-sensitive
 
 - `_knowledge/glossary.yaml` — domain terminology loaded by `docs-grammar-spelling` to check canonical forms and catch common mistakes
 - `_knowledge/product-kb/` — product model files loaded by `docs-sme-review` to fact-check domain accuracy claims
-- `_knowledge/style-guides/style-guide.md` — voice and tone rules loaded by `docs-style-check-voice`
+- `_knowledge/style-guides/` — style guides loaded by the style passes. `docs-style-check-voice` reads `general/style-guide_general.md`; the structure and human passes read the `diataxis/` and `write-like-a-human/` folders
 
-Placeholder files with instructions are in `_knowledge/`. The pipeline will run without them, but Stage 3b (voice), Stage 3e (grammar), and Stage 4c (SME review) will produce generic or incomplete results.
+Starter files with instructions are in `_knowledge/`, so the pipeline runs from a fresh clone. The product knowledge base describes a made-up product (the "Acme Orders API") and must be replaced with your own: until then Stage 4c (SME review) checks drafts against the wrong product. Stage 0 copies `_knowledge/` into each workspace, because the skills read it relative to the workspace folder.
 
 ---
 
 ## The workspace
 
-Before anything runs, the pipeline creates a **workspace** — a folder in `~/projects/` named like `workspace_doc-1319_setup-and-credentials`. This is where everything lives:
+Before anything runs, the pipeline creates a **workspace** — a folder in `~/projects/` (the `WORKSPACE_ROOT` constant) named like `workspace_doc-1319_setup-and-credentials`. This is where everything lives:
 
 ```
 workspace_doc-1319_setup-and-credentials/
@@ -43,7 +43,8 @@ workspace_doc-1319_setup-and-credentials/
       _process/     ← audit reports, style notes, review outputs, changes log
   CLAUDE.md         ← instructions for Claude working in this project
   README.md
-  _shared/          ← symlink to shared tools and style guides
+  _knowledge/       ← copy of the glossary, style guides and product knowledge base
+  _shared/          ← optional link to your own shared tools (only if SHARED_CONFIG_DIR is set)
 ```
 
 The workspace is a git repo. Every stage commits its output. So you can always see exactly what changed at each step.
@@ -111,7 +112,7 @@ flowchart TD
 
 ### Stage 0 — Workspace Setup (`/docs-workspace-setup`)
 
-Creates the project directory (`workspace_doc-{num}_{slug}`), runs `git init`, adds shared resource symlinks, writes `CLAUDE.md` and `README.md`, and copies the source doc(s) into `docs/input/`. Optionally creates a project note in your tracking tool.
+Creates the project directory (`workspace_doc-{num}_{slug}`), runs `git init`, copies in `_knowledge/`, writes `CLAUDE.md`, `README.md` and `.gitignore`, and copies the source doc(s) into `docs/input/`. Optionally links a shared config folder and creates a project note in your notes folder.
 
 **Outputs:** Project directory, initial git commit, source docs in place.
 
@@ -132,8 +133,8 @@ Most docs mix types. The audit surfaces those mixtures and recommends whether to
 
 **Outputs:**
 - `{guide}_audit-report.md` — full analysis with section-level breakdown
-- `{guide}_mapping.json` — machine-readable section map (schema: `_shared/schemas/diataxis-audit-mapping/`)
-- SVG visualizations of the content distribution
+- `{guide}_mapping.json` — machine-readable section map (structure is described in the audit skill; an optional schema in your shared config folder is used if present)
+- SVG visualizations of the content distribution (optional, only if the diagram tool in your shared config folder is installed)
 
 ---
 
@@ -155,7 +156,7 @@ Five sequential passes. Each one loads what it needs fresh. Each pass edits docs
 Checks Diataxis structural rules for each doc's type: required sections, heading format, opening sentence, conclusion. Rules differ per type — a how-to has different required sections than a reference.
 
 **3b — Voice (`/docs-style-check-voice`)**
-Reads the style guide from `_knowledge/style-guides/style-guide.md`. Populate this with your team's conventions before running. Applies voice and tone, list formatting, callout usage, table structure, terminology, and addressing conventions (`you`, not `the user`).
+Reads the style guide from `_knowledge/style-guides/general/style-guide_general.md`. Adapt it to your team's conventions before running. Applies voice and tone, list formatting, callout usage, table structure, terminology, and addressing conventions (`you`, not `the user`).
 
 **3c — Human (`/docs-style-check-human`)**
 Removes AI writing patterns: em dashes, banned filler phrases (`it's worth noting`, `notably`), uniform sentence length, bold-label lists, corporate padding.

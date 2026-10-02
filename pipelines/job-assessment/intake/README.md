@@ -38,7 +38,7 @@ Run everything from `pipelines/job-assessment/`. To start, open Claude Code ther
 
 - The answers in `../fixtures/robin-sample/intake-answers.txt` (an invented person) were turned into entries the way the stage files describe and written one at a time through `scripts/add_entry.py`, starting from the empty template. `scripts/validate_profile.py` accepted the finished file with no problems. Its warnings were the gaps stage 6 is meant to ask about: accomplishments with no dates, and must-haves with no reason, because the scripted answers never gave them.
 - The same run showed the write script refusing a duplicate entry, an interview answer marked as checked, and an authorship value outside the allowed list, each without changing the file.
-- Not yet done: a live run of the skill on a model with the scripted answers, saved as a transcript. That run is part of the integration step listed in the [pipeline status](../README.md#status), together with the tests for the prompts below.
+- A model ran the intake skill with the `claude` CLI on Claude Sonnet, answering from the same scripted answers. The file it built passed the validator, with the same employers and lanes as the fictional person's file. The transcript is in `../tests/intake-transcript.md`.
 
 What this does not prove: that the questions find everything worth saying about a career, or that a model will follow every rule on every run. The write script and the validator catch the mistakes that can be checked by code. The rest depends on the model and on you reading each entry before you say yes.
 
@@ -48,18 +48,18 @@ What this does not prove: that the questions find everything worth saying about 
 
 Paste one of these into any AI model, together with the files it names.
 
-<!-- untested: these two blocks follow the design text (prompt 2 starts at stage 0, not stage 1, because the person section is required) and still need their model runs and grading before the pipeline is marked done -->
-
-**Build your own file** (not yet tested on a model)
+**Build your own file**
 
 <!-- prompt: prompts/02-customize.txt -->
 ```text
-I'm attaching intake/SKILL.md and intake/templates/career-profile.template.yaml. Interview me to build my own career-profile.yaml. Ask exactly one question at a time and wait for my answer. If a question has two parts, ask them separately. Never suggest an answer and never invent a fact, date, number or skill. After each answer, show the exact YAML entry you would add, with its source label, and ask me to confirm it. Anything I cannot point to a document, link or artifact for gets proof: unchecked. Start with stage 0, orientation. A good session ends with a file that passes scripts/validate_profile.py.
+I'm attaching intake/SKILL.md and intake/templates/career-profile.template.yaml. Interview me to build my own career-profile.yaml. Ask exactly one question at a time and wait for my answer. If a question has two parts, ask them separately. Never suggest an answer and never invent a fact, date, number or skill. After each answer, show the exact YAML entry you would add, put its source label on its own line under it (for example interview:<today's date>:s<stage>.q<question>), and ask me to confirm it. Anything I cannot point to a document, link or artifact for gets proof: unchecked. You cannot run commands or open files here, so never claim to have written anything: once I confirm an entry, show the scripts/add_entry.py command for me to run, then ask the next question. Start with stage 0, orientation. A good session ends with a file that passes scripts/validate_profile.py.
 ```
 
-**Find the gaps in your file** (not yet tested on a model)
+**Find the gaps in your file**
 
 <!-- prompt: prompts/05-find-gaps.txt -->
 ```text
-I'm attaching the 'What the validator checks' section of ARCHITECTURE.md and my career-profile.yaml. Find the weak spots the validator cannot catch: skills scored 3 or higher with no evidence ids, unchecked evidence a posting would lean on, evidence with no dates, must-haves with no reason, and lanes whose requirements look copied from each other. For each, give the exact YAML path, why it matters for scoring, and one question you would ask me to fix it. Do not fill any gap yourself. A good answer on fixtures/gappy-profile.yaml finds all three planted gaps.
+I'm attaching the 'What the validator checks' section of ARCHITECTURE.md and my career-profile.yaml. Find the weak spots the validator cannot catch: skills scored 3 or higher that rest on thin evidence, unchecked evidence a posting would lean on, evidence with no dates, must-haves or hard blocks with no reason, and lanes whose requirements look copied from each other. For each, give the exact YAML path, why it matters for scoring, and one question you would ask me to fix it. Do not fill any gap yourself. A good answer on fixtures/gappy-profile.yaml finds all three planted gaps.
 ```
+
+**Tested on:** Claude Sonnet and Claude Haiku, 2026-10-01. Results for every prompt are in `../tests/prompt-runs/GRADES.md`.

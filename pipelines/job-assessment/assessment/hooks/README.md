@@ -1,6 +1,6 @@
 # Email card guard (optional hook)
 
-This folder holds a small Claude Code hook that stops a plain-text job assessment email from going out. It was built by directing Claude Code: the author wrote the rules, reviewed the output and checked it with the tests in `tests/test_email_guard.py`.
+This folder holds a small Claude Code hook that stops a plain-text job assessment email from going out. It was built by directing Claude Code: the author wrote the rules, reviewed the output and checked it with the tests in `../../tests/test_email_guard.py`.
 
 Nothing in this system sends email. `render_email.py` writes the card to a local HTML file and stops. The hook only matters if you, or your AI tool, run a mail command of your own afterward.
 
@@ -49,3 +49,18 @@ python3 assessment/scripts/check_email.py out/example-co-docs-writer.html
 ```
 
 It prints `check_email: card passes` and exits 0, or lists each problem and exits 2.
+
+---
+
+### Prompt for your AI model
+
+Paste this into any AI model, together with this document and `assessment-email-template-guard.sh`.
+
+**Understand the hook**
+
+<!-- prompt: prompts/h1-understand-hook.txt -->
+```text
+I'm attaching assessment/hooks/README.md and assessment-email-template-guard.sh. Explain what this hook blocks, what it lets through, and how to add it to my Claude Code settings. A good answer names every check the README lists and the exit code that blocks.
+```
+
+**Tested on:** Claude Sonnet and Claude Haiku, 2026-10-01. Results for every prompt are in `../../tests/prompt-runs/GRADES.md`.

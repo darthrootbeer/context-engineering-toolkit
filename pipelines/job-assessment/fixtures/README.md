@@ -40,3 +40,18 @@ The same numbers are in machine-readable form in `expected.yaml`.
 - Robin's evidence includes one entry marked `do_not_use` (work a teammate did), which no finding may cite.
 - Posting 03 is the only one with a Culture-neutral phrase ("fast-paced") that costs nothing, and the only one with generic collaboration words that must not count as autonomy.
 - Posting 01 names the one company in `company_criteria.high_interest`. The company read is shown but never changes the verdict.
+
+---
+
+### Prompt for your AI model
+
+Paste this into any AI model, together with `../ARCHITECTURE.md`, Robin's profile, the three postings and their findings files.
+
+**Test the scoring with the fixture**
+
+<!-- prompt: prompts/04-test-scoring.txt -->
+```text
+I'm attaching ARCHITECTURE.md, fixtures/robin-sample/career-profile.yaml, the three postings in fixtures/postings/ and their files in fixtures/findings/. For each posting, apply the scoring rules by hand to its findings file. Show the arithmetic for Fit, Comp, Qualifications and Culture, round each the way ARCHITECTURE.md says, then apply the verdict rules in order and name the rule that decided it. Only after all three answers are written, open fixtures/expected.yaml, compare, and list every mismatch with the step where your arithmetic and the file disagree. A good answer matches all three verdicts and all twelve scores.
+```
+
+**Tested on:** Claude Sonnet and Claude Haiku, 2026-10-01. Results for every prompt are in `../tests/prompt-runs/GRADES.md`.

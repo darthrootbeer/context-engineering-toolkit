@@ -51,9 +51,10 @@ The first prints `validate_profile: clean, 0 warning(s)` and exits 0. The second
 **Step 5. Run the whole chain on one posting.**
 
 ```text
+OUT=$(mktemp -d)
 python3 scripts/assess_offline.py fixtures/postings/03-unlisted-pay-perks.md \
   --findings fixtures/findings/03-unlisted-pay-perks.findings.json \
-  --profile fixtures/robin-sample/career-profile.yaml --out /tmp/ja-out
+  --profile fixtures/robin-sample/career-profile.yaml --out "$OUT"
 ```
 
 It prints ten progress lines, then a summary that starts:
@@ -64,9 +65,9 @@ ASSESSMENT: fixtures/postings/03-unlisted-pay-perks.md
 🚦 VERDICT: Apply with reservations
 ```
 
-followed by four score bars (Fit 7, Comp 5, Qualifications 6, Culture 9) and a table of checks. In `/tmp/ja-out` you will find the archived note with the verdict emoji at the front of its name, the working files, and an email card in `email/` that you can open in a browser. Nothing is sent anywhere.
+followed by four score bars (Fit 7, Comp 5, Qualifications 6, Culture 9) and a table of checks. In `$OUT` you will find the archived note with the verdict emoji at the front of its name, the working files, and an email card in `email/` that you can open in a browser. Nothing is sent anywhere.
 
-On Windows, use any folder you like in place of `/tmp/ja-out`.
+On Windows, use any empty folder you like in place of `$OUT`.
 
 ## Use your own file
 

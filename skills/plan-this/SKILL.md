@@ -28,7 +28,7 @@ This skill needs one thing from the host project: where plans live. Set it once 
 PLANS_DIR="${PLANS_DIR:-./plans}"
 ```
 
-Adjust the default to match your repo's conventions — a `plans/` folder at the repo root, a `_plans/` folder inside a docs or notes directory, whatever already exists. If the project has more than one place plans could live (e.g. a product-work vault and a config/infra vault), ask the user which one applies before writing — one question, wait for the answer — rather than guessing.
+Adjust the default to match your repo's conventions — a `plans/` folder at the repo root, a `_plans/` folder inside a docs or notes directory, whatever already exists. If the project has more than one place plans could live (e.g. two separate notes folders, one for product work and one for config), ask the user which one applies before writing — one question, wait for the answer — rather than guessing.
 
 ---
 

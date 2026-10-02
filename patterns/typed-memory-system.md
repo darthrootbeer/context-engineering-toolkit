@@ -89,7 +89,7 @@ The agent reads the one that matches the task. The cost is that these are not au
 
 ### 5. A weekly automatic check
 
-A size limit nobody checks gets crossed. Run a small script on a schedule that checks the index and every topic file against both limits, flags any topic file the index does not link to, and sends a message only when something needs a human. A weekly cron entry is enough:
+A size limit nobody checks gets crossed. Run a small script on a schedule that checks the index against both limits (and keeps topic files short, since their limit is untested), flags any topic file the index does not link to, and sends a message only when something needs a human. A weekly cron entry is enough:
 
 ```
 0 22 * * 0  /path/to/memory-size-check.sh     # Sundays, 10pm
@@ -149,6 +149,8 @@ Give any AI model this file plus one of the prompts below. Paste the file text w
 Here is a design pattern document: [PASTE FILE]
 
 Explain it to me as if I have never given an AI tool long-term memory. Use a different everyday analogy than the one in the document. Then ask me three questions, one at a time, that check I understand the difference between a correction and a confirmation, why the index has a size limit, and why compaction never deletes topic files. Wait for my answer before each next question.
+
+A good answer uses an analogy that is not the document's, explains the difference between a correction and a confirmation, why the index has a size limit, and why compaction never deletes topic files. It asks exactly three questions, one at a time, and waits for my answer before the next.
 ```
 
 **2. Review it against your setup**
@@ -159,6 +161,8 @@ Here is a design pattern document: [PASTE FILE]
 Below is a listing of my memory or notes folder with file sizes, plus the tool I use: [PASTE LISTING AND TOOL NAME]
 
 Tell me which parts of the pattern my setup already has and which it lacks. Flag any number in the document (line limit, byte limit) that may be different for my tool and tell me how to find the real one. Name my biggest risk of hitting a size limit and one check I could automate.
+
+A good answer says which parts of the pattern my listing already has and which it lacks, flags the line and byte limits as values that may differ for my tool and says how to find the real ones, and names one biggest size risk and one check I could automate.
 ```
 
 **3. Adapt and test it**
@@ -169,6 +173,8 @@ Here is a design pattern document: [PASTE FILE]
 My tool is: [YOUR AGENT TOOL]. Here are five things I want it to remember: [LIST FIVE FACTS, PREFERENCES AND CORRECTIONS]
 
 Sort each into a memory type, write the topic files and the index for them, and then write a short script that checks the index against a size limit in bytes. Finish with a test: how I check the next session actually loaded the index, and how I confirm the size check fails when I add too much.
+
+A good answer sorts each of my five items into a memory type, writes topic files and an index for them, gives a script that measures the index in bytes, and finishes with a test that the next session loaded the index and a test that the size check fails when the index grows too large.
 ```
 
-**How these prompts were checked.** Each of the three prompts was run once with a small model (Claude Haiku) through the `claude` command line, with the full text of this file pasted in and sample details filled in. All three gave an on-topic answer that matched what this file says. In two runs a placeholder was left unfilled by my test setup, and the model noticed and said so or asked for the missing text instead of making something up. That is the behavior you want. One run per prompt is a light check, not a benchmark, so read the answers critically. I did not save those answers, so there is no record to read here, unlike the saved runs in `pipelines/job-assessment/tests/`.
+**How these prompts were checked.** On 2026-10-01 each of the three prompts was run once on Claude Sonnet and once on Claude Haiku, with this file pasted in and sample details filled in. A Claude model (Sonnet 5.5) graded each answer against the "A good answer ..." sentence under the prompt. I have not re-read every answer. Sonnet met all three. Haiku met none of them in full: its explanation left out why compaction keeps topic files, it listed gaps it could not see from a file listing, and the size-check script it wrote uses a variable it never sets. The answers are in [`tests/prompt-runs/`](tests/prompt-runs/).

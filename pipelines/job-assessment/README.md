@@ -22,12 +22,13 @@ cd context-engineering-toolkit/pipelines/job-assessment
 python3 -m venv .venv && . .venv/bin/activate && pip install -r requirements.txt
 python3 -m pytest -q
 python3 scripts/validate_profile.py --fixture fixtures/robin-sample/career-profile.yaml
+OUT=$(mktemp -d)
 python3 scripts/assess_offline.py fixtures/postings/03-unlisted-pay-perks.md \
   --findings fixtures/findings/03-unlisted-pay-perks.findings.json \
-  --profile fixtures/robin-sample/career-profile.yaml --out /tmp/ja-out
+  --profile fixtures/robin-sample/career-profile.yaml --out "$OUT"
 ```
 
-The tests pass. The validator prints `clean`. The last command runs the whole chain on fictional posting 03 and prints its verdict, **Apply with reservations**, with four score bars and a table of what it checked. Open the HTML card it wrote under `/tmp/ja-out/email/` in a browser to see the summary card.
+The tests pass. The validator prints `clean`. The last command runs the whole chain on fictional posting 03 and prints its verdict, **Apply with reservations**, with four score bars and a table of what it checked. Open the HTML card it wrote under `$OUT/email/` in a browser to see the summary card. The fresh `mktemp` folder is what lets you run the last command again: a second run into the same folder stops with `DUPLICATE`.
 
 [`SETUP.md`](SETUP.md) has each step with what to expect, a fix for each common failure, and how to wire the skills into Claude Code.
 
@@ -55,7 +56,7 @@ Built by directing Claude Code. The author designed the rules, reviewed the outp
 
 It is a public rebuild of a private tool the author has had in daily use since late August 2026. The earliest public trace is this repo's first job-screening commit, dated 2026-08-25 (`git log --reverse --format='%ad %s' --date=short | grep job-fit-screen`). That earlier tool has since been removed; git history keeps it. Everything personal was left out: no real postings, no real person's data, no real employers. The rules were rewritten from a written list of the private tool's behaviors, and the scoring and verdict were rebuilt as scripts so they can be tested from a clean clone.
 
-**Timeline, so the dates make sense.** The public version was assembled and reviewed on 2026-10-01, from a private system in daily use since late August. The pull requests that built it (listed in `git log`) were built by Claude Code agents under the author's direction. They merged between 16:38 and 22:02 that day, several a minute apart, because they were prepared in parallel and merged after CI passed on each. The author's check on that work is the tests and saved run records in this folder. No claim is made here about how much of each diff a person read line by line.
+**Timeline, so the dates make sense.** The public version was assembled and reviewed on 2026-10-01, from a private system in daily use since late August. The pull requests that built it (listed in `git log`) were built by Claude Code agents under the author's direction. They merged over the course of that day, several a minute apart in places, because they were prepared in parallel and merged after CI passed on each. The check on the code is the tests, and the CI that re-runs them in a fresh clone on every change. The check on the model's answers is the saved run records in this folder.
 
 No production machine-learning or retrieval (RAG) work is claimed. This is prompts, a schema, and ordinary scripts with tests.
 
@@ -86,6 +87,8 @@ SKIPPED [1] tests/live/test_live_intake.py:38: live tests are off: set JA_LIVE=1
 $ python3 scripts/validate_profile.py --fixture fixtures/robin-sample/career-profile.yaml
 validate_profile: clean, 0 warning(s) in career-profile.yaml
 $ python3 scripts/validate_profile.py fixtures/broken-profile.yaml; echo "exit=$?"
+validate_profile: 5 problem(s), 0 warning(s) in broken-profile.yaml
+(the 5 problem lines, one per planted mistake, are omitted here)
 exit=1
 $ python3 scripts/assess_offline.py fixtures/postings/03-unlisted-pay-perks.md ... | head -3
 ASSESSMENT: fixtures/postings/03-unlisted-pay-perks.md

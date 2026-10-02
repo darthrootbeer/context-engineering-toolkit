@@ -96,7 +96,7 @@ Then the real test. This runs the pipeline on a short sample doc that ships in t
 1. `/docs-workspace-setup TICKET-1 smoke-test` and answer `y`. This creates `~/projects/workspace_doc-1_smoke-test/` with a copy of `_knowledge/`.
 2. In that folder, copy the sample in: `cp "<path to this folder>/sample/acme-orders-cancellations.md" docs/output/docs/`
 3. `/docs-style-check-voice docs/output/docs/` (Stage 3b). It edits the sample in place and writes a report to `docs/output/_process/style-audit/`.
-4. `/docs-sme-review docs/output/docs/` (Stage 4c). It writes `_process/sme-review/acme-orders-cancellations-sme-review.md`.
+4. `/docs-sme-review docs/output/docs/` (Stage 4c). It writes `acme-orders-cancellations-sme-review.md` and a summary into a `_process/sme-review/` folder (the model may place it under `docs/output/` or at the workspace root).
 
 **What proves it worked.** Stage 3b does not stop with "Style guide not found". The sample has a casual opener, so the voice report lists at least one tone fix. Stage 4c does not stop with "Product KB not found". Its report lists at least these three HIGH domain findings, because the sample contradicts `_knowledge/product-kb/`: a paid order cannot be canceled, the hosted order form does not receive webhooks, and the rate limit is 100 a minute, not a thousand.
 

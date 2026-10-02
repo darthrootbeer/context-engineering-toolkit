@@ -56,10 +56,7 @@ jobs:
           python-version: ${{ matrix.python }}
       - run: pip install -r requirements.txt
       - name: Run the tests
-        # pytest exits 5 when it finds no tests. That is expected until the
-        # first work package adds some, so only that exit code is tolerated.
-        shell: bash
-        run: python3 -m pytest -q || [ $? -eq 5 ]
+        run: python3 -m pytest -q
 
   clean-clone:
     name: clean-clone

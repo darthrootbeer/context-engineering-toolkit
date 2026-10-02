@@ -243,7 +243,7 @@ def scrub(text):
     # clone address, which models repeat from SETUP.md, is shortened to a label.
     text = re.sub(r"https://github\.com/[\w.-]+/context-engineering-toolkit", "<repo-url>", text)
     text = text.replace(str(Path.home()), "<home>")
-    text = re.sub(r"/(?:private/)?(?:var/folders|tmp)/[^\s`'\")]+", "<tmp>", text)
+    text = re.sub(r"/(?:private/)?(?:var/folders/[^\s`'\")]+|tmp/tmp[^\s`'\")]+)", "<tmp>", text)
     return re.sub(rf"\b{re.escape(getpass.getuser())}\b", "<user>", text)
 
 

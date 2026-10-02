@@ -5,7 +5,7 @@
 - Date: 2026-10-01. Model alias `haiku`, which ran as `claude-haiku-4-5-20251001` (Claude Code can add a small helper model call of its own).
 - Turns: 9. Cost: $0.24 (the simulated user's calls are not included).
 - Grade: see `GRADES.md`.
-- Paths and addresses were shortened to labels such as <home>, <tmp> and <repo-url> before saving.
+- Paths and addresses were shortened to labels such as <home>, <tmp> and <repo-url> before saving. The scrubber was too broad on this run and also shortened the `/tmp/ja-out` folder that SETUP.md itself uses, so some `<tmp>` labels below stand for that documented path.
 
 ## Conversation
 

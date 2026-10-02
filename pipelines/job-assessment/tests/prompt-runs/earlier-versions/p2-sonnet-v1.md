@@ -5,7 +5,6 @@
 - Date: 2026-10-01. Model alias `sonnet`, which ran as `claude-sonnet-5-5` (Claude Code can add a small helper model call of its own).
 - Turns: 25. Cost: $3.25 (the simulated user's calls are not included).
 - Grade: see `GRADES.md`.
-- Paths and addresses were shortened to labels such as <home>, <tmp> and <repo-url> before saving.
 
 ## Checks run by code on the reply
 

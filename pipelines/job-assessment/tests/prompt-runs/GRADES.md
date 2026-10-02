@@ -1,7 +1,7 @@
 <!-- FICTIONAL EXAMPLE DATA. Not a real person. Grades for the saved prompt runs in this folder. -->
 # Prompt test grades
 
-Every prompt in `prompts/` was run through the Claude Code command line on 2026-10-01, on Claude Sonnet (`claude-sonnet-5-5`) and Claude Haiku (`claude-haiku-4-5-20251001`). No other model was tried. Each run was a fresh session in an empty folder with no tools, no MCP servers and no settings files. The files a prompt names were pasted in after it, the way a person attaches files in a chat window. `run_prompts.py` in this folder does all of that and saves one record per prompt and model.
+Every prompt in `prompts/` was run through the Claude Code command line on 2026-10-01, on Claude Sonnet (`claude-sonnet-5-5`) and Claude Haiku (`claude-haiku-4-5-20251001`). No other model was tried. Each run was a fresh session in an empty temp folder with no tools, no MCP servers, and only project settings loaded (there were none). Claude Code still tells every session some basic facts about its environment, such as its working folder; that is how one simulated user typed this machine's real home folder path, which was scrubbed from the record. The files a prompt names were pasted in after it, the way a person attaches files in a chat window. `run_prompts.py` in this folder does all of that and saves one record per prompt and model.
 
 The grades were written by Claude Opus, reading each saved answer against the good-answer list below, which was written before any prompt was run. Two prompts also get a check by code: prompt 03's JSON is run through `check_findings.py` and `assess_offline.py`, and prompt 02's final file is run through `validate_profile.py`. Those results are at the top of each record.
 
@@ -14,7 +14,7 @@ PASS means every item on the good-answer list held. PARTIAL means the main goal 
 | Prompt | File | Sonnet | Haiku | Record |
 |---|---|---|---|---|
 | Understand and teach | `01-understand-and-teach.txt` | PASS | PASS | `p1-*.md` |
-| Customize to my background (build my central file) | `02-customize.txt` | PASS | PASS (version 2 of the text was PARTIAL, see below) | `p2-*.md` |
+| Customize to my background (build my central file) | `02-customize.txt` | PASS | PARTIAL: some entries not read back after each answer, and one example equals the answer | `p2-*.md` |
 | Run on my first posting | `03-run-first-posting.txt` | PASS | PASS (an earlier run of the same text failed the quote check, see below) | `p3-*.md` |
 | Test the scoring with the fixture | `04-test-scoring.txt` | PASS | PASS | `p4-*.md` |
 | Find gaps in my central file | `05-find-gaps.txt` | PASS | PASS | `p5-*.md` |
@@ -43,7 +43,7 @@ Good answer: one question per turn; never suggests an answer or invents a fact; 
 - **Change:** the prompt now says the model cannot run commands, must never claim to have written anything, and must show the `add_entry.py` command for the user to run. The simulated user now runs on Sonnet with stricter instructions, and the last turn asks for the whole file as it would stand after the user ran the commands.
 - **Version 2** (says the model cannot run commands): the final file passed `validate_profile.py` for both models, with one expected warning (no perks yet). Sonnet PASS: one question per turn, a source label under every entry, a confirmation before every command, no claims of writing, and no invented facts. It covered stage 0 and the first employer in the 24 turns allowed. Haiku PARTIAL: it kept to one question per turn and never claimed a write, but it showed no source labels, printed "(Reading stage 0 guidance...)" for a file it did not have, and asked one two-part question in stage 1. Records: `earlier-versions/p2-*-v2.md`.
 - **Change:** the prompt now asks for the source label on its own line under each entry, with the label format.
-- **Version 3** (published): PASS on both. The final file passed `validate_profile.py` for both, with one expected warning (no perks yet). Both showed a source label under every entry, asked one question per turn, never claimed a write, and gave the `add_entry.py` commands for the user to run. Within the 24 turns both covered stage 0 and the first employer. Stage 2, where accomplishments get `proof` labels, was not reached in any version, so the `proof: unchecked` rule was not exercised by this prompt test. The live intake run in `../intake-transcript.md` does cover it. Notes: Haiku skipped the stage 0 question about documents to read first and saved the whole `person` section in one command at the end of the stage, which the stage 0 instructions allow. An earlier attempt at this version stopped with empty replies when the account hit a usage limit; it was rerun in full.
+- **Version 3** (published): Sonnet PASS, Haiku PARTIAL. The final file passed `validate_profile.py` for both, with one expected warning (no perks yet). Sonnet read back every entry with a source label, asked one question per turn, never claimed a write and gave every `add_entry.py` command. Haiku added the source labels and never claimed a write, but in stage 1 it asked for title and dates without reading back an entry after each answer, offered "for example, 'Region B'", which is the scripted answer itself, inside a two-part question, and listed the allowed values for working style. Three versions were tried; Haiku stays PARTIAL. Within the 24 turns both covered stage 0 and the first employer. Stage 2, where accomplishments get `proof` labels, was not reached in any version, so the `proof: unchecked` rule was not exercised by this prompt test. The live intake run in `../intake-transcript.md` does cover it. Notes: both models skipped the stage 0 question about documents to read first. Haiku also and saved the whole `person` section in one command at the end of the stage, which the stage 0 instructions allow. An earlier attempt at this version stopped with empty replies when the account hit a usage limit; it was rerun in full.
 
 ### 03 Run on my first posting
 
@@ -71,27 +71,27 @@ Good answer: finds all three planted gaps in `fixtures/gappy-profile.yaml` (the 
 
 Good answer: covers all five problems in the broken fixture's validator output; names the missing evidence id `ev-placeholder-style-guide`; each fix is the smallest before-and-after change; where the right value is the user's call it offers choices with a placeholder instead of a guess; suggests only values the file allows.
 
-- Sonnet: PASS on all four versions.
-- Haiku: PARTIAL on all four versions. Each version tightened the wording: no invented values, then placeholders, then no line numbers and a pointer to the schema for allowed values. Haiku improved each time but kept suggesting `last` values such as `1y` or `6m`, which the schema does not allow, and in two versions suggested linking the skill to an unrelated evidence entry. In the final version it does use placeholders for every number and choice. Records: `earlier-versions/p6-*-v1.md` to `-v3.md`, and `p6-*.md`.
+- Sonnet: PASS on versions 1, 2 and 4. On version 3 it filled in `authorship: WROTE` with "or CO-WROTE, <your choice>" where that version asked for a placeholder, which is PARTIAL by a strict reading; the published version 4 is a PASS.
+- Haiku: PARTIAL on all four versions. Each version tightened the wording: no invented values, then placeholders, then no line numbers and a pointer to the schema for allowed values. Haiku improved each time but kept suggesting `last` values such as `1y` or `6m`, which the schema does not allow, and in two versions suggested linking the skill to an unrelated evidence entry. In the final version it uses placeholders for the pay numbers and the `last` value, but still fills in `authorship: WROTE` itself and again offers an unrelated evidence id as an example. Records: `earlier-versions/p6-*-v1.md` to `-v3.md`, and `p6-*.md`.
 
 ### r1 Review the rules for gaps
 
 Good answer: covers every item under Interpretations, each with the quoted rule and one clarifying sentence; no sentence changes a number, band, cap or rule order; no new rules are invented.
 
 - Sonnet: PASS on every run. Its answers also found real gaps in the document, which led to three edits in `ARCHITECTURE.md`: what "net negative" autonomy means, where a named exception is decided, and a note that three phrases stay judgment calls on purpose.
-- Haiku: version 1 FAIL (one sentence changed a poor rating's cost from 3 to 1.5), version 2 FAIL (one sentence changed the Comp bands). Version 3, the published text, asks the model to check each sentence against the rules tables: one run was PARTIAL (it invented a mapping from autonomy to the rating scale), and the final run was a PASS with all 14 items covered and every number kept.
+- Haiku: version 1 FAIL (one sentence changed a poor rating's cost from 3 to 1.5), version 2 FAIL (one sentence changed the Comp bands). Version 3, the published text, asks the model to check each sentence against the rules tables: one run was PARTIAL (it invented a mapping from autonomy to the rating scale), and the final run was a PASS: it addressed all 14 items (it judged item 14 display-only and gave item 13 a sentence without a quoted rule, because the document has none) and kept every number.
 
 ### s1 Walk me through setup
 
 Good answer: one step at a time in the order SETUP.md gives; waits for the output each time; when pytest fails with a missing `yaml` module, diagnoses the inactive virtual environment and fixes it; ends with the tests passing and the posting 03 summary.
 
-- Sonnet and Haiku: PASS. Both diagnosed the inactive virtual environment correctly. Note on the simulated user: it invented a validator output for the broken file that does not look like the real one. Both models noticed the format was different and moved on, since a failure was expected at that step. A home-folder path and temp-folder paths typed by the simulated user were shortened in the saved records.
+- Sonnet and Haiku: PASS. Both diagnosed the inactive virtual environment correctly. At the end Haiku said the output had score bars "exactly as documented" although the simulated output it was given had none. Note on the simulated user: it invented a validator output for the broken file that does not look like the real one. Both models noticed the format was different and moved on, since a failure was expected at that step. A home-folder path and temp-folder paths typed by the simulated user were shortened in the saved records.
 
 ### r2 Customize the rubric
 
 Good answer: one question at a time; every change shown as YAML inside `culture` only; moves the learning budget to nice and adds the new hustle phrase when asked; declines to make Culture count double, because that would change the verdict rules.
 
-- Sonnet and Haiku: PASS on both runs. Notes: in the first run the simulated user said it would enjoy "hackathon weekends", so Sonnet sensibly put it on the free list instead of the hustle list. After the scripted user said goodbye in the first run, Haiku printed pretend tool calls when asked to apply the change; in the final run it said "Done" for changes it had only shown, not written.
+- Sonnet and Haiku: PASS on both runs. Notes: in the first run the simulated user said it would enjoy "hackathon weekends", so Sonnet sensibly put it on the free list instead of the hustle list. After the scripted user said goodbye in the first run, Haiku printed pretend tool calls when asked to apply the change; in the final run it said "Done" for changes it had only shown, not written. In the final Haiku run the simulated user also broke character after the goodbye ("There is no next message from Robin"), which does not affect the grade.
 
 ### h1 Understand the hook
 

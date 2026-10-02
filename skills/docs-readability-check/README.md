@@ -53,7 +53,7 @@ Paste this into any AI model, together with this document and the files it descr
 ```text
 I have attached the README for "docs-readability-check", a Claude Code skill that rewrites dense sentences in docs. Teach it to me as if I am a technical writer who has never used it.
 
-1. Say in plain language what it checks and what it changes.
+1. Say in plain language what it checks and what it changes, and give the target grade for each doc type.
 2. Say what it never touches.
 3. Say where its report goes.
 4. Then ask me three questions to check that I understood, one at a time. Wait for my answer before the next one, and correct me where I am wrong.
@@ -88,4 +88,10 @@ Write me a trial plan. Use the install commands and the slash command from the R
 A good answer uses the README's install commands and the exact command `/docs-readability-check [folder-or-file]`, tells me to work on a copy because the skill edits in place, names the report folder the README gives, and does not promise a particular grade level for my doc.
 ```
 
-**How these prompts were checked.** PENDING_RUN_RECORD
+**How these prompts were checked.** On 2026-10-01 I ran every prompt in this document through the Claude Code command line, once against Claude Sonnet and once against Claude Haiku (the `sonnet` and `haiku` model names in Claude Code 2.1.287). Each run was a fresh session with no tools and no other instructions. I attached this document, replaced each bracketed input with a made-up sample, and read every answer against that prompt's "good answer" list. One run per prompt per model: a Pass means that run met the list, not that the prompt always does. The answers are saved in [`pipelines/docs-pipeline/tests/prompt-runs/`](../../pipelines/docs-pipeline/tests/prompt-runs/README.md) (the files that start with `RC-`). I have not run them against models from other vendors, so "any AI model" means "should work", not "verified".
+
+| Prompt | Sonnet | Haiku |
+| --- | --- | --- |
+| Understand and teach | Pass | Pass after a fix. The first version asked only what the skill checks and changes, and Haiku never stated the target grade for any doc type, then asked a quiz question whose answer it had not given. The prompt now asks for the target grade for each doc type. |
+| Review against your own setup | Pass | Pass. It said all three of my sample's doc types match, where "conceptual pages" only loosely matches the README's "explanation". |
+| Adapt and test | Pass | Pass. It suggested a name for the copy that is an example, not a path from the README. |

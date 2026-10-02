@@ -89,7 +89,9 @@ If the count is lower, the loop wrote to a different folder than the one Claude 
 
 ## 4. Smoke test
 
-This runs the pipeline on a short sample doc that ships in this folder (`sample/acme-orders-cancellations.md`, a made-up doc about a made-up product). It stops before anything is published and needs no placeholders. Run these in Claude Code:
+First, an offline check that needs no model. From the root of your clone, run `python3 pipelines/docs-pipeline/tests/check_pipeline.py`. It confirms that every knowledge file the skills name exists and that the folder holds no private paths. It should print `check_pipeline: clean`.
+
+Then the real test. This runs the pipeline on a short sample doc that ships in this folder (`sample/acme-orders-cancellations.md`, a made-up doc about a made-up product). It stops before anything is published and needs no placeholders. Run these in Claude Code:
 
 1. `/docs-workspace-setup TICKET-1 smoke-test` and answer `y`. This creates `~/projects/workspace_doc-1_smoke-test/` with a copy of `_knowledge/`.
 2. In that folder, copy the sample in: `cp "<path to this folder>/sample/acme-orders-cancellations.md" docs/output/docs/`
@@ -335,16 +337,16 @@ I have attached the setup guide for "docs-pipeline". Section 4 is a smoke test o
 
 [PASTE the file name of your doc and a one-line description of what it is about.]
 
-Rewrite the smoke test in section 4 for my doc. Change only what has to change for my file. Keep every command the guide gives, in the guide's order. Say which placeholders in section 2 I still do not need to fill in for this test. Do not invent a command or a file path. If my doc cannot be checked the way section 4 describes (for example because it is not about a product the knowledge files describe), say so plainly instead of promising a result.
+Rewrite the smoke test in section 4 for my doc. Change only what has to change for my file. Keep every command the guide gives, in the guide's order. In the copy command, write my doc's location as `<path to my doc>`. Say which placeholders in section 2 I still do not need to fill in for this test. Do not invent a command or a file path. Do not predict what any stage will find in my doc. If my doc cannot be checked the way section 4 describes (for example because it is not about a product the knowledge files describe), say so plainly.
 
 A good answer keeps the guide's commands and order, changes only the file name and where the guide's expected results depend on the sample doc, stops before the publish stage, repeats the guide's undo step, and says that Stage 4c checks my doc against the knowledge files, which describe a made-up product until I replace them.
 ```
 
-**How these prompts were checked.** On 2026-10-01 I ran every prompt in this document through the Claude Code command line, once against Claude Sonnet and once against Claude Haiku (the `sonnet` and `haiku` model names in Claude Code 2.1.287). Each run was a fresh session with no tools and no other instructions. I attached this document and any other file the prompt names, replaced each bracketed input with a made-up sample, and read every answer against that prompt's "good answer" list. I have not run them against models from other vendors, so "any AI model" means "should work", not "verified".
+**How these prompts were checked.** On 2026-10-01 I ran every prompt in this document through the Claude Code command line, once against Claude Sonnet and once against Claude Haiku (the `sonnet` and `haiku` model names in Claude Code 2.1.287). Each run was a fresh session with no tools and no other instructions. I attached this document and any other file the prompt names, replaced each bracketed input with a made-up sample, and read every answer against that prompt's "good answer" list. One run per prompt per model: a Pass means that run met the list, not that the prompt always does. I re-ran all four prompts after the fresh-clone fixes on the same day, and the answers are saved in [`tests/prompt-runs/`](./tests/prompt-runs/README.md). I have not run them against models from other vendors, so "any AI model" means "should work", not "verified".
 
 | Prompt | Sonnet | Haiku |
 | --- | --- | --- |
-| Understand and teach | Pass | Pass. It contradicted itself on whether a stage stops when a knowledge file is missing. |
+| Glossary (section 5.1) | Pass | Pass |
+| Understand and teach | Pass | Pass. It told me to replace every placeholder before the smoke test, although section 4 says the smoke test needs none. |
 | Review against your own setup | Pass | Pass |
-| Adapt and test | Pass, on both runs | Fail, on both runs. It wrote its own shell commands (creating files, search and replace, deleting a folder) although the prompt says to use only commands from the guide. Use a stronger model for this one. |
-
+| Adapt and test | Pass | Pass on the third version of the prompt. The earlier version of this prompt, which asked the model to write a smoke test from nothing, failed on Haiku on both runs because it wrote its own shell commands. The guide now has a smoke test, so the prompt adapts that one. Two further wording fixes were needed: forbid predictions about the reader's doc, and write the doc's location as `<path to my doc>`. |

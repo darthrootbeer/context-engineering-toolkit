@@ -51,7 +51,7 @@ Each file has fill-in instructions at the top. Stage 0 copies the whole `_knowle
 ## Pipeline order
 
 ```
-workspace → audit → split → structure → voice → human → readability
+workspace → audit → split → overview → structure → voice → human → readability
          → grammar → visuals → links → SME → changes → decisions → publish → verify
 ```
 
@@ -136,11 +136,10 @@ Write me a trial plan that uses only the stages that do not need a docs platform
 A good answer uses the real command names from the README, leaves out the publish and verify stages, describes each stage's output only as the README does, and does not predict what the stage will find in my document.
 ```
 
-**How these prompts were checked.** On 2026-10-01 I ran every prompt in this document through the Claude Code command line, once against Claude Sonnet and once against Claude Haiku (the `sonnet` and `haiku` model names in Claude Code 2.1.287). Each run was a fresh session with no tools and no other instructions. I attached this document and any other file the prompt names, replaced each bracketed input with a made-up sample, and read every answer against that prompt's "good answer" list. I have not run them against models from other vendors, so "any AI model" means "should work", not "verified".
+**How these prompts were checked.** On 2026-10-01 I ran every prompt in this document through the Claude Code command line, once against Claude Sonnet and once against Claude Haiku (the `sonnet` and `haiku` model names in Claude Code 2.1.287). Each run was a fresh session with no tools and no other instructions. I attached this document, replaced each bracketed input with a made-up sample, and read every answer against that prompt's "good answer" list. One run per prompt per model: a Pass means that run met the list, not that the prompt always does. I re-ran all three after the fresh-clone fixes on the same day, and the answers are saved in [`tests/prompt-runs/`](./tests/prompt-runs/README.md). I have not run them against models from other vendors, so "any AI model" means "should work", not "verified".
 
 | Prompt | Sonnet | Haiku |
 | --- | --- | --- |
-| Understand and teach | Pass | Pass |
-| Review against your own setup | Pass | Pass. It credited the README with a phrase the README does not contain. |
-| Adapt and test | Pass | Pass after a fix. The first version asked what I "should expect to see", and Haiku answered with confident predictions about a document it had never seen. The prompt now asks only for what the README says each stage produces. |
-
+| Understand and teach | Pass | Pass. It said the pipeline "works through seven stages", a count the README does not state. |
+| Review against your own setup | Pass | Pass. It did not list the three optional placeholders, which the README describes in prose and not in the table. |
+| Adapt and test | Pass | Pass |

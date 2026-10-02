@@ -1,6 +1,8 @@
 <!-- FICTIONAL EXAMPLE DATA. Not a real person. Saved by tests/prompt-runs/run_prompts.py -->
 # Prompt run: Fix errors, on haiku
 
+Note: the pay figures in this record were changed after the run to fictional ones. Nothing else was edited; the scores and verdicts are as recorded.
+
 - Prompt file: `prompts/06-fix-errors.txt`
 - Date: 2026-10-01. Model alias `haiku`, which ran as `claude-haiku-4-5-20251001` (Claude Code can add a small helper model call of its own).
 - Turns: 1. Cost: $0.03 (the simulated user's calls are not included).
@@ -35,10 +37,10 @@ I'm attaching the output of a failed command from this tool (the validator, the 
 ---
 
 ## Problem 3: Compensation order violation
-**Cause:** Lines 28–30 have `min: 130000` and `open_ask: 125000`, violating the required order of floor ≤ min ≤ open_ask ≤ target ≤ stretch_ceiling.
+**Cause:** Lines 28–30 have `min: 98000` and `open_ask: 85000`, violating the required order of floor ≤ min ≤ open_ask ≤ target ≤ stretch_ceiling.
 
 **Fix (choose one):**
-- Before: `min: 130000` / `open_ask: 125000`
+- Before: `min: 98000` / `open_ask: 85000`
 - After: `min: <your value>` / `open_ask: <your value>` (ensure min ≤ open_ask)
 
 ---

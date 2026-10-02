@@ -1,6 +1,8 @@
 <!-- FICTIONAL EXAMPLE DATA. Not a real person. Saved by tests/prompt-runs/run_prompts.py -->
 # Prompt run: Run on my first posting, on sonnet
 
+Note: the pay figures in this record were changed after the run to fictional ones. Nothing else was edited; the scores and verdicts are as recorded.
+
 - Prompt file: `prompts/03-run-first-posting.txt`
 - Date: 2026-10-01. Model alias `sonnet`, which ran as `claude-sonnet-5-5` (Claude Code can add a small helper model call of its own).
 - Turns: 1. Cost: $0.14 (the simulated user's calls are not included).
@@ -109,8 +111,8 @@ I read the posting directly and ran no scripts, so nothing below has been throug
   "pay": {
     "stated": true,
     "tiers": [
-      {"label": "Region B", "min": 125000, "max": 150000, "quote": "Base pay range for Region B: $125,000 to $150,000."},
-      {"label": "Region A", "min": 140000, "max": 170000, "quote": "Region A: $140,000 to $170,000."}
+      {"label": "Region B", "min": 100000, "max": 104000, "quote": "Base pay range for Region B: $100,000 to $104,000."},
+      {"label": "Region A", "min": 102000, "max": 118000, "quote": "Region A: $102,000 to $118,000."}
     ],
     "tier_used": null,
     "top": null,

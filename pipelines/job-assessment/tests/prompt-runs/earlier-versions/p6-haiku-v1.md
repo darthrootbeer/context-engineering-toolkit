@@ -1,6 +1,8 @@
 <!-- FICTIONAL EXAMPLE DATA. Not a real person. Saved by tests/prompt-runs/run_prompts.py -->
 # Prompt run: Fix errors, on haiku
 
+Note: the pay figures in this record were changed after the run to fictional ones. Nothing else was edited; the scores and verdicts are as recorded.
+
 - Prompt file: `prompts/06-fix-errors.txt`
 - Date: 2026-10-01. Model alias `haiku`, which ran as `claude-haiku-4-5-20251001` (Claude Code can add a small helper model call of its own).
 - Turns: 1. Cost: $0.03 (the simulated user's calls are not included).
@@ -41,16 +43,16 @@ I'm attaching the output of a failed command from this tool (the validator, the 
   ```
 
 **Problem 3: comp pay numbers out of order**
-- **Cause:** The min value (130000) exceeds open_ask (125000), but the validator requires min ≤ open_ask.
+- **Cause:** The min value (98000) exceeds open_ask (85000), but the validator requires min ≤ open_ask.
 - **Location:** Lines 20–22, comp section, fields `min` and `open_ask`
 - **Fix:** Adjust the values so min ≤ open_ask (your choice which values are correct):
   ```yaml
   # Before:
-  min: 130000
-  open_ask: 125000
+  min: 98000
+  open_ask: 85000
   # After (example):
-  min: 125000
-  open_ask: 130000
+  min: 85000
+  open_ask: 98000
   ```
 
 **Problem 4: evidence[1].proof**

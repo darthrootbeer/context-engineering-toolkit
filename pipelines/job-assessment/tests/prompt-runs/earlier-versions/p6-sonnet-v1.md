@@ -1,6 +1,8 @@
 <!-- FICTIONAL EXAMPLE DATA. Not a real person. Saved by tests/prompt-runs/run_prompts.py -->
 # Prompt run: Fix errors, on sonnet
 
+Note: the pay figures in this record were changed after the run to fictional ones. Nothing else was edited; the scores and verdicts are as recorded.
+
 - Prompt file: `prompts/06-fix-errors.txt`
 - Date: 2026-10-01. Model alias `sonnet`, which ran as `claude-sonnet-5-5` (Claude Code can add a small helper model call of its own).
 - Turns: 1. Cost: $0.04 (the simulated user's calls are not included).
@@ -49,21 +51,21 @@ All five problems are fixable with one-line edits. Three need a choice from you,
 
 ## 3. `comp.min` and `comp.open_ask`
 
-**Cause:** `min` is 130000 but `open_ask` is 125000. The order must be `floor <= min <= open_ask <= target <= stretch_ceiling`.
+**Cause:** `min` is 98000 but `open_ask` is 85000. The order must be `floor <= min <= open_ask <= target <= stretch_ceiling`.
 
 **Your call:** which number is wrong?
-- **A.** If `min` is wrong, lower it to a value between 90000 (`floor`) and 125000.
-- **B.** If `open_ask` is wrong, raise it to a value between 130000 and 140000 (`target`).
+- **A.** If `min` is wrong, lower it to a value between 75000 (`floor`) and 85000.
+- **B.** If `open_ask` is wrong, raise it to a value between 98000 and 100000 (`target`).
 
 ```yaml
 # before
-  min: 130000
-  open_ask: 125000
-# after (option A; <N> is yours to choose, 90000 to 125000)
+  min: 98000
+  open_ask: 85000
+# after (option A; <N> is yours to choose, 75000 to 85000)
   min: <N>
-  open_ask: 125000
-# after (option B; <N> is yours to choose, 130000 to 140000)
-  min: 130000
+  open_ask: 85000
+# after (option B; <N> is yours to choose, 98000 to 100000)
+  min: 98000
   open_ask: <N>
 ```
 

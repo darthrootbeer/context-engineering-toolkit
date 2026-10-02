@@ -1,6 +1,8 @@
 <!-- FICTIONAL EXAMPLE DATA. Not a real person. Saved by tests/prompt-runs/run_prompts.py -->
 # Prompt run: Run on my first posting, on sonnet
 
+Note: the pay figures in this record were changed after the run to fictional ones. Nothing else was edited; the scores and verdicts are as recorded.
+
 - Prompt file: `prompts/03-run-first-posting.txt`
 - Date: 2026-10-01. Model alias `sonnet`, which ran as `claude-sonnet-5-5` (Claude Code can add a small helper model call of its own).
 - Turns: 1. Cost: $0.18 (the simulated user's calls are not included).
@@ -112,8 +114,8 @@ I couldn't run `check_findings.py` or `assess_offline.py` from here, so none of 
     "top": null,
     "other_pay_noted": [],
     "tiers": [
-      {"label": "Region B", "min": 125000, "max": 150000, "quote": "Base pay range for Region B: $125,000 to $150,000."},
-      {"label": "Region A", "min": 140000, "max": 170000, "quote": "Region A: $140,000 to $170,000."}
+      {"label": "Region B", "min": 100000, "max": 104000, "quote": "Base pay range for Region B: $100,000 to $104,000."},
+      {"label": "Region A", "min": 102000, "max": 118000, "quote": "Region A: $102,000 to $118,000."}
     ]
   },
   "culture": {
@@ -162,7 +164,7 @@ I couldn't run `check_findings.py` or `assess_offline.py` from here, so none of 
     "name": "Copperline Example Co.",
     "stored_reason": "Makes tools for writers, which is the work Robin cares about most."
   },
-  "verdict_reason": "You would own the docs system from the first week and choose the tools, with AI drafting and docs kept in Git every day. The pay range reaches $150,000 for your region, and the one thing to check is how much Go code you would need to read.",
+  "verdict_reason": "You would own the docs system from the first week and choose the tools, with AI drafting and docs kept in Git every day. The pay range reaches $104,000 for your region, and the one thing to check is how much Go code you would need to read.",
   "keyword_signals_found": [
     {
       "phrase": "definition of done",
@@ -180,7 +182,7 @@ I couldn't run `check_findings.py` or `assess_offline.py` from here, so none of 
 | Score | Result | What moved it |
 |---|---|---|
 | Fit | **10** | Both strong must-haves are rated strong, so there are no deductions. The soft item (automatic docs checks) is fair and costs 0, the bonus item never costs anything, and autonomy is net positive. No avoid-skills are core work. |
-| Comp | **10** | The Region B tier tops out at $150,000, which is above your $140,000 target. |
+| Comp | **10** | The Region B tier tops out at $104,000, which is above your $100,000 target. |
 | Qualifications | **9** | 10 minus 1 for the Go known gap (`gap_go`). The posting asks for 7+ years and you have 9, and there is no working-style mismatch. |
 | Culture | **10** | 5, plus 2 for unlimited PTO, 2 for the learning budget, 1 for meetups and 1 for "definition of done". That is 11, capped at 10. |
 

@@ -77,11 +77,11 @@ s3.localization_pm: 2, would rather avoid, within 5 years, self, no evidence
 # Stage 4. Needs
 s4.q1: Gambling and betting, weapons makers, and any job that is not remote.
 s4.q2: Yes, Lanternfield Example Co. I live a ten minute walk from its office.
-s4.q3: 90000 US dollars.
-s4.q4: 110000.
-s4.q5: 125000.
-s4.q6: 140000.
-s4.q7: 170000.
+s4.q3: 75000 US dollars.
+s4.q4: 80000.
+s4.q5: 85000.
+s4.q6: 100000.
+s4.q7: 175000.
 s4.q8: Region B.
 s4.q9: Unlimited time off, a learning budget and extra paid days off matter most. Meetups, a home-office stipend and paid parental leave are nice.
 s4.q10: Fewer than 15 days a year.

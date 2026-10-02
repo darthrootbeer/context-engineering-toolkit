@@ -19,8 +19,8 @@ def make_profile(**over):
     profile = {
         "person": {"display_name": "Robin Sample", "years_experience": 9,
                    "location_label": "Region B"},
-        "comp": {"floor": 90000, "min": 110000, "open_ask": 125000,
-                 "target": 140000, "stretch_ceiling": 170000},
+        "comp": {"floor": 75000, "min": 80000, "open_ask": 85000,
+                 "target": 100000, "stretch_ceiling": 175000},
         "culture": {
             "perks": [
                 {"id": "unlimited_pto", "kind": "big"},
@@ -197,14 +197,14 @@ def test_comp_missing_pay_block_is_unlisted():
 
 
 @pytest.mark.parametrize("top,expected", [
-    (170000, 10),   # above target
-    (140000, 10),   # exactly the target
-    (139999, 8),    # just under target
-    (125000, 8),    # the open ask is still the 8 band
-    (110000, 8),    # exactly the minimum
-    (109999, 3),    # just under the minimum
-    (90000, 3),     # exactly the floor
-    (89999, 1),     # below the floor
+    (175000, 10),   # above target
+    (100000, 10),   # exactly the target
+    (99999, 8),     # just under target
+    (85000, 8),     # the open ask is still the 8 band
+    (80000, 8),     # exactly the minimum
+    (79999, 3),     # just under the minimum
+    (75000, 3),      # exactly the floor
+    (74999, 1),      # below the floor
     (1, 1),
 ])
 def test_comp_top_of_range_bands(top, expected):
@@ -212,39 +212,39 @@ def test_comp_top_of_range_bands(top, expected):
 
 
 def test_comp_scores_the_top_of_a_range_not_the_bottom():
-    tiers = [{"label": "Region B", "min": 95000, "max": 145000}]
+    tiers = [{"label": "Region B", "min": 72000, "max": 102000}]
     assert sh.comp_score(pay(tiers=tiers), P) == 10
 
 
 def test_comp_named_location_tier_wins_over_nationwide():
     tiers = [
-        {"label": "Nationwide", "min": 150000, "max": 180000},
-        {"label": "Region B", "min": 80000, "max": 100000},
+        {"label": "Nationwide", "min": 104000, "max": 118000},
+        {"label": "Region B", "min": 72000, "max": 78000},
     ]
     assert sh.comp_score(pay(tiers=tiers), P) == 3
 
 
 def test_comp_nationwide_tier_when_location_not_named():
     tiers = [
-        {"label": "Region A", "min": 80000, "max": 95000},
-        {"label": "Everywhere else", "min": 130000, "max": 150000},
+        {"label": "Region A", "min": 72000, "max": 78000},
+        {"label": "Everywhere else", "min": 102000, "max": 118000},
     ]
     assert sh.comp_score(pay(tiers=tiers), P) == 10
 
 
 def test_comp_lowest_tier_when_no_location_and_no_nationwide():
     tiers = [
-        {"label": "Region A", "min": 150000, "max": 170000},
-        {"label": "Region C", "min": 85000, "max": 100000},
+        {"label": "Region A", "min": 102000, "max": 118000},
+        {"label": "Region C", "min": 72000, "max": 78000},
     ]
     assert sh.comp_score(pay(tiers=tiers), P) == 3
 
 
 def test_comp_tier_order_is_named_then_nationwide_then_lowest():
     tiers = [
-        {"label": "Region A", "max": 90000},
-        {"label": "All other locations", "max": 120000},
-        {"label": "Region B", "max": 150000},
+        {"label": "Region A", "max": 78000},
+        {"label": "All other locations", "max": 98000},
+        {"label": "Region B", "max": 118000},
     ]
     assert sh.pick_tier(tiers, "Region B")["label"] == "Region B"
     assert sh.pick_tier(tiers, "Region Z")["label"] == "All other locations"
@@ -252,7 +252,7 @@ def test_comp_tier_order_is_named_then_nationwide_then_lowest():
 
 
 def test_comp_base_pay_only_other_pay_is_ignored():
-    f = pay(top=100000)
+    f = pay(top=78000)
     f["pay"]["other_pay_noted"] = ["Bonus up to 50000", "Stock grant 200000"]
     assert sh.comp_score(f, P) == 3
 
@@ -522,10 +522,10 @@ def test_a_pay_range_written_as_the_schema_describes_scores_end_to_end(tmp_path)
     props = _schema_tier_properties()
     lo_key, hi_key = "min", "max"
     assert lo_key in props and hi_key in props
-    tier = {"label": "all other US locations", lo_key: 100000, hi_key: 150000,
+    tier = {"label": "all other US locations", lo_key: 98000, hi_key: 104000,
             "quote": "q"}
     findings = pay(tiers=[tier])
-    # top 150000 is above the profile target of 140000, so comp is 10
+    # top 104000 is above the profile target of 100000, so comp is 10
     assert sh.comp_score(findings, P) == 10
     # and through the command line entry point, as the skill runs it
     fpath = tmp_path / "findings.json"

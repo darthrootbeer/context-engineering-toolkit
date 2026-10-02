@@ -1,6 +1,8 @@
 <!-- FICTIONAL EXAMPLE DATA. Not a real person. Saved by tests/prompt-runs/run_prompts.py -->
 # Prompt run: Test the scoring with the fixture, on haiku
 
+Note: the pay figures in this record were changed after the run to fictional ones. Nothing else was edited; the scores and verdicts are as recorded.
+
 - Prompt file: `prompts/04-test-scoring.txt`
 - Date: 2026-10-01. Model alias `haiku`, which ran as `claude-haiku-4-5-20251001` (Claude Code can add a small helper model call of its own).
 - Turns: 1. Cost: $0.07 (the simulated user's calls are not included).
@@ -31,7 +33,7 @@ I'll work through each posting's scoring, showing all arithmetic, then compare w
 
 10 − 0 − 0 − 1 − 0 = **9**
 
-**Comp:** Pay stated, Region B tier, top $150,000. Robin's target is $140,000. Top is at or above target. Score **10**.
+**Comp:** Pay stated, Region B tier, top $104,000. Robin's target is $78,000. Top is at or above target. Score **10**.
 
 **Qualifications:** Start at 10.
 - Years required 7, Robin has 9 → 0 (not more, not narrow)
@@ -62,7 +64,7 @@ I'll work through each posting's scoring, showing all arithmetic, then compare w
 
 10 − 0 − 0 − 1 − 2 = **7**
 
-**Comp:** Pay stated, tier "Everywhere else," top $100,000. Floor $90K, min $110K. $100K is above floor but below min. Score **3**.
+**Comp:** Pay stated, tier "Everywhere else," top $78,000. Floor $75K, min $80K. $78K is above floor but below min. Score **3**.
 
 **Qualifications:** Start at 10.
 - Years required 12, Robin has 9 → 2

@@ -1,6 +1,8 @@
 <!-- FICTIONAL EXAMPLE DATA. Not a real person. Saved by tests/live/test_live_assessment.py -->
 # Live run: assessment on the fictional postings
 
+Note: the pay figures in this record were changed after the run to fictional ones. Nothing else was edited; the scores and verdicts are as recorded.
+
 Date: 2026-10-01. Model: `sonnet`. A model followed `assessment/SKILL.md` and wrote its own findings. The test recomputes scores and the verdict with the scripts and does not trust the model's numbers. Tool output is cut to 500 characters. Folder names are replaced with `<work>` and `<tmp>`. One path to a saved tool-output file, which named a home folder, was replaced by hand with `<tool-output-file>` after the run.
 
 ## Posting 01-strong-fit
@@ -242,7 +244,7 @@ check_findings: ok
     "fit": [],
     "comp": [
       "Tier used: Region B",
-      "Top of range 150000 against target 140000, min 110000, floor 90000"
+      "Top of range 104000 against target 100000, min 80000, floor 75000"
     ],
     "qualifications": [
       "1 load-bearing gap(s), -1 (cap 4)"

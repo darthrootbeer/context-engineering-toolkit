@@ -1,6 +1,8 @@
 <!-- FICTIONAL EXAMPLE DATA. Not a real person. Saved by tests/prompt-runs/run_prompts.py -->
 # Prompt run: Fix errors, on haiku
 
+Note: the pay figures in this record were changed after the run to fictional ones. Nothing else was edited; the scores and verdicts are as recorded.
+
 - Prompt file: `prompts/06-fix-errors.txt`
 - Date: 2026-10-01. Model alias `haiku`, which ran as `claude-haiku-4-5-20251001` (Claude Code can add a small helper model call of its own).
 - Turns: 1. Cost: $0.03 (the simulated user's calls are not included).
@@ -31,10 +33,10 @@ The reference "ev-placeholder-style-guide" doesn't exist in the evidence section
 - After: `evidence_ids: [ev-placeholder-docs-ci]`
 
 **Problem 3: comp**
-The order is wrong: min (130000) must be ≤ open_ask (125000). You decide which to change to fix the sequence floor ≤ min ≤ open_ask ≤ target ≤ stretch_ceiling.
+The order is wrong: min (98000) must be ≤ open_ask (85000). You decide which to change to fix the sequence floor ≤ min ≤ open_ask ≤ target ≤ stretch_ceiling.
 - Lines: `comp.min` and `comp.open_ask`
-- Before: `min: 130000` / `open_ask: 125000`
-- After: `min: 125000` / `open_ask: 130000` (or adjust other values)
+- Before: `min: 98000` / `open_ask: 85000`
+- After: `min: 85000` / `open_ask: 98000` (or adjust other values)
 
 **Problem 4: evidence[1].proof**
 An interview source cannot carry proof: checked because no document was read to verify it. Change to unchecked.

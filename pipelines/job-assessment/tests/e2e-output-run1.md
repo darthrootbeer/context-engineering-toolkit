@@ -1,6 +1,8 @@
 <!-- FICTIONAL EXAMPLE DATA. Not a real person. Saved by tests/live/test_live_assessment.py -->
 # Live run, first attempt (posting 03 FAILED, kept as evidence of model variance)
 
+Note: the pay figures in this record were changed after the run to fictional ones. Nothing else was edited; the scores and verdicts are as recorded.
+
 The second attempt, which passed, is in `e2e-output.md`. Nothing was changed between the two runs.
 
 Date: 2026-10-01. Model: `sonnet`. A model followed `assessment/SKILL.md` and wrote its own findings. The test recomputes scores and the verdict with the scripts and does not trust the model's numbers. Tool output is cut to 500 characters. Folder names are replaced with `<work>` and `<tmp>`.
@@ -228,7 +230,7 @@ override=v.override_skill(f),hard_block=v.hard_block_id(f))))" > work/verdict.js
     "fit": [],
     "comp": [
       "Tier used: Region B",
-      "Top of range 150000 against target 140000, min 110000, floor 90000"
+      "Top of range 104000 against target 100000, min 80000, floor 75000"
     ],
     "qualifications": [
       "1 load-bearing gap(s), -1 (cap 4)"
@@ -312,7 +314,7 @@ Culture 10 🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟
 
 [Open the note](file://<work>/archive/🟢%20📋%20🔧%20Copperline%20Example%20Co.%20-%20Docs%20Platform%20Engineer%20-%202026-10-01.md)
 
-The verdict is Apply, and no earlier rule fired: there was no hard block, no job-type override, and no score below the floor or in the reservations band. Because Copperline is a high-interest company, move fast and check for a warm introduction. The one thing to prepare for is the Go line: the posting wants you to read Go code, and you have no recorded evidence of recent Go work. That cost one Qualifications point. The Fit, Comp and Culture bars are all at 10, and Comp is based on the Region B tier ($125k–$150k).
+The verdict is Apply, and no earlier rule fired: there was no hard block, no job-type override, and no score below the floor or in the reservations band. Because Copperline is a high-interest company, move fast and check for a warm introduction. The one thing to prepare for is the Go line: the posting wants you to read Go code, and you have no recorded evidence of recent Go work. That cost one Qualifications point. The Fit, Comp and Culture bars are all at 10, and Comp is based on the Region B tier ($85k–$104k).
 
 The email card is at `out/copperline-example-co-docs-platform-engineer.html`. It was written and passed its own check, and nothing was sent.
 

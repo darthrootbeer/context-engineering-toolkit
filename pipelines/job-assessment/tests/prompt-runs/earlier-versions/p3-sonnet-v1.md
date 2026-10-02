@@ -1,6 +1,8 @@
 <!-- FICTIONAL EXAMPLE DATA. Not a real person. Saved by tests/prompt-runs/run_prompts.py -->
 # Prompt run: Run on my first posting, on sonnet
 
+Note: the pay figures in this record were changed after the run to fictional ones. Nothing else was edited; the scores and verdicts are as recorded.
+
 - Prompt file: `prompts/03-run-first-posting.txt`
 - Date: 2026-10-01. Model alias `sonnet`, which ran as `claude-sonnet-5-5` (Claude Code can add a small helper model call of its own).
 - Turns: 1. Cost: $0.17 (the simulated user's calls are not included).
@@ -75,10 +77,10 @@ No hard block trips. The posting says "We are a remote company", so the non-remo
                "read": "You would pick the tools and set your own priorities, with a weekly check-in from your manager."},
   "pay": {"stated": true, "tier_used": null, "top": null, "other_pay_noted": [],
           "tiers": [
-            {"label": "Region B", "min": 125000, "max": 150000,
-             "quote": "Base pay range for Region B: $125,000 to $150,000"},
-            {"label": "Region A", "min": 140000, "max": 170000,
-             "quote": "Region A: $140,000 to $170,000"}]},
+            {"label": "Region B", "min": 100000, "max": 104000,
+             "quote": "Base pay range for Region B: $100,000 to $104,000"},
+            {"label": "Region A", "min": 102000, "max": 118000,
+             "quote": "Region A: $102,000 to $118,000"}]},
   "culture": {"perks": [
                 {"perk_id": "unlimited_pto", "quote": "Unlimited paid time off"},
                 {"perk_id": "learning_budget", "quote": "A $3,000 yearly learning budget"},
@@ -116,7 +118,7 @@ Before you run the scripts:
 | Score | Arithmetic | Result |
 |---|---|---|
 | Fit | Start at 10. Strong must-haves `ai_forward` and `docs_as_code` cost 0. Soft `ci_for_docs` rated fair costs 0. Bonus `solo_ownership` costs 0. Autonomy is positive and no avoid-skills are core, so 0. | **10** |
-| Comp | Region B tier, top $150,000, which is at or above the $140,000 target. | **10** |
+| Comp | Region B tier, top $104,000, which is at or above the $100,000 target. | **10** |
 | Qualifications | Start at 10. Asks for 7 years against your 9, so 0. `gap_go` costs 1. No working-style mismatch. | **9** |
 | Culture | Start at 5. Unlimited PTO +2, learning budget +2, meetups +1, "definition of done" +1 gives 11, capped at 10. Time off is not low and there is no hustle language. | **10** |
 

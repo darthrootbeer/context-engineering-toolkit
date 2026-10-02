@@ -1,6 +1,8 @@
 <!-- FICTIONAL EXAMPLE DATA. Not a real person. Saved by tests/live/test_live_intake.py -->
 # Live run: intake transcript
 
+Note: the pay figures in this record were changed after the run to fictional ones. Nothing else was edited; the scores and verdicts are as recorded.
+
 Date: 2026-10-01. Model: `sonnet`. Commands run by the model: 32. Turns: 33. Cost: $0.81.
 
 A model followed `intake/SKILL.md` and answered from `fixtures/robin-sample/intake-answers.txt`. Tool output is cut to the first 700 characters. Folder names are replaced with `<work>` and `<tmp>`.
@@ -796,11 +798,11 @@ validate_profile: clean, 7 warning(s) in career-profile.yaml
 $ add(){ python3 scripts/add_entry.py career-profile.yaml "$@" | grep -v "no dates\|perks list"; }
 add --section comp --entry - <<'YAML'
 currency: USD
-floor: 90000
-min: 110000
-open_ask: 125000
-target: 140000
-stretch_ceiling: 170000
+floor: 75000
+min: 80000
+open_ask: 85000
+target: 100000
+stretch_ceiling: 175000
 YAML
 python3 - <<'E'
 import yaml;d=yaml.safe_load(open('career-profile.yaml'));print(d['person'],d['culture'])

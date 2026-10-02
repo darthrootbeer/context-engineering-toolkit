@@ -32,5 +32,5 @@ Driftmark sells training courses for a software product. We are a friendly team 
 
 ## Pay
 
-- Region A: $105,000 to $120,000.
-- Everywhere else: $85,000 to $100,000.
+- Region A: $82,000 to $98,000.
+- Everywhere else: $72,000 to $78,000.

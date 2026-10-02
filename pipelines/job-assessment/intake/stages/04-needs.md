@@ -116,7 +116,7 @@ YAML
 ```bash
 python3 scripts/add_entry.py PROFILE --section comp --entry - <<'YAML'
 currency: USD
-floor: 90000
+floor: 75000
 YAML
 ```
 

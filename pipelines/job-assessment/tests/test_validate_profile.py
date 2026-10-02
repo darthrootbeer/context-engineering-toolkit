@@ -34,7 +34,7 @@ BROKEN_EXPECTED = [
     # rule 2, references: a skill points at an evidence id that does not exist
     'skills[1].evidence_ids: "ev-placeholder-style-guide" is not an evidence id in this file.',
     # rule 4, pay order: min is above open_ask
-    "comp: pay numbers out of order: min (130000) is above open_ask (125000). "
+    "comp: pay numbers out of order: min (98000) is above open_ask (85000). "
     "Expected floor <= min <= open_ask <= target <= stretch_ceiling.",
     # rule 5, proof: an interview answer marked as checked
     "evidence[1].proof: source.type interview cannot carry proof: checked. Nothing was read to back it; "
@@ -137,7 +137,7 @@ def fill_template_with_robins_ids(data: dict) -> dict:
     data["person"].update(display_name="Robin Sample", target_roles=["Senior Technical Writer"],
                           years_experience=9, location_label="Region B",
                           working_style="gather_from_experts")
-    data["comp"].update(floor=90000, min=110000, open_ask=125000, target=140000, stretch_ceiling=170000)
+    data["comp"].update(floor=75000, min=80000, open_ask=85000, target=100000, stretch_ceiling=175000)
     data["culture"]["perks"] = [{"id": "unlimited_pto", "label": "Unlimited PTO", "kind": "big"}]
     data["culture"]["low_time_off_days"] = 15
     data["hard_blocks"] = [{"id": "gambling", "label": "Gambling or betting", "why": "Fictional reason."}]
@@ -245,9 +245,9 @@ def test_pay_order_skips_missing_numbers(base):
     base["comp"]["open_ask"] = None
     base["comp"]["target"] = None
     assert errors_of(base) == []
-    base["comp"]["stretch_ceiling"] = 100000
+    base["comp"]["stretch_ceiling"] = 78000
     assert errors_of(base) == [
-        "comp: pay numbers out of order: min (110000) is above stretch_ceiling (100000). "
+        "comp: pay numbers out of order: min (80000) is above stretch_ceiling (78000). "
         "Expected floor <= min <= open_ask <= target <= stretch_ceiling."]
 
 

@@ -290,3 +290,53 @@ def test_cli_exit_codes(tmp_path, capsys):
     assert cf.main([str(tmp_path / "bad.json")] + args) == 1
     assert "was not found in the posting text" in capsys.readouterr().out
     assert cf.main([str(tmp_path / "missing.json")] + args) == 2
+
+
+# A culture list holding plain strings instead of objects used to end in a Python
+# traceback. These pin the clean one-line report and exit code 1.
+@pytest.mark.parametrize("key", ["strong_positive_phrases", "hustle",
+                                 "negative_phrases", "soft_flags_tripped", "perks"])
+def test_a_culture_list_of_strings_is_reported_not_a_crash(key):
+    f = mutate(lambda f: f["culture"].update({key: ["a plain string"]}))
+    problems = cf.check(f, POSTING_BODY, "lane-a", PROFILE)
+    assert any(p.startswith(f"culture.{key}[0]: must be an object") for p in problems)
+
+
+@pytest.mark.parametrize("mutator", [
+    lambda f: f.update(requirements=["no_micromanagement"]),
+    lambda f: f.update(culture="great"),
+    lambda f: f.update(hard_block="none"),
+    lambda f: f["qualifications"].update(matches=["a string"]),
+    lambda f: f["qualifications"].update(unproven="a string"),
+])
+def test_other_wrong_shapes_report_problems_without_crashing(mutator):
+    problems = cf.check(mutate(mutator), POSTING_BODY, "lane-a", PROFILE)
+    assert problems and all(isinstance(p, str) for p in problems)
+
+
+def test_cli_wrong_shape_prints_clean_lines_and_exits_1(tmp_path, capsys):
+    (tmp_path / "p.md").write_text(POSTING)
+    (tmp_path / "prof.yaml").write_text(yaml.safe_dump(PROFILE))
+    bad = good()
+    bad["culture"]["strong_positive_phrases"] = ["Documentation is part of the definition of done."]
+    (tmp_path / "bad.json").write_text(json.dumps(bad))
+    args = ["--posting", str(tmp_path / "p.md"), "--profile", str(tmp_path / "prof.yaml")]
+    assert cf.main([str(tmp_path / "bad.json")] + args) == 1
+    out = capsys.readouterr()
+    assert "Traceback" not in out.out + out.err
+    assert "culture.strong_positive_phrases[0]: must be an object" in out.out
+    assert len(out.out.strip().splitlines()) == 2  # the problem, then the count
+
+
+def test_unknown_shape_failure_is_one_clean_line_and_exit_1(tmp_path, capsys, monkeypatch):
+    (tmp_path / "p.md").write_text(POSTING)
+    (tmp_path / "prof.yaml").write_text(yaml.safe_dump(PROFILE))
+    (tmp_path / "f.json").write_text(json.dumps(good()))
+
+    def boom(*a, **k):
+        raise AttributeError("'str' object has no attribute 'get'")
+    monkeypatch.setattr(cf, "check", boom)
+    args = ["--posting", str(tmp_path / "p.md"), "--profile", str(tmp_path / "prof.yaml")]
+    assert cf.main([str(tmp_path / "f.json")] + args) == 1
+    out = capsys.readouterr().out.strip().splitlines()
+    assert len(out) == 1 and out[0].startswith("check_findings: the findings file has a shape")

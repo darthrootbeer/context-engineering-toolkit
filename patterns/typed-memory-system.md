@@ -64,11 +64,11 @@ Run the test suite before merging.
 
 ### 3. Know the real limits
 
-In Claude Code, the memory index is read in full at session start, and it has two limits that apply separately: **200 lines** and **25,000 bytes**. Whichever you hit first is the cutoff.
+In Claude Code, the memory index is read in full at session start. In the version I use, I observed two limits on it that apply separately: **200 lines** and **25,000 bytes**. Whichever you hit first is the cutoff. I found the two numbers by reading them out of the installed Claude Code program, version 2.1.263. I have not re-confirmed them on later versions: on 2026-10-01, with version 2.1.287 installed, my check script could not find them in the program and fell back to these same values. So read them as numbers that were true for one version, and test your own.
 
 Three details that are easy to miss:
 
-- **The limits apply to every file, not just the index.** A topic file over 200 lines gets cut the same way.
+- **Topic files may be limited too, but I have not tested that.** Topic files may be read on demand rather than at session start, in which case a limit on them would only matter when one is opened, and it may not apply at all. I have not tested what your version does. Keeping topic files short is cheap, so I do it anyway.
 - **Going over is loud, not silent.** The harness cuts at a line boundary and adds a visible warning naming the file and the limit. Everything past the cut is still missing from that session, so treat the warning as a fault to fix, not noise.
 - **Measure bytes, not characters.** The limit is in bytes. Emoji and accented letters are several bytes each, so a character count undercounts. Use `wc -c file`, never a script that counts decoded characters.
 
@@ -80,12 +80,12 @@ When the main index is capped, memories that no longer fit do not get deleted. T
 
 ```markdown
 ## More memories: topic indexes
-- [Git and PRs](INDEX-git.md) 14 entries
-- [Todoist](INDEX-todoist.md) 5 entries
-- [Writing and output](INDEX-writing.md) 9 entries
+- [Git and PRs](INDEX-git.md) (example: 8 entries)
+- [Todoist](INDEX-todoist.md) (example: 3 entries)
+- [Writing and output](INDEX-writing.md) (example: 6 entries)
 ```
 
-The agent reads the one that matches the task. The cost is that these are not auto-loaded, so the main index must say they exist and when to open them. In the real setup this tier holds a dozen-plus files and is the most important change that came after the first version of this pattern.
+The agent reads the one that matches the task. The cost is that these are not auto-loaded, so the main index must say they exist and when to open them. In my own setup this tier grew to several files, and it was the most important change that came after the first version of this pattern.
 
 ### 5. A weekly automatic check
 
@@ -137,7 +137,7 @@ A single-session tool with no saved state. It is solving index growth over month
 
 ## How this was checked
 
-Every claim was compared against a working Claude Code memory folder: the four types (counted from file frontmatter), the index size against both limits, the topic index files, the weekly cron entry and its wrapper, and the written compaction steps. The limit numbers are the working values from that setup. They are not read from the program at run time, so re-check them for your version. The example files were written for this page.
+Every claim was compared against a working Claude Code memory folder: the four types (counted from file frontmatter), the index size against both limits, the topic index files, the weekly cron entry and its wrapper, and the written compaction steps. The limit numbers are the values I observed in Claude Code 2.1.263. They are not read from the program at run time, and I could not re-confirm them on version 2.1.287, so re-check them for your version. The claim that topic files are limited is not checked here at all. The example files were written for this page.
 
 ## Prompt for your AI model
 
@@ -171,4 +171,4 @@ My tool is: [YOUR AGENT TOOL]. Here are five things I want it to remember: [LIST
 Sort each into a memory type, write the topic files and the index for them, and then write a short script that checks the index against a size limit in bytes. Finish with a test: how I check the next session actually loaded the index, and how I confirm the size check fails when I add too much.
 ```
 
-**How these prompts were checked.** Each of the three prompts was run once with a small model (Claude Haiku) through the `claude` command line, with the full text of this file pasted in and sample details filled in. All three gave an on-topic answer that matched what this file says. In two runs a placeholder was left unfilled by my test setup, and the model noticed and said so or asked for the missing text instead of making something up. That is the behavior you want. One run per prompt is a light check, not a benchmark, so read the answers critically.
+**How these prompts were checked.** Each of the three prompts was run once with a small model (Claude Haiku) through the `claude` command line, with the full text of this file pasted in and sample details filled in. All three gave an on-topic answer that matched what this file says. In two runs a placeholder was left unfilled by my test setup, and the model noticed and said so or asked for the missing text instead of making something up. That is the behavior you want. One run per prompt is a light check, not a benchmark, so read the answers critically. I did not save those answers, so there is no record to read here, unlike the saved runs in `pipelines/job-assessment/tests/`.

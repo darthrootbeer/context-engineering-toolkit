@@ -33,7 +33,7 @@ I'll work through each posting's scoring, showing all arithmetic, then compare w
 
 10 − 0 − 0 − 1 − 0 = **9**
 
-**Comp:** Pay stated, Region B tier, top $104,000. Robin's target is $78,000. Top is at or above target. Score **10**.
+**Comp:** Pay stated, Region B tier, top $104,000. Robin's target is $100,000. Top is at or above target. Score **10**.
 
 **Qualifications:** Start at 10.
 - Years required 7, Robin has 9 → 0 (not more, not narrow)

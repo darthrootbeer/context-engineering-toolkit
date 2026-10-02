@@ -312,7 +312,7 @@ Culture 10 🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟
 
 🟢 Strong · 🟡 Fair · 🟠 Weak · 🔴 Poor · ❓ Unknown
 
-[Open the note](file://<work>/archive/🟢%20📋%20🔧%20Copperline%20Example%20Co.%20-%20Docs%20Platform%20Engineer%20-%202026-10-01.md)
+`[Open the note](file://<work>/archive/🟢%20📋%20🔧%20Copperline%20Example%20Co.%20-%20Docs%20Platform%20Engineer%20-%202026-10-01.md)`
 
 The verdict is Apply, and no earlier rule fired: there was no hard block, no job-type override, and no score below the floor or in the reservations band. Because Copperline is a high-interest company, move fast and check for a warm introduction. The one thing to prepare for is the Go line: the posting wants you to read Go code, and you have no recorded evidence of recent Go work. That cost one Qualifications point. The Fit, Comp and Culture bars are all at 10, and Comp is based on the Region B tier ($85k–$104k).
 
@@ -567,7 +567,7 @@ Culture 9 🟢🟢🟢🟢🟢🟢🟢🟢🟢⬛
 
 🟢 Strong · 🟡 Fair · 🟠 Weak · 🔴 Poor · ❓ Unknown
 
-Note: file://<work>/archive/🟢%20📋%20✍️%20Ashgrove%20Example%20Software%20-%20Senior%20Technical%20Writer%20-%202026-10-01.md
+Note: `file://<work>/archive/🟢%20📋%20✍️%20Ashgrove%20Example%20Software%20-%20Senior%20Technical%20Writer%20-%202026-10-01.md`
 
 The verdict is Apply because no hard block, job-type override or score floor fired. Pay is not listed, so Comp stays at a neutral 5. Culture is high because the posting lists extra paid days off and a learning budget.
 

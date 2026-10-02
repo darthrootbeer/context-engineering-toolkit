@@ -1,8 +1,6 @@
 <!-- FICTIONAL EXAMPLE DATA. Not a real person. Saved by tests/prompt-runs/run_prompts.py -->
 # Prompt run: Fix errors, on sonnet
 
-Note: the pay figures in this record were changed after the run to fictional ones. Nothing else was edited; the scores and verdicts are as recorded.
-
 - Prompt file: `prompts/06-fix-errors.txt`
 - Date: 2026-10-01. Model alias `sonnet`, which ran as `claude-sonnet-5-5` (Claude Code can add a small helper model call of its own).
 - Turns: 1. Cost: $0.03 (the simulated user's calls are not included).
@@ -18,68 +16,63 @@ I'm attaching the output of a failed command from this tool (the validator, the 
 
 ### Model
 
-All five problems, in the order the validator printed them.
+All five problems in `fixtures/broken-profile.yaml` are covered below. No line numbers are given, only YAML paths.
 
-## 1. `evidence[2].authorship`
+## 1. `evidence[2].authorship`: "AUTHORED" is not allowed
 
-**Cause:** `AUTHORED` is not one of the allowed values. The output lists them: WROTE, DIRECTED, CO-WROTE, DESIGNED, REVIEWED, OTHER-AUTHOR.
+**Cause:** The evidence entry `ev-placeholder-release-notes` uses `AUTHORED`, which is not in the allowed list (WROTE, DIRECTED, CO-WROTE, DESIGNED, REVIEWED, OTHER-AUTHOR).
 
-**Path:** `evidence[2].authorship`, the entry with id `ev-placeholder-release-notes`.
-
-Which value is right depends on what you actually did, so that's your call. The claim says "Rewrote the release notes template", which points to WROTE, but you know the situation better.
+**Which value is right is your call.** The claim says you "rewrote" the template, so `WROTE` fits, but `CO-WROTE` applies if someone else shared the work.
 
 ```yaml
 # before
     authorship: AUTHORED
 # after
-    authorship: <your value: WROTE, DIRECTED, CO-WROTE, DESIGNED, REVIEWED or OTHER-AUTHOR>
+    authorship: <WROTE or CO-WROTE>
 ```
 
-## 2. `skills[1].evidence_ids`
+## 2. `skills[1].evidence_ids`: unknown evidence id
 
-**Cause:** The skill `style_guides` points to `ev-placeholder-style-guide`, and no evidence entry in the file has that id. The missing evidence id is **`ev-placeholder-style-guide`**.
+**Cause:** The Style guides skill points to `ev-placeholder-style-guide`, and no evidence entry has that id. The missing id is **`ev-placeholder-style-guide`**. The file has only three ids: `ev-northwind-api-rebuild`, `ev-placeholder-docs-ci` and `ev-placeholder-release-notes`.
 
-**Path:** `skills[1].evidence_ids`.
-
-Your options:
-- Point it at an evidence id that already exists: `ev-northwind-api-rebuild`, `ev-placeholder-docs-ci` or `ev-placeholder-release-notes`. The release notes entry is the closest topical match, but you should confirm.
-- Add a new evidence entry with the id `ev-placeholder-style-guide`.
-- Use an empty list if there's no evidence for this skill.
+**Your call, with two choices:**
+- Point the skill at an existing entry. The release-notes entry is the closest topical match, but only you know whether it backs this skill.
+- Add a new evidence entry with the id `ev-placeholder-style-guide`. That needs a claim, dates and a source from you, which I can't supply.
 
 ```yaml
-# before
+# before (path: skills[1].evidence_ids)
     evidence_ids: [ev-placeholder-style-guide]
 # after
-    evidence_ids: [<an existing evidence id, or your new entry's id>]
+    evidence_ids: [<an existing evidence id, or the id of the entry you add>]
 ```
 
-## 3. `comp`
+## 3. `comp`: pay numbers out of order
 
-**Cause:** The pay numbers must satisfy `floor <= min <= open_ask <= target <= stretch_ceiling`. Here `min` (98000) is above `open_ask` (85000).
+**Cause:** The required order is `floor <= min <= open_ask <= target <= stretch_ceiling`, but `min` (98000) is above `open_ask` (85000). The other values (floor 75000, target 100000, stretch_ceiling 175000) already fit the order.
 
-**Path:** `comp.min` and `comp.open_ask`.
-
-Which number is wrong is your call. Either lower `min` to 85000 or less (and keep it at or above the floor of 75000), or raise `open_ask` to at least 98000 (and keep it at or below the target of 100000).
+**Your call, with two choices:**
+- Lower `min` to somewhere between 75000 and 85000.
+- Raise `open_ask` to somewhere between 98000 and 100000.
 
 ```yaml
 # before
   min: 98000
   open_ask: 85000
-# after (fix one of the two)
-  min: <your value, between 75000 and open_ask>
+# after (change one of the two)
+  min: <your value, 75000 to 85000>
   open_ask: 85000
 # or
   min: 98000
-  open_ask: <your value, between 98000 and 100000>
+  open_ask: <your value, 98000 to 100000>
 ```
 
-## 4. `evidence[1].proof`
+## 4. `evidence[1].proof`: interview source cannot be "checked"
 
-**Cause:** The source type is `interview`, which can't carry `proof: checked` because nothing was read to back it. The validator offers two ways out: use `unchecked`, or point `source` at a document, link or artifact.
+**Cause:** The entry `ev-placeholder-docs-ci` has `source.type: interview`, and nothing was read to back it, so `proof: checked` is not allowed. The output gives two fixes.
 
-**Path:** `evidence[1].proof`, the entry with id `ev-placeholder-docs-ci`.
-
-The smallest change is the first option:
+**Your call, with two choices:**
+- Set `proof` to `unchecked`. This is the smaller change and matches the facts as they stand.
+- Keep `checked` and point `source` at a document, link or artifact you can actually supply.
 
 ```yaml
 # before
@@ -88,28 +81,26 @@ The smallest change is the first option:
     proof: unchecked
 ```
 
-If you do have a document, link or artifact for this claim, change `source.type` and `source.ref` to it instead and keep `checked`. I won't make up that reference.
+## 5. `skills[2]`: `self_score` 5 with `last: never`
 
-## 5. `skills[2]`
+**Cause:** The GraphQL skill claims a score of 5 but says it was never used, and a score of 4 or 5 needs some real use.
 
-**Cause:** `self_score: 5` with `last: never` is a contradiction, because a score of 4 or 5 needs some real use.
-
-**Path:** `skills[2]`, the skill `graphql`.
-
-Either lower the score or correct `last`. Only you know which. The output doesn't show the allowed values for either field, so they are listed in `schema/career-profile.schema.json`.
+**Your call, with two choices:**
+- Lower `self_score`. The output says only that it must be below 4, so I can't pick the number for you.
+- Fix `last` if you have used GraphQL. The allowed values for `last` aren't shown in the output; they are listed in `schema/career-profile.schema.json`.
 
 ```yaml
 # before
     self_score: 5
     last: never
-# after (fix one of the two)
-    self_score: <your value, 3 or lower>
+# after (change one of the two)
+    self_score: <your value, below 4>
     last: never
 # or
     self_score: 5
-    last: <your value, from the allowed values in schema/career-profile.schema.json>
+    last: <your value, from schema/career-profile.schema.json>
 ```
 
-I haven't edited the file. After you pick the values, rerun `python3 scripts/validate_profile.py fixtures/broken-profile.yaml`.
+Nothing else in the file needs to change. After you pick the values, rerun `python3 scripts/validate_profile.py fixtures/broken-profile.yaml` to confirm the result.
 
-One note: this file is a deliberate fixture with five planted mistakes, and `tests/test_validate_profile.py` expects the validator to fail on exactly these. If you fix them in place, that test will break. Make the changes in a copy, or only if you meant to repair the fixture.
+One note: this file is a test fixture. Its header says it must keep exactly five planted mistakes so the validator exits 1, and `tests/test_validate_profile.py` lists them. If you're fixing it rather than just reading the output, check whether the tests expect it to stay broken.

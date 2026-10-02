@@ -1,8 +1,6 @@
 <!-- FICTIONAL EXAMPLE DATA. Not a real person. Saved by tests/prompt-runs/run_prompts.py -->
 # Prompt run: Test the scoring with the fixture, on sonnet
 
-Note: the pay figures in this record were changed after the run to fictional ones. Nothing else was edited; the scores and verdicts are as recorded.
-
 - Prompt file: `prompts/04-test-scoring.txt`
 - Date: 2026-10-01. Model alias `sonnet`, which ran as `claude-sonnet-5-5` (Claude Code can add a small helper model call of its own).
 - Turns: 1. Cost: $0.12 (the simulated user's calls are not included).
@@ -18,65 +16,66 @@ I'm attaching ARCHITECTURE.md, fixtures/robin-sample/career-profile.yaml, the th
 
 ### Model
 
-I did all three by hand from the findings files, the profile and ARCHITECTURE.md. I compared against `fixtures/expected.yaml` only after finishing the arithmetic. I didn't call a tool to open it because you attached its contents, so I read it from the attachment.
+I scored all three from the findings files, then compared with `fixtures/expected.yaml`. The expected file was already pasted in your message, so I didn't open anything. I wrote the arithmetic before comparing.
 
 ## Posting 01: Copperline, docs-platform lane
 
 | Score | Arithmetic | Result |
 |---|---|---|
-| Fit | 10. `ai_forward` (strong must-have) rated strong: 0. `docs_as_code` (strong) rated strong: 0. `ci_for_docs` (soft) rated weak: -1. `solo_ownership` is a bonus: 0. Autonomy net positive: 0. No avoid-core skills: 0. | **9** |
-| Comp | The tier is Region B, matching Robin's location label. Top is 104,000, which is at or above the target of 78,000. | **10** |
-| Qualifications | 10. Asks for 7 years and Robin has 9: 0. Known gap `go_lang`: -1. No self-score gaps. No style mismatch. | **9** |
-| Culture | 5. Unlimited PTO (big) +2, learning budget (big) +2, meetups (nice) +1, "definition of done" (strong positive) +1. That is 11, capped at 10. | **10** |
+| Fit | 10. Strong must-haves `ai_forward` and `docs_as_code` are both rated strong: 0. Soft `ci_for_docs` is rated weak: -1. `solo_ownership` is a bonus: 0. Autonomy is positive: 0. No avoid-skills: 0. 10 - 1 = 9. | **9** |
+| Comp | Robin's location is Region B, which matches a tier label. The top is 104,000, which is at or above the 100,000 target. | **10** |
+| Qualifications | 10. The posting asks for 7 years and Robin has 9: 0. Known gap `go_lang`: -1. There are no separate self-score gaps, and Go would count once anyway. 10 - 1 = 9. | **9** |
+| Culture | 5. Unlimited PTO (big) +2, learning budget (big) +2, meetups (nice) +1, "definition of done" +1. That is 11, capped at 10. | **10** |
 
 **Verdict:**
-- Rule 1: no hard block.
-- Rule 2: override not fired.
-- Rule 3: Fit 9 and Qualifications 9 are both above 5.
-- Rule 4: Comp 10 and Culture 10 are above 3, and the average of Fit and Qualifications is 9, which is at least 7.
-- Rule 5 decides: **Apply (4d)**.
+1. No hard block.
+2. The override is not fired.
+3. Fit 9 and Qualifications 9 are both above 5.
+4. Comp 10 and Culture 10 are both above 3, and the average of Fit and Qualifications is 9, which is not under 7.
+5. Nothing fired, so rule 4d applies: **Apply**.
 
 ## Posting 02: Driftmark, tech-writing lane
 
 | Score | Arithmetic | Result |
 |---|---|---|
-| Fit | 10. `expert_access` (strong) fair: 0. `tooling_voice` (strong) fair: 0. `style_guide` (soft) poor: -1. Autonomy unknown: 0. Avoid-core skills are `video_tutorials` and `localization_pm`, -1 each, which is within the cap of 2: -2. 10 - 1 - 2 = 7. | **7** |
-| Comp | No tier label contains "Region B", so the code uses the "Everywhere else" tier. Top is 78,000, which is at or above the floor of 75,000 but below the min of 80,000. | **3** |
-| Qualifications | 10. Asks for 12 years and Robin has 9: -2, once. Known gaps `dita_xml` and `mobile_sdk`: -2. Nothing else. 10 - 2 - 2 = 6. | **6** |
-| Culture | 5. No perks, phrases, flags or hustle language. | **5** |
+| Fit | 10. `expert_access` and `tooling_voice` are strong must-haves rated fair: 0. Soft `style_guide` is rated poor: -1. Autonomy is unknown: 0. Avoid-skills `video_tutorials` and `localization_pm` cost 1 each, within the cap of 2: -2. 10 - 1 - 2 = 7. | **7** |
+| Comp | No tier label contains "Region B", so the code takes the "Everywhere else" tier. Its top is 78,000, which is at or above the 75,000 floor but below the 80,000 min. | **3** |
+| Qualifications | 10. 12 years asked against Robin's 9: -2. Known gaps `dita_xml` and `mobile_sdk`: -1 each, -2 in total, under the cap of 4. 10 - 2 - 2 = 6. | **6** |
+| Culture | 5. There are no perks, hustle phrases, flags or negative phrases. | **5** |
 
 **Verdict:**
-- Rule 1: no hard block.
-- Rule 2 decides: the findings say a required skill central to the daily work, video tutorials, has no evidence behind it (`evidence_checked` is empty). **Skip (4a)**.
-
-The scores would not have changed this outcome: Comp is 3 (so 4c would also apply) and the Fit/Qualifications average is 6.5. But rule 2 comes before rule 4, so 4a decides.
+1. No hard block.
+2. The findings mark `job_type_override.fired = true` for `video_tutorials`, which has no evidence behind it. Rule 4a fires and decides: **Skip**.
+3. Nothing after rule 2 is checked. Fit 7 and Qualifications 6 would have passed 4b anyway, and Comp 3 would have triggered 4c.
 
 ## Posting 03: Ashgrove, tech-writing lane
 
 | Score | Arithmetic | Result |
 |---|---|---|
-| Fit | 10. `expert_access` (strong) weak: -1.5. `tooling_voice` (strong) unknown: -1.5. `style_guide` (soft) fair: 0. Autonomy unknown: 0. 10 - 1.5 - 1.5 = 7. | **7** |
-| Comp | Pay is not listed, so the neutral score applies. | **5** |
-| Qualifications | 10. Asks for 11 years and Robin has 9: -2. `mobile_sdk` known gap: -1. `kubernetes` self-score gap on a required line: -1. Total 3, within the cap of 4. 10 - 2 - 1 - 1 = 6. | **6** |
-| Culture | 5. Extra days off (big) +2, learning budget (big) +2. "Fast-paced" is on Robin's free-phrases list, so it costs nothing. 5 + 2 + 2 = 9. | **9** |
+| Fit | 10. `expert_access` is a strong must-have rated weak: -1.5. `tooling_voice` is strong and unknown: -1.5. Soft `style_guide` is rated fair: 0. Autonomy is unknown: 0. 10 - 1.5 - 1.5 = 7. | **7** |
+| Comp | Pay is not listed. | **5** |
+| Qualifications | 10. 11 years asked against Robin's 9: -2. Known gap `mobile_sdk`: -1. Self-score gap `kubernetes`: -1. 10 - 2 - 1 - 1 = 6. | **6** |
+| Culture | 5. Extra days off (big) +2, learning budget (big) +2. "Fast-paced" is a free phrase: 0. 5 + 2 + 2 = 9. | **9** |
 
 **Verdict:**
-- Rule 1: no hard block.
-- Rule 2: override not fired.
-- Rule 3: Fit 7 and Qualifications 6 are both above 5.
-- Rule 4 decides: Comp 5 and Culture 9 are above 3, but the average of Fit and Qualifications is (7 + 6) / 2 = 6.5, which is under 7. **Apply with reservations (4c-average)**.
+1. No hard block.
+2. The override is not fired.
+3. Fit 7 and Qualifications 6 are both above 5.
+4. Comp 5 and Culture 9 are both above 3, but the average of Fit and Qualifications is (7 + 6) / 2 = 6.5, which is under 7.
+5. Rule 4c (average) fires: **Apply with reservations**.
 
 ## Comparison with `fixtures/expected.yaml`
 
 | Posting | Fit | Comp | Qual | Culture | Verdict | Trigger |
 |---|---|---|---|---|---|---|
-| 01 | 9 ✓ | 10 ✓ | 9 ✓ | 10 ✓ | Apply ✓ | 4d ✓ |
-| 02 | 7 ✓ | 3 ✓ | 6 ✓ | 5 ✓ | Skip ✓ | 4a ✓ |
-| 03 | 7 ✓ | 5 ✓ | 6 ✓ | 9 ✓ | Apply with reservations ✓ | 4c-average ✓ |
+| 01 | 9 = 9 | 10 = 10 | 9 = 9 | 10 = 10 | Apply = Apply | 4d = 4d |
+| 02 | 7 = 7 | 3 = 3 | 6 = 6 | 5 = 5 | Skip = Skip | 4a = 4a |
+| 03 | 7 = 7 | 5 = 5 | 6 = 6 | 9 = 9 | Apply with reservations = same | 4c-average = 4c average |
 
-**Mismatches: none.** All twelve scores, all three verdicts and all three trigger labels agree with the file. Posting 03 also matches the worked example in ARCHITECTURE.md.
+**Mismatches: none.** All twelve scores and all three verdicts and triggers match.
 
-Three steps could have gone differently:
-- **01 Culture:** the raw sum is 11, so the cap at 10 matters.
-- **02 Comp:** it only lands on 3 if you pick the "Everywhere else" tier, which is what Interpretation 7 says to do when no tier names Region B. Using Region A's top of 98,000 would give 8.
-- **02 Fit:** it needs the avoid-skills cap of 2 applied across both listed skills, with no stacking beyond that.
+A few steps depended on judgment or on the rules' fine print:
+- **Posting 01 Culture:** the raw total is 11, so the match depends on clamping to the cap of 10 before rounding.
+- **Posting 02 Comp:** it depends on Interpretation 7, where the code picks the "Everywhere else" tier. Using Region A (top 98,000) would have scored 8.
+- **Posting 02 Fit:** it depends on the two avoid-skills being treated as core daily work, which the findings assert.
+- **Qualifications gaps in all three:** I counted every known gap as load-bearing, as the findings imply. That is the judgment call the document says can vary.

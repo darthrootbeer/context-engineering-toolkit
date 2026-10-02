@@ -37,7 +37,7 @@ On Windows, activate with `.venv\Scripts\activate` instead.
 python3 -m pytest -q
 ```
 
-Expect a line like `461 passed, 2 skipped`. The two skipped tests are the live runs, which call a model and only run when you ask for them (see [Live runs](#live-runs-optional)). The exact count grows as tests are added. What matters is that nothing fails.
+Expect a line like `542 passed, 2 skipped`. The two skipped tests are the live runs, which call a model and only run when you ask for them (see [Live runs](#live-runs-optional)). The exact count grows as tests are added. What matters is that nothing fails.
 
 **Step 4. Check the fictional person's file, and watch a broken one fail.**
 

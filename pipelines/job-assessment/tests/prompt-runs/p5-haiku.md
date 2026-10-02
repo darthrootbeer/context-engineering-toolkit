@@ -12,56 +12,108 @@
 
 [the prompt below, with attached files: ARCHITECTURE.md, section 'What the validator checks', fixtures/gappy-profile.yaml]
 
-I'm attaching the 'What the validator checks' section of ARCHITECTURE.md and my career-profile.yaml. Find the weak spots the validator cannot catch: skills scored 3 or higher that rest on thin evidence, unchecked evidence a posting would lean on, evidence with no dates, must-haves or hard blocks with no reason, and lanes whose requirements look copied from each other. For each, give the exact YAML path, why it matters for scoring, and one question you would ask me to fix it. Do not fill any gap yourself. A good answer on fixtures/gappy-profile.yaml finds all three planted gaps.
+I'm attaching the 'What the validator checks' section of ARCHITECTURE.md and my career-profile.yaml. The validator checks shape and consistency, not truth, so find what it cannot catch. Read my whole file the way a skeptical hiring manager and a careful editor would: look for places where the file claims more than its own evidence shows, says something that conflicts with another part of the file, or would make a posting score in a misleading way. Check every section, not only skills. For each weak spot, give the exact YAML path, quote the part that worries you, say why it matters for scoring, and give one question you would ask me to fix it. Do not fill any gap yourself, and do not report a problem you cannot point to in the file. A good answer names only things that are really in the file and gives a YAML path for each one.
 
 ### Model
 
-I'll systematically check what the validator cannot catch. Here are the weak spots:
+# Gaps a careful reader should find
+
+I'm finding five real problems, each grounded in what's actually written:
 
 ---
 
-## **Planted gaps (3 major ones):**
+## 1. **Contradictory requirement in tech-writing lane**
 
-### 1. **`skills[1].docs_ci` — Score 5 backed only by unchecked interview**
-- **YAML path:** `skills[1]` (or `skills[1].self_score`, `skills[1].evidence_ids`)
-- **Why it matters:** A score of 5 signals mastery. The validator won't warn about weak evidence *within* an evidence list—only absence of evidence. This evidence is `proof: unchecked` from an interview with no artifact to verify, yet it's being scored as your highest skill.
-- **Question:** Can you point to a documented artifact (a PR, a config file, CI logs, or documentation) that shows the link-checking build you set up, or was this pairing work where you implemented it together with someone else?
+**YAML path:** `lanes[1].requirements[1]`
 
----
+**Quote:** 
+```yaml
+- id: owns_pipeline
+  label: "🛠️ Owns the docs build"
+  severity: strong
+  why: "The point of the role is building, not only writing."
+```
 
-### 2. **`hard_blocks[1].why` — Weapons hard block has no reason**
-- **YAML path:** `hard_blocks[1]` (the weapons block)
-- **Why it matters:** The validator warns about `strong` must-haves with no reason, but hard blocks aren't checked for this. Without a stated reason, a recruiter can't tell if this is an ethical boundary, a legal constraint, or something else—affecting how they'd present the role to you.
-- **Question:** Why won't you work for weapons makers? Is it a personal value, a concern about the industry, or something else?
+**Why it matters for scoring:** The lane itself is described as *"Roles writing and editing technical content,"* yet it requires—at strong severity—that the role be about *building, not only writing.* A scoring system will penalize pure writing roles that don't own docs infrastructure, even though they fit the lane's stated purpose. This contradicts what the lane claims to target.
 
----
-
-### 3. **`lanes[1].requirements` — Tech-writing lane requirements copied verbatim from docs-platform**
-- **YAML path:** `lanes[1].requirements` (and `lanes[1].autonomy`, `lanes[1].keyword_signals`)
-- **Why it matters:** These roles are fundamentally different (one builds systems, one writes content), yet both demand "Owns the docs build" as a strong requirement. The validator can't catch copy-paste; only humans notice when a requirement doesn't match the role's actual needs.
-- **Question:** For a pure tech-writing role, do you need to own the docs build system itself, or would you prefer to write excellent content *within* a system that already exists?
+**Question:** For roles that focus primarily on writing and editing content, do you really need them to own the docs build, or should that be a strong requirement only for the docs-platform lane?
 
 ---
 
-## **Additional weak spots:**
+## 2. **High skill score with thin, unchecked evidence**
 
-### 4. **`evidence[0].authorship: DIRECTED` — Thin for a claimed skill**
-- **YAML path:** `skills[0].evidence_ids[0]` → `evidence[0].authorship`
-- **Why it matters:** You scored OpenAPI 4, but the evidence shows you *directed* the API spec work, not that you implemented the spec generation or wrote against it. For a technical writer, this means you supervised someone else's work.
-- **Question:** Did you implement the system that generates the API reference from the spec, or did you write the reference documentation after someone else built the system?
+**YAML path:** `skills[1]` (docs_ci)
+
+**Quote:**
+```yaml
+- id: docs_ci
+  label: Docs build and CI checks
+  self_score: 5
+  ...
+  evidence_ids: [ev-placeholder-docs-ci]
+```
+
+**Evidence details:** This single evidence spans only **2023-05 to 2023-06** (two months), sourced from an **unchecked interview**, with no document link or secondary verification.
+
+**Why it matters for scoring:** A score of 5 (expert) typically signals deep, demonstrated mastery. Two months of work mentioned in an interview is insufficient to support expert-level scoring in most hiring contexts. A hiring manager would reasonably expect multiple projects, production evidence, or a documented body of work.
+
+**Question:** Beyond that 2023 project, what other docs build or CI systems have you set up or maintained?
 
 ---
 
-### 5. **Last-used dates don't match evidence end dates**
-- **YAML path:** `skills[0].last`, `skills[1].last`, `skills[2].last`
-- **Why it matters:** All three scored skills claim `last: "2y"`, but evidence shows:
-  - `openapi`: last evidence 2021-09 (4.8 years ago)
-  - `docs_ci`: last evidence 2023-06 (3.3 years ago)
-  - `style_guides`: last evidence 2022-08 (4.1 years ago)
-  
-  The validator can't connect `last` to evidence dates; a mismatch suggests either the skill is rustier than claimed, or the profile wasn't kept in sync.
-- **Question for each:** When did you actually *last use* each of these skills hands-on, and what did you do?
+## 3. **Authorship mischaracterization inflates platform claims**
+
+**YAML path:** `evidence[1].authorship`
+
+**Quote:**
+```yaml
+- id: ev-placeholder-docs-ci
+  claim: "Set up a build check that blocks a docs change with a broken link."
+  authorship: WROTE
+  source: {type: interview, ...}
+```
+
+**Why it matters for scoring:** Setting up a CI/build-check system is platform or infrastructure work, not writing. Marking it as "WROTE" implies authorship of written content, not implementation of technical systems. This conflates different skill domains and makes Robin's platform engineering background appear stronger than a technical writer setting up CI tooling might justify.
+
+**Question:** Did you write the code or configuration that implements this check, or did you spec/design it and have an engineer implement it?
 
 ---
 
-**Summary:** The validator missed the three planted gaps (weak evidence quality, missing hard-block reason, and cloned requirements) because it checks *structure*, not *judgment*. The `last` dates are the only automatic error it could have caught but didn't, suggesting the profile wasn't updated when the `last` field was filled in.
+## 4. **Writing sample does not match evidence**
+
+**YAML path:** `writing_samples[0]`
+
+**Quote:**
+```yaml
+- id: ws-api-guide
+  title: "API getting-started guide"
+  link: "https://example.com/fictional/getting-started"
+  evidence_id: ev-northwind-api-rebuild
+```
+
+**The evidence (ev-northwind-api-rebuild) claims:** *"Moved the API reference from hand-edited pages to pages generated from the API spec."*
+
+**Why it matters for scoring:** The sample title promises a guide (writing), but the evidence describes tooling and automation (not writing). A hiring manager clicking the link expects to see Robin's writing work, not an automation project. This mismatch makes the portfolio appear misleading.
+
+**Question:** Did you write the API getting-started guide yourself, or is the link actually to the auto-generated reference documentation?
+
+---
+
+## 5. **Platform engineer role aspiration vs. actual titles**
+
+**YAML path:** `person.target_roles[1]` + `employers[*].title`
+
+**Quote:**
+```yaml
+target_roles: [Senior Technical Writer, "Docs Platform Engineer"]
+```
+vs. actual titles:
+```yaml
+employers:
+  - title: "Technical Writer"      # 2017–2021
+  - title: "Senior Technical Writer"  # 2022–present
+```
+
+**Why it matters for scoring:** Robin targets "Docs Platform Engineer" but has held only writer titles. While the evidence suggests platform work within those roles, the lack of an actual platform engineer title—combined with scores of 5 in docs_ci—could read as role inflation. A hiring manager evaluating for a platform engineer role might ask whether Robin has been trusted with that title, or only did platform tasks as a side project.
+
+**Question:** Have you held any position officially titled "Platform Engineer," "Infrastructure Engineer," or "Systems Engineer," or has your platform work all occurred within technical writing roles?

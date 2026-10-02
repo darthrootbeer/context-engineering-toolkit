@@ -32,6 +32,7 @@ The same numbers are in machine-readable form in `expected.yaml`.
 
 - `robin-sample/career-profile.yaml`: Robin's central file, two lanes, seven evidence entries, fourteen skills.
 - `robin-sample/intake-answers.txt`: scripted answers for the intake interview test.
+- `gappy-profile.yaml` and `held-out-gappy-profile.yaml`: two profiles that pass the validator with no warnings but have judgment gaps it cannot see. The "find gaps" prompt was tuned on the first. The second is held out: nothing in the prompt describes its gaps. The planted gaps are listed in `tests/test_validate_profile.py`, not here.
 - `findings/*.findings.json`: hand-written model output for each posting. Every quote is copied from the posting text.
 - Each posting file starts with `company`, `role`, `lane`, `url` and `source` lines, then a divider, then the posting text.
 

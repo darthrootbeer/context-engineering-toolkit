@@ -1,23 +1,21 @@
 <!-- FICTIONAL EXAMPLE DATA. Not a real person. Saved by tests/prompt-runs/run_prompts.py -->
 # Prompt run: Run on my first posting, on sonnet
 
-Note: the pay figures in this record were changed after the run to fictional ones. Nothing else was edited; the scores and verdicts are as recorded.
-
 - Prompt file: `prompts/03-run-first-posting.txt`
 - Date: 2026-10-01. Model alias `sonnet`, which ran as `claude-sonnet-5-5` (Claude Code can add a small helper model call of its own).
-- Turns: 1. Cost: $0.14 (the simulated user's calls are not included).
+- Turns: 1. Cost: $0.13 (the simulated user's calls are not included).
 - Grade: see `GRADES.md`.
 
 ## Checks run by code on the reply
 
 ```text
-$ python3.11 assessment/scripts/check_findings.py <tmp>/findings.json --posting fixtures/postings/01-strong-fit.md --profile fixtures/robin-sample/career-profile.yaml
+$ python assessment/scripts/check_findings.py <tmp>/findings.json --posting fixtures/postings/01-strong-fit.md --profile fixtures/robin-sample/career-profile.yaml
 check_findings: ok
 (exit code 0)
 ```
 
 ```text
-$ python3.11 scripts/assess_offline.py fixtures/postings/01-strong-fit.md --findings <tmp>/findings.json --profile fixtures/robin-sample/career-profile.yaml --out <tmp>/out --date 2026-10-01
+$ python scripts/assess_offline.py fixtures/postings/01-strong-fit.md --findings <tmp>/findings.json --profile fixtures/robin-sample/career-profile.yaml --out <tmp>/out --date 2026-10-01
 ASSESSMENT: fixtures/postings/01-strong-fit.md
 
 🚦 VERDICT: Apply
@@ -32,11 +30,11 @@ Culture 10 🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟
 
 | Check | Rating | Read |
 |---|---|---|
-| ✨ AI-forward team | 🟢 Strong | The team drafts with AI every day. A person still checks the output, and you would help decide those checks. This is what you want. |
-| 📦 Docs live in version control | 🟢 Strong | The docs are kept in Git and reviewed like code. A miss here would matter a lot, and this clearly passes. |
-| 🧪 Docs are built and checked automatically | 🟡 Fair | The build is not automatic yet, so the checking you like is not in place. They want you to build it, which is work you can do. |
-| 🦸 Owns the docs system | 🟢 Strong | You would own the docs system from week one, with one engineer to review your work. This is a bonus and it is clearly there. |
-| How much say you'd have | 🟢 Strong | You would pick the tools and set your own priorities, and your manager checks in weekly. That is a lot of say. |
+| ✨ AI-forward team | 🟢 Strong | The team drafts with AI every day and still wants people to check the output. That is the setup you asked for. |
+| 📦 Docs live in version control | 🟢 Strong | The docs already live in Git and go through pull request review. This is the way you like to work. |
+| 🧪 Docs are built and checked automatically | 🟡 Fair | The build is not automatic today. That is a small miss on a nice-to-have, but the job is to fix it, and you have built checks like this before. |
+| 🦸 Owns the docs system | 🟢 Strong | You would own the docs system, with one engineer reviewing. This is a bonus for you, not a requirement. |
+| How much say you'd have | 🟢 Strong | You would pick the tools and set your own priorities. Your manager checks in once a week. That is a lot of say. |
 
 🟢 Strong · 🟡 Fair · 🟠 Weak · 🔴 Poor · ❓ Unknown
 1/10 validate the profile
@@ -66,57 +64,48 @@ I'm attaching assessment/SKILL.md, schema/findings.schema.json, my career-profil
 
 ### Model
 
-I haven't run `check_findings.py` or `assess_offline.py`, and I computed no scores or verdict. No hard block trips: the posting says "We are a remote company with about 60 people," and there is no gambling or weapons content.
+Hard blocks: none tripped. The posting says "We are a remote company with about 60 people", so the not-remote block does not apply. Copperline makes writing tools, so gambling and weapons don't apply either. I assessed it in the `docs-platform` lane, the one named in its lane field.
+
+I haven't run `check_findings.py` or `assess_offline.py`; that's for you. The `posting_file` path is the one you attached, not an archived note.
 
 ```json
 {
   "posting_file": "fixtures/postings/01-strong-fit.md",
   "lane": "docs-platform",
-  "hard_block": {
-    "tripped": false,
-    "id": null,
-    "quote": null,
-    "named_exception": null
-  },
-  "job_type_override": {
-    "fired": false,
-    "skill": null,
-    "quotes": [],
-    "evidence_checked": []
-  },
+  "hard_block": {"tripped": false, "id": null, "quote": null, "named_exception": null},
+  "job_type_override": {"fired": false, "skill": null, "quotes": [], "evidence_checked": []},
   "requirements": [
     {
       "id": "ai_forward",
       "rating": "strong",
       "quote": "Our writers and engineers draft with AI assistants every day, and you will help decide which checks a human must still make.",
-      "read": "The team drafts with AI every day. A person still checks the output, and you would help decide those checks. This is what you want."
+      "read": "The team drafts with AI every day and still wants people to check the output. That is the setup you asked for."
     },
     {
       "id": "docs_as_code",
       "rating": "strong",
       "quote": "all docs live in a Git repository as Markdown and are reviewed in pull requests",
-      "read": "The docs are kept in Git and reviewed like code. A miss here would matter a lot, and this clearly passes."
+      "read": "The docs already live in Git and go through pull request review. This is the way you like to work."
     },
     {
       "id": "ci_for_docs",
       "rating": "fair",
       "quote": "The docs build is still run by hand before each release, and we want you to change that.",
-      "read": "The build is not automatic yet, so the checking you like is not in place. They want you to build it, which is work you can do."
+      "read": "The build is not automatic today. That is a small miss on a nice-to-have, but the job is to fix it, and you have built checks like this before."
     },
     {
       "id": "solo_ownership",
       "rating": "strong",
       "quote": "You will own the documentation system from the first week, with one other engineer to review your work.",
-      "read": "You would own the docs system from week one, with one engineer to review your work. This is a bonus and it is clearly there."
+      "read": "You would own the docs system, with one engineer reviewing. This is a bonus for you, not a requirement."
     }
   ],
   "autonomy": {
     "net": "positive",
     "quotes": [
-      "You choose the tools and set the priorities for the docs system; your manager checks in once a week.",
-      "You will own the documentation system from the first week"
+      "You choose the tools and set the priorities for the docs system; your manager checks in once a week."
     ],
-    "read": "You would pick the tools and set your own priorities, and your manager checks in weekly. That is a lot of say."
+    "read": "You would pick the tools and set your own priorities. Your manager checks in once a week. That is a lot of say."
   },
   "pay": {
     "stated": true,
@@ -140,24 +129,12 @@ I haven't run `check_findings.py` or `assess_offline.py`, and I computed no scor
   },
   "culture": {
     "perks": [
-      {
-        "perk_id": "unlimited_pto",
-        "quote": "Unlimited paid time off, with a three-week minimum we ask everyone to take."
-      },
-      {
-        "perk_id": "learning_budget",
-        "quote": "A $3,000 yearly learning budget."
-      },
-      {
-        "perk_id": "offsites",
-        "quote": "Two team meetups a year."
-      }
+      {"perk_id": "unlimited_pto", "quote": "Unlimited paid time off, with a three-week minimum we ask everyone to take."},
+      {"perk_id": "learning_budget", "quote": "A $3,000 yearly learning budget."},
+      {"perk_id": "offsites", "quote": "Two team meetups a year."}
     ],
     "strong_positive_phrases": [
-      {
-        "phrase": "definition of done",
-        "quote": "Documentation is part of the definition of done for every feature."
-      }
+      {"phrase": "definition of done", "quote": "Documentation is part of the definition of done for every feature."}
     ],
     "low_time_off": null,
     "hustle": [],
@@ -170,21 +147,25 @@ I haven't run `check_findings.py` or `assess_offline.py`, and I computed no scor
     "known_gaps_hit": ["gap_go"],
     "self_score_gaps": [],
     "working_style_mismatch": false,
+    "unproven": [],
     "matches": [
       {
         "requirement_quote": "Experience generating API reference pages from an OpenAPI file.",
         "evidence_ids": ["ev-northwind-api-rebuild"]
       },
       {
-        "requirement_quote": "Build and run the system that turns our documentation into a public help site.",
+        "requirement_quote": "all docs live in a Git repository as Markdown and are reviewed in pull requests",
         "evidence_ids": ["ev-placeholder-docs-pipeline"]
       },
       {
-        "requirement_quote": "all docs live in a Git repository as Markdown and are reviewed in pull requests",
-        "evidence_ids": ["ev-placeholder-docs-pipeline"]
+        "requirement_quote": "The docs build is still run by hand before each release, and we want you to change that.",
+        "evidence_ids": ["ev-placeholder-docs-pipeline", "ev-placeholder-ci-checks"]
+      },
+      {
+        "requirement_quote": "Our writers and engineers draft with AI assistants every day",
+        "evidence_ids": ["ev-placeholder-style-prompts"]
       }
-    ],
-    "unproven": []
+    ]
   },
   "avoid_core_skills": [],
   "company_read": {
@@ -192,7 +173,7 @@ I haven't run `check_findings.py` or `assess_offline.py`, and I computed no scor
     "name": "Copperline Example Co.",
     "stored_reason": "Makes tools for writers, which is the work Robin cares about most."
   },
-  "verdict_reason": "This looks like a strong match. You would own the docs system, choose the tools and work with AI drafting every day. The pay range for your region is listed, and the time off and learning budget are good. The one thing to prepare for is reading Go code, which you have not done in years.",
+  "verdict_reason": "You would own the docs system, choose the tools and work with AI drafting every day, at a company that makes tools for writers. Two things still need checking: how well you can read Go, and which pay region applies to you.",
   "keyword_signals_found": [
     {
       "phrase": "definition of done",
@@ -203,18 +184,10 @@ I haven't run `check_findings.py` or `assess_offline.py`, and I computed no scor
 }
 ```
 
-**Judgment calls I was least sure of**
+## Judgment calls I was least sure of
 
-1. **Go as a gap that counts (`known_gaps_hit: ["gap_go"]`).**
-   - Posting words: "You can read Go code well enough to follow how our build tool works." It sits under "What we are looking for."
-   - I counted it because it is a required line. The other reading is that "well enough to follow" is a light ask, not load-bearing, so it should not count. Dropping it would raise Qualifications. It is named once in a list and not in the duties, so I did not fire the job-type override.
+1. **Go as a known gap.** The posting says: "You can read Go code well enough to follow how our build tool works." I counted it as a required line, so `gap_go` is in `known_gaps_hit`, and I left it out of `self_score_gaps`. It could also be read as a light, read-only ask that is not load-bearing, in which case `known_gaps_hit` would be empty. I did not fire the job-type override. Go appears once, in the requirements list, and never in the duties.
 
-2. **`ci_for_docs` rated `fair`.**
-   - Posting words: "The docs build is still run by hand before each release, and we want you to change that."
-   - I read this as automatic checking missing today, but wanted in the role. It could instead be `strong`, because the job is to build exactly what you listed and you have evidence for it. It could also be `weak`, because the posting confirms the opposite of the current state.
+2. **`ci_for_docs` as `fair`.** The posting says: "The docs build is still run by hand before each release, and we want you to change that." I read it as a small miss on a soft item that the job is meant to fix. It could be `strong`, because the role is to build exactly this and you have done it. It could also be `weak`, because the team does not have this today.
 
-3. **`working_style_mismatch: false`.**
-   - Posting words: "You will own the documentation system from the first week." Your profile says you gather knowledge from experts.
-   - I read this as owning a system, not becoming the subject expert on a product. If the posting meant you would be the sole authority on how the platform works, it could be read as a mismatch.
-
-I did not cite `ev-placeholder-ci-checks` or the AI prompt evidence for any match, to avoid stretching the claims. I also left the pay-range benefits term out, because the schema has no field for it.
+3. **Time off left as `null`.** The posting says: "Unlimited paid time off, with a three-week minimum we ask everyone to take." I treated it as a perk, not a stated yearly day count. If you read "three-week minimum" as 15 paid days, `low_time_off` would be `{"days": 15, "quote": "..."}`. That sits exactly on your `low_time_off_days` threshold, so the script would decide whether it counts as low.

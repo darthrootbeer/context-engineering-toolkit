@@ -332,7 +332,7 @@ Culture 10 🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟
 
 🟢 Strong · 🟡 Fair · 🟠 Weak · 🔴 Poor · ❓ Unknown
 
-📄 Note: [file://…/pipeline/archive/🟢 📋 🔧 Copperline Example Co. - Docs Platform Engineer - 2026-10-01.md](file://<work>/archive/🟢%20📋%20🔧%20Copperline%20Example%20Co.%20-%20Docs%20Platform%20Engineer%20-%202026-10-01.md)
+📄 Note: `[file://…/pipeline/archive/🟢 📋 🔧 Copperline Example Co. - Docs Platform Engineer - 2026-10-01.md](file://<work>/archive/🟢%20📋%20🔧%20Copperline%20Example%20Co.%20-%20Docs%20Platform%20Engineer%20-%202026-10-01.md)`
 ✉️ Email card: `out/copperline-example-co-docs-platform-engineer.html`
 
 The verdict is Apply because no hard block, job-type override, score floor or reservations band fired. The one deduction is reading Go, a known gap for you, so Qualifications is 9. You meet the 7+ years ask with 9 years. Because Copperline is high-interest, move quickly and check for a warm introduction. Interviews may probe hands-on depth on OpenAPI, since that work was done by directing AI.
@@ -600,7 +600,7 @@ Culture 9 🟢🟢🟢🟢🟢🟢🟢🟢🟢⬛
 
 🟢 Strong · 🟡 Fair · 🟠 Weak · 🔴 Poor · ❓ Unknown
 
-Note: [file://<work>/archive/🟡 📋 ✍️ Ashgrove Example Software - Senior Technical Writer - 2026-10-01.md](file://<work>/archive/🟡%20📋%20✍️%20Ashgrove%20Example%20Software%20-%20Senior%20Technical%20Writer%20-%202026-10-01.md)
+Note: `[file://<work>/archive/🟡 📋 ✍️ Ashgrove Example Software - Senior Technical Writer - 2026-10-01.md](file://<work>/archive/🟡%20📋%20✍️%20Ashgrove%20Example%20Software%20-%20Senior%20Technical%20Writer%20-%202026-10-01.md)`
 Email card: `out/ashgrove-example-software-senior-technical-writer.html`. Its subject starts with 🟡.
 
 **Why this verdict:** Fit and Qualifications average under 7, which puts it in the reservations band. No hard block or job-type override applied. Ashgrove is a "good, not dream" company, and that did not affect the scores.

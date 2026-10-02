@@ -56,6 +56,23 @@ GAPPY_PLANTED_GAPS = {
         "hard_blocks[1] (weapons) has no why.",
 }
 
+# The planted judgment gaps in fixtures/held-out-gappy-profile.yaml, the file the
+# "find gaps" prompt was NOT tuned against. Nothing in the prompt describes them.
+HELD_OUT_PLANTED_GAPS = {
+    "years_vs_employers":
+        "person.years_experience is 14, but the employers listed start in 2021-03.",
+    "evidence_before_employer":
+        "evidence[0] is dated 2018 at an employer whose tenure starts in 2021-03.",
+    "claim_vs_authorship":
+        "evidence[1] claims to have written every page, but its authorship is REVIEWED.",
+    "hard_block_matches_the_wanted_jobs":
+        "hard_blocks[0] (non_remote) has match hints that would fire on the remote jobs the person wants.",
+    "phrase_in_both_lists":
+        "culture lists 'fast-paced' as both a hustle phrase and a free phrase.",
+    "recent_use_with_old_evidence":
+        "skills[1] (user_guides) says used in the last two years, but its only evidence ends in 2018.",
+}
+
 
 def run_cli(*args):
     proc = subprocess.run([sys.executable, str(SCRIPTS / "validate_profile.py"), *map(str, args)],
@@ -121,6 +138,46 @@ def test_gappy_fixture_really_holds_the_planted_gaps():
 
     assert data["hard_blocks"][1]["id"] == "weapons" and "why" not in data["hard_blocks"][1]
     assert len(GAPPY_PLANTED_GAPS) == 3
+
+
+def test_held_out_fixture_passes_clean_with_no_warnings():
+    code, out, err = run_cli("--fixture", FIXTURES / "held-out-gappy-profile.yaml")
+    assert code == 0
+    assert out == ""
+    assert "clean, 0 warning(s)" in err
+
+
+def test_held_out_fixture_really_holds_the_planted_gaps():
+    data = load(FIXTURES / "held-out-gappy-profile.yaml")
+    starts = [str(e["start"]) for e in data["employers"]]
+    assert data["person"]["years_experience"] == 14 and min(starts) == "2021-03"
+
+    old = data["evidence"][0]
+    employer = next(e for e in data["employers"] if e["id"] == old["employer_id"])
+    assert str(old["dates"]["start"]) < str(employer["start"])
+
+    claim = data["evidence"][1]
+    assert claim["claim"].startswith("Wrote every page") and claim["authorship"] == "REVIEWED"
+
+    block = data["hard_blocks"][0]
+    assert block["id"] == "non_remote" and "remote" in block["match_hints"]
+
+    culture = data["culture"]
+    assert set(culture["hustle_phrases"]) & set(culture["free_phrases"]) == {"fast-paced"}
+
+    skill = data["skills"][1]
+    assert skill["id"] == "user_guides" and skill["last"] == "2y"
+    ends = [str(e["dates"]["end"]) for e in data["evidence"] if e["id"] in skill["evidence_ids"]]
+    assert ends and all(end < "2020" for end in ends)
+
+    assert len(HELD_OUT_PLANTED_GAPS) == 6
+
+
+def test_the_find_gaps_prompt_does_not_describe_the_held_out_gaps():
+    prompt = (ROOT / "prompts" / "05-find-gaps.txt").read_text(encoding="utf-8").lower()
+    for giveaway in ("years_experience", "authorship", "match_hints", "hustle", "free_phrases",
+                     "copied", "thin evidence", "no reason", "no dates"):
+        assert giveaway not in prompt
 
 
 @pytest.mark.skipif(not ROBIN.exists(), reason="Robin's fixture arrives in a separate package")

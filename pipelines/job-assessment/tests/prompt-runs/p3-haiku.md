@@ -1,8 +1,6 @@
 <!-- FICTIONAL EXAMPLE DATA. Not a real person. Saved by tests/prompt-runs/run_prompts.py -->
 # Prompt run: Run on my first posting, on haiku
 
-Note: the pay figures in this record were changed after the run to fictional ones. Nothing else was edited; the scores and verdicts are as recorded.
-
 - Prompt file: `prompts/03-run-first-posting.txt`
 - Date: 2026-10-01. Model alias `haiku`, which ran as `claude-haiku-4-5-20251001` (Claude Code can add a small helper model call of its own).
 - Turns: 1. Cost: $0.10 (the simulated user's calls are not included).
@@ -11,32 +9,32 @@ Note: the pay figures in this record were changed after the run to fictional one
 ## Checks run by code on the reply
 
 ```text
-$ python3.11 assessment/scripts/check_findings.py <tmp>/findings.json --posting fixtures/postings/01-strong-fit.md --profile fixtures/robin-sample/career-profile.yaml
+$ python assessment/scripts/check_findings.py <tmp>/findings.json --posting fixtures/postings/01-strong-fit.md --profile fixtures/robin-sample/career-profile.yaml
 check_findings: ok
 (exit code 0)
 ```
 
 ```text
-$ python3.11 scripts/assess_offline.py fixtures/postings/01-strong-fit.md --findings <tmp>/findings.json --profile fixtures/robin-sample/career-profile.yaml --out <tmp>/out --date 2026-10-01
-ASSESSMENT: ARCHIVE/2026-10-01-copperline-example-co-docs-platform-engineer.md
+$ python scripts/assess_offline.py fixtures/postings/01-strong-fit.md --findings <tmp>/findings.json --profile fixtures/robin-sample/career-profile.yaml --out <tmp>/out --date 2026-10-01
+ASSESSMENT: fixtures/postings/01-strong-fit.md
 
 🚦 VERDICT: Apply
 
 🏢 Copperline Example Co. is one you have said you want to work for. Your reason: Makes tools for writers, which is the work Robin cares about most. This did not change the scores or the verdict.
 
 **Scores:**
-Fit 9 🟢🟢🟢🟢🟢🟢🟢🟢🟢⬛  
+Fit 10 🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟  
 Comp 10 🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟  
 Qualifications 9 🟢🟢🟢🟢🟢🟢🟢🟢🟢⬛  
 Culture 10 🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟  
 
 | Check | Rating | Read |
 |---|---|---|
-| ✨ AI-forward team | 🟢 Strong | The team uses AI tools every day for drafting, which is exactly what you want. You would help decide what review rules they need. |
-| 📦 Docs live in version control | 🟢 Strong | Docs are stored in Git as Markdown and go through pull request review, which matches your preference for working where review and automation matter. |
-| 🧪 Docs are built and checked automatically | 🟠 Weak | Docs are currently built by hand, not automatically. You'd build the automation from scratch, but it doesn't exist yet. |
-| 🦸 Owns the docs system | 🟢 Strong | You would own the docs system from day one with just peer review from one engineer. This is the ownership you're looking for. |
-| How much say you'd have | 🟢 Strong | You would have wide say in how the docs system works. Your manager checks in weekly and one engineer reviews your work, but you choose tools and set priorities. |
+| ✨ AI-forward team | 🟢 Strong | The team uses AI to draft every day, and you'd decide what still needs human review. That's the AI-forward setup you want. |
+| 📦 Docs live in version control | 🟢 Strong | Docs live in Git as Markdown with PR reviews, exactly your working style. |
+| 🧪 Docs are built and checked automatically | 🟡 Fair | Docs build is manual now; they want you to automate it. You'd own that project from the start. |
+| 🦸 Owns the docs system | 🟢 Strong | You own the system day one, with one peer reviewer. That's real ownership and autonomy. |
+| How much say you'd have | 🟢 Strong | You choose the tools and set your own priorities, with a weekly check-in. That's substantial say in how the work happens. |
 
 🟢 Strong · 🟡 Fair · 🟠 Weak · 🔴 Poor · ❓ Unknown
 1/10 validate the profile
@@ -66,9 +64,34 @@ I'm attaching assessment/SKILL.md, schema/findings.schema.json, my career-profil
 
 ### Model
 
+I'll assess this posting for Robin Sample against the docs-platform lane. Let me work through the checklist.
+
+**Hard blocks:** Copperline is remote ("a remote company"), not gambling, weapons, or excluding locations. No blocks trip.
+
+**Requirements match:**
+- `ai_forward` (strong): The posting explicitly puts AI into daily workflow.
+- `docs_as_code` (strong): "all docs live in a Git repository as Markdown and are reviewed in pull requests" — core to Robin's method.
+- `ci_for_docs` (soft): Currently manual; they want Robin to automate it.
+- `solo_ownership` (soft/bonus): Robin owns the system from week one with one peer reviewer.
+
+**Autonomy:** "You choose the tools and set the priorities for the docs system; your manager checks in once a week." The profile's positive signals (chooses tools, sets priorities, weekly manager check-in) all appear. Net: positive.
+
+**Keywords:** "definition of done" hits as strong positive. "Documentation is part of the definition of done for every feature."
+
+**Qualifications:**
+- Years required: 7; Robin has 9 total experience.
+- Known gaps: "You can read Go code" — Robin scored 1 on Go. This is a lane known gap (`gap_go`).
+- Skills: OpenAPI match (ev-northwind-api-rebuild). Docs-as-code match (ev-placeholder-docs-pipeline, ev-placeholder-ci-checks).
+
+**Pay:** Base $100k–$104k for Region B (Robin's location). Matches Robin's target exactly.
+
+**Culture:** Unlimited PTO with 3-week minimum, $3k learning budget, two annual meetups. No hustle language. The company is listed as high-interest in the profile: "Makes tools for writers, which is the work Robin cares about most."
+
+Here's the findings JSON:
+
 ```json
 {
-  "posting_file": "ARCHIVE/2026-10-01-copperline-example-co-docs-platform-engineer.md",
+  "posting_file": "fixtures/postings/01-strong-fit.md",
   "lane": "docs-platform",
   "hard_block": {
     "tripped": false,
@@ -87,31 +110,33 @@ I'm attaching assessment/SKILL.md, schema/findings.schema.json, my career-profil
       "id": "ai_forward",
       "rating": "strong",
       "quote": "Our writers and engineers draft with AI assistants every day, and you will help decide which checks a human must still make.",
-      "read": "The team uses AI tools every day for drafting, which is exactly what you want. You would help decide what review rules they need."
+      "read": "The team uses AI to draft every day, and you'd decide what still needs human review. That's the AI-forward setup you want."
     },
     {
       "id": "docs_as_code",
       "rating": "strong",
-      "quote": "all docs live in a Git repository as Markdown and are reviewed in pull requests",
-      "read": "Docs are stored in Git as Markdown and go through pull request review, which matches your preference for working where review and automation matter."
+      "quote": "Keep docs-as-code habits healthy: all docs live in a Git repository as Markdown and are reviewed in pull requests.",
+      "read": "Docs live in Git as Markdown with PR reviews, exactly your working style."
     },
     {
       "id": "ci_for_docs",
-      "rating": "weak",
+      "rating": "fair",
       "quote": "The docs build is still run by hand before each release, and we want you to change that.",
-      "read": "Docs are currently built by hand, not automatically. You'd build the automation from scratch, but it doesn't exist yet."
+      "read": "Docs build is manual now; they want you to automate it. You'd own that project from the start."
     },
     {
       "id": "solo_ownership",
       "rating": "strong",
       "quote": "You will own the documentation system from the first week, with one other engineer to review your work.",
-      "read": "You would own the docs system from day one with just peer review from one engineer. This is the ownership you're looking for."
+      "read": "You own the system day one, with one peer reviewer. That's real ownership and autonomy."
     }
   ],
   "autonomy": {
     "net": "positive",
-    "quotes": ["You choose the tools and set the priorities for the docs system; your manager checks in once a week."],
-    "read": "You would have wide say in how the docs system works. Your manager checks in weekly and one engineer reviews your work, but you choose tools and set priorities."
+    "quotes": [
+      "You choose the tools and set the priorities for the docs system; your manager checks in once a week."
+    ],
+    "read": "You choose the tools and set your own priorities, with a weekly check-in. That's substantial say in how the work happens."
   },
   "pay": {
     "stated": true,
@@ -121,12 +146,6 @@ I'm attaching assessment/SKILL.md, schema/findings.schema.json, my career-profil
         "min": 100000,
         "max": 104000,
         "quote": "Base pay range for Region B: $100,000 to $104,000."
-      },
-      {
-        "label": "Region A",
-        "min": 102000,
-        "max": 118000,
-        "quote": "Region A: $102,000 to $118,000."
       }
     ],
     "tier_used": null,
@@ -162,17 +181,24 @@ I'm attaching assessment/SKILL.md, schema/findings.schema.json, my career-profil
   "qualifications": {
     "years_required": 7,
     "narrow_subdomain": false,
-    "known_gaps_hit": ["gap_go"],
+    "known_gaps_hit": [
+      "gap_go"
+    ],
     "self_score_gaps": [],
     "working_style_mismatch": false,
     "matches": [
       {
         "requirement_quote": "Experience generating API reference pages from an OpenAPI file.",
-        "evidence_ids": ["ev-northwind-api-rebuild"]
+        "evidence_ids": [
+          "ev-northwind-api-rebuild"
+        ]
       },
       {
-        "requirement_quote": "The docs build is still run by hand before each release, and we want you to change that.",
-        "evidence_ids": ["ev-placeholder-ci-checks"]
+        "requirement_quote": "Keep docs-as-code habits healthy: all docs live in a Git repository as Markdown and are reviewed in pull requests.",
+        "evidence_ids": [
+          "ev-placeholder-docs-pipeline",
+          "ev-placeholder-ci-checks"
+        ]
       }
     ],
     "unproven": []
@@ -183,11 +209,11 @@ I'm attaching assessment/SKILL.md, schema/findings.schema.json, my career-profil
     "name": "Copperline Example Co.",
     "stored_reason": "Makes tools for writers, which is the work Robin cares about most."
   },
-  "verdict_reason": "This is a strong fit. You would own the docs platform from day one with real autonomy, the team already uses AI tools daily, and docs are part of done. The main thing to check is whether reading Go code to follow the build tool is something you want to take on.",
+  "verdict_reason": "This is a strong fit. You'd build the docs platform for a company making writer tools, with AI drafting and docs-as-code already standard, real autonomy, and pay at your target. The main question is how deep your Go code reading needs to be.",
   "keyword_signals_found": [
     {
       "phrase": "definition of done",
-      "read": "Documentation is treated as part of finished work for every feature, which means the docs team has real weight."
+      "read": "Documentation counts as part of finished work, not extra."
     }
   ],
   "new_signals_to_consider": []
@@ -196,10 +222,10 @@ I'm attaching assessment/SKILL.md, schema/findings.schema.json, my career-profil
 
 ---
 
-## Judgment calls least certain about:
+**Judgment calls I'm least sure of:**
 
-1. **CI automation rated "weak"** — The posting says "The docs build is still run by hand before each release, and we want you to change that." I read this as a gap (they don't have automation now), but it could also be read as an opportunity or a "fair" rating: the company clearly values automation, recognizes it matters, and is asking you to build it. The team isn't indifferent; they're asking for the fix.
+1. **CI for docs rated "fair"** — Posting says "The docs build is still run by hand before each release, and we want you to change that." I read this as an opportunity for Robin to own automating the docs build. But it could also be read as: "they haven't invested in CI yet, so this could be a gap they're not actually resourced to fix." The language "we want you to change that" pushed me toward fair (opportunity) rather than weak (unmet gap).
 
-2. **Go language only appears once, but I weighted it in the verdict** — The requirement is "You can read Go code well enough to follow how our build tool works." This is reading, not writing, and appears only in one sentence. Robin's self_score is 1, which is low. I included it as the main caution in the verdict reason, but one could argue this is overstated (it's just code reading to understand a tool, not writing Go) or understated (the skill gap is real).
+2. **Autonomy as "positive"** — The posting says "your manager checks in once a week." I took this as a sign of autonomy (frequent enough for alignment, infrequent enough for independence) because it matches the profile's positive signal exactly. But "checks in once a week" could mean either real autonomy between check-ins, or just routine oversight. The broader context ("You choose the tools and set the priorities") makes the autonomy reading solid, but that one phrase alone is ambiguous.
 
-3. **Autonomy based on one strong quote** — "You choose the tools and set the priorities for the docs system; your manager checks in once a week" is explicit and clear, but it's a single sentence. The context "with one other engineer to review your work" adds a governance layer that might read as closer to neutral autonomy rather than the strongly positive reading I gave it. However, peer code review is standard practice, not a signal of restricted autonomy.
+3. **Go code in known_gaps_hit, not self_score_gaps** — The posting requires "You can read Go code well enough to follow how our build tool works." Robin's self_score on Go is 1 (minimal). Go is also listed as a known gap for this lane (`gap_go`). I listed it only in `known_gaps_hit` per the instruction to "list it once only." But one could argue it should flag both as a gap and a skills gap separately for visibility.

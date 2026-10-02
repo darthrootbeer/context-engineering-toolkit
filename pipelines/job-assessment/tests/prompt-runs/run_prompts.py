@@ -70,6 +70,11 @@ CASES = {
            "attach": [("ARCHITECTURE.md, section 'What the validator checks'",
                        lambda: section("ARCHITECTURE.md", "What the validator checks")),
                       "fixtures/gappy-profile.yaml"]},
+    # The held-out run: the same prompt on a gappy file it was never tuned against.
+    "p5h": {"file": "05-find-gaps.txt", "title": "Find gaps in my central file (held-out profile)",
+            "attach": [("ARCHITECTURE.md, section 'What the validator checks'",
+                        lambda: section("ARCHITECTURE.md", "What the validator checks")),
+                       "fixtures/held-out-gappy-profile.yaml"]},
     "p6": {"file": "06-fix-errors.txt", "title": "Fix errors",
            "attach": [("output of the failed command", lambda: validator_output("fixtures/broken-profile.yaml")),
                       "fixtures/broken-profile.yaml"]},

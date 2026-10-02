@@ -90,7 +90,7 @@ Everything about the person lives in one file, `career-profile.yaml`. Its contra
 
 **Warnings (printed, exit stays 0):** a skill scored 3 or higher with no evidence, evidence with no dates, a strong must-have with no reason, an empty perks list, and a lane with no must-haves of its own.
 
-**What it cannot see.** The validator checks shape and consistency, not truth. A file can pass every check and still overstate what the person can show, or say less than the person means. Those are judgment gaps. The "find gaps" prompt in `intake/README.md` asks a model to look for them, and `fixtures/gappy-profile.yaml` passes the validator with some planted for testing.
+**What it cannot see.** The validator checks shape and consistency, not truth. A file can pass every check and still overstate what the person can show, or say less than the person means. Those are judgment gaps. The "find gaps" prompt in `intake/README.md` asks a model to look for them, and `fixtures/gappy-profile.yaml` and `fixtures/held-out-gappy-profile.yaml` pass the validator with some planted for testing. The prompt was tuned on the first, so the second is the fairer test.
 
 ## The findings file and the checks on it
 

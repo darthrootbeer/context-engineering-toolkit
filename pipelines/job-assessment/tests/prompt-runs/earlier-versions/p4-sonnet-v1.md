@@ -25,7 +25,7 @@ I worked all three from the rules and findings first, then compared against `exp
 | Score | Arithmetic | Result |
 |---|---|---|
 | Fit | 10. `ai_forward` (strong, rated strong): 0. `docs_as_code` (strong, rated strong): 0. `ci_for_docs` (soft, rated weak): -1. `solo_ownership` is a bonus: 0. Autonomy is net positive: 0. No avoided skills. 10 - 1 = 9. | **9** |
-| Comp | Robin's label is Region B, so the Region B tier is used (not the model's choice, but the same). Top is $104,000, which is at or above the $78,000 target. | **10** |
+| Comp | Robin's label is Region B, so the Region B tier is used (not the model's choice, but the same). Top is $104,000, which is at or above the $100,000 target. | **10** |
 | Qualifications | 10. The posting asks for 7 years and Robin has 9: 0. `go_lang` is a known gap: -1. Robin's self-score of 1 on Go is the same skill, so it counts once: 0. No working-style mismatch. 10 - 1 = 9. | **9** |
 | Culture | 5. `unlimited_pto` (big): +2. `learning_budget` (big): +2. `offsites` (nice): +1. "definition of done" (strong positive phrase): +1. 5 + 2 + 2 + 1 + 1 = 11, clamped to the cap of 10. | **10** |
 

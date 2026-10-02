@@ -4,7 +4,7 @@ What's here now is a first batch. This is what's planned next, so it's clear wha
 
 ## In progress
 
-**Job assessment system.** Built in small pull requests under `pipelines/job-assessment/`. The scripts, schemas, fictional sample data, both skills and the offline end-to-end run are merged and tested; the earlier `tools/job-fit-screen` it replaces has been removed. Still to come: `ARCHITECTURE.md`, `SETUP.md` and the tested prompt blocks. Its README has the status list.
+**Job assessment system.** Built in small pull requests under `pipelines/job-assessment/`. The scripts, schemas, fictional sample data, both skills and the offline end-to-end run are merged and tested; the earlier `tools/job-fit-screen` it replaces has been removed. `ARCHITECTURE.md`, `SETUP.md` and the prompt blocks, tested on Claude Sonnet and Claude Haiku, are merged too, so every item on its status list is done.
 
 ## Planned — batch 2
 

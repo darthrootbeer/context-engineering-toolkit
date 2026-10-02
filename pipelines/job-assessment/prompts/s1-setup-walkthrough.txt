@@ -1,0 +1,1 @@
+I'm attaching SETUP.md. Walk me through installing and testing this on my computer, one step at a time, waiting for me to paste each command's output. Stop at the first error and help me fix it. A good session ends with pytest passing and assess_offline.py printing the posting 03 summary.

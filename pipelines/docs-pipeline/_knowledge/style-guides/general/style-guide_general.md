@@ -1,6 +1,6 @@
 <!-- NOTE: This document is formatted for AI use and is not intended for human reading. The closing prompt block is the one part written for a human to paste into a model. -->
 
-# THE PRODUCT GENERAL STYLE GUIDE — MACHINE RULESET
+# ACME ORDERS GENERAL STYLE GUIDE — MACHINE RULESET
 
 ## VOICE AND TONE
 
@@ -17,8 +17,8 @@
 
 | Usage                  | Example                                     |
 | ---------------------- | ------------------------------------------- |
-| Direct, confident tone | "You create a refund with `POST /refunds`." |
-| Prohibited casual tone | "Let's go ahead and refund a transaction!"  |
+| Direct, confident tone | "You create an order with `POST /orders`." |
+| Prohibited casual tone | "Let's go ahead and create an order!"  |
 
 ## READER ASSUMPTIONS
 
@@ -31,7 +31,7 @@
 
 | Usage                  | Example                                                   |
 | ---------------------- | --------------------------------------------------------- |
-| Introduce term         | "The `transaction_type` field controls capture behavior." |
+| Introduce term         | "The `order_type` field controls fulfillment behavior." |
 | Out-of-the-box example | Copy, replace placeholders, run.                          |
 
 ## STRUCTURE
@@ -45,7 +45,7 @@
 | Usage          | Example                                                 |
 | -------------- | ------------------------------------------------------- |
 | Concise title  | `Configure webhooks`                                    |
-| Key idea first | "Use the `merchant_id` field to identify the merchant." |
+| Key idea first | "Use the `customer_id` field to identify the customer." |
 
 ## LISTS
 
@@ -58,7 +58,7 @@
 - Numbered lists represent task sequences.
 - Numbered list steps must be written using imperative verbs.
 - The order of steps in numbered lists is mandatory.
-- Every numbered (procedural) list MUST be introduced with bold text (wrapped in double asterisks) that begins with "To" and ends with a colon (e.g., "**To perform a balance check:**").
+- Every numbered (procedural) list MUST be introduced with bold text (wrapped in double asterisks) that begins with "To" and ends with a colon (e.g., "**To check an order's status:**").
 - Headings or subheadings may appear above the "To" lead-in for navigation purposes, but the "To" lead-in is always required immediately before the numbered steps.
 - Every numbered (procedural) list MUST be followed immediately by a single, plain-language sentence that confirms successful completion of the steps and explains the expected outcome or resulting system state.
 - The outcome sentence MUST NOT start with "After completing these steps" or similar phrases, as completion is assumed. Use direct phrasing such as "This will…" or state the outcome directly.
@@ -67,11 +67,11 @@
 
 | Usage                      | Example                                                                                                                                                                                                                                                  |
 | -------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Bulleted list (conceptual) | "When a refund is processed:\n- The system validates the payment ID.\n- Funds are returned to the original payment method.\n- A confirmation email is sent to the customer."                                                                             |
+| Bulleted list (conceptual) | "When an order is canceled:\n- The system validates the order ID.\n- Reserved stock is released.\n- A confirmation email is sent to the customer."                                                                             |
 | Numbered list (procedural) | "**To configure API authentication:**\n\n1. Navigate to the API settings page.\n2. Generate a new API key.\n3. Copy the key to your environment variables.\n\nYour application will authenticate using the new key."                                     |
 | Numbered list with heading | "### Configure API authentication\n\n**To configure API authentication:**\n\n1. Navigate to the API settings page.\n2. Generate a new API key.\n3. Copy the key to your environment variables.\n\nYour application will authenticate using the new key." |
 | Required outcome sentence  | "This will configure webhook delivery to your endpoint."                                                                                                                                                                                                 |
-| Outcome sentence (avoid)   | "After completing these steps, the payment is processed."                                                                                                                                                                                                |
+| Outcome sentence (avoid)   | "After completing these steps, the order is created."                                                                                                                                                                                                |
 
 ## TABLES
 
@@ -110,8 +110,8 @@ Not this:
 
 | Usage             | Example                  |
 | ----------------- | ------------------------ |
-| Exact field       | Use `transaction_type`   |
-| Consistent naming | Always use `merchant_id` |
+| Exact field       | Use `order_type`         |
+| Consistent naming | Always use `customer_id` |
 
 ## CODE SAMPLES
 
@@ -124,8 +124,8 @@ Not this:
 
 | Usage             | Example                                                                                                                                                        |
 | ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Request           | `bash\ncurl -X POST https://api.example.com/v1/refunds \\\n  -H 'Authorization: Bearer YOUR_API_KEY' \\\n  -d '{\"payment_id\":\"pay_123\",\"amount\":500}'\n` |
-| Response          | `json\n{\"id\":\"ref_123\",\"status\":\"succeeded\"}\n`                                                                                                        |
+| Request           | `bash\ncurl -X POST https://api.example.com/v1/orders \\\n  -H 'Authorization: Bearer YOUR_API_KEY' \\\n  -d '{\"customer_id\":\"cus_123\",\"total\":500}'\n` |
+| Response          | `json\n{\"id\":\"ord_123\",\"status\":\"created\"}\n`                                                                                                        |
 | Placeholder value | `your_client_id`                                                                                                                                               |
 
 ## CALLOUTS
@@ -182,7 +182,7 @@ Not this:
 - Use "you" to address the developer in sentences and paragraphs.
 - Use imperative form (without "you") in list items for brevity.
 - Use imperative form (without "you") in headings, subheadings, and bold section labels.
-- Use "customers" (not "your customers") when referring to the developer/merchant's customers. The context makes it clear whose customers are being discussed.
+- Use "customers" (not "your customers") when referring to the developer's customers. The context makes it clear whose customers are being discussed.
 - Use active voice.
 - Avoid passive voice.
 - Do not use "we" unless the system is acting.
@@ -192,12 +192,12 @@ Not this:
 | Usage                      | Example                                                                       |
 | -------------------------- | ----------------------------------------------------------------------------- |
 | Active instruction         | "You update the key every 90 days."                                           |
-| Heading/subheading         | "Pass the Stripe Customer ID to subsequent sessions."                         |
-| Heading/subheading (avoid) | "You pass the Stripe Customer ID to subsequent sessions."                     |
+| Heading/subheading         | "Pass the customer ID to subsequent requests."                         |
+| Heading/subheading (avoid) | "You pass the customer ID to subsequent requests."                     |
 | List item (imperative)     | "Pass the `customer_id` field in the request body."                           |
 | List item (imperative)     | "Store the `ref` in your database."                                           |
-| Customer reference         | "Custom Checkout allows customers to reuse their saved payment methods."      |
-| Customer reference (avoid) | "Custom Checkout allows your customers to reuse their saved payment methods." |
+| Customer reference         | "Acme Orders allows customers to reuse their saved shipping addresses."      |
+| Customer reference (avoid) | "Acme Orders allows your customers to reuse their saved shipping addresses." |
 | System subject             | "We return a 200 OK on success."                                              |
 
 ## CROSS-REFERENCING
@@ -210,8 +210,8 @@ Not this:
 
 | Usage           | Example                          |
 | --------------- | -------------------------------- |
-| Inline link     | "See the `Refund` object."       |
-| RELATED callout | `RELATED: Refund API reference.` |
+| Inline link     | "See the `Order` object."       |
+| RELATED callout | `RELATED: Order API reference.` |
 
 ## VISUALS
 
@@ -223,9 +223,9 @@ Not this:
 
 | Usage               | Example                                                                |
 | ------------------- | ---------------------------------------------------------------------- |
-| Image placeholder   | `> 🔴 **IMAGE PLACEHOLDER**\n> image showing save card option for benefits-card` |
-| Image placeholder   | `> 🔴 **IMAGE PLACEHOLDER**\n> saved benefits-card card displayed in checkout`   |
-| Diagram placeholder | `[Placeholder: settlement flow for refunds]`                           |
+| Image placeholder   | `> 🔴 **IMAGE PLACEHOLDER**\n> image showing the save address option on the order form` |
+| Image placeholder   | `> 🔴 **IMAGE PLACEHOLDER**\n> saved address displayed on the order form`   |
+| Diagram placeholder | `[Placeholder: fulfillment flow for orders]`                           |
 
 ## INFORMATION ARCHITECTURE
 
@@ -238,7 +238,7 @@ Not this:
 
 | Usage          | Example                            |
 | -------------- | ---------------------------------- |
-| Workflow group | `Integration > Payments > Refunds` |
+| Workflow group | `Integration > Orders > Cancellations` |
 | Topic grouping | `Authentication > API Keys`        |
 
 ## GENERAL PRINCIPLES
@@ -252,7 +252,7 @@ Not this:
 
 | Usage             | Example                           |
 | ----------------- | --------------------------------- |
-| Useful heading    | "Create sandbox merchant account" |
+| Useful heading    | "Create a sandbox account" |
 | Prohibited filler | "In this guide, we will discuss…" |
 
 ## DO AND DON'T
@@ -264,8 +264,8 @@ Not this:
 
 | Usage | Example                                    |
 | ----- | ------------------------------------------ |
-| DO    | "You can issue a refund using `/refunds`." |
-| DON'T | "Insert the ID for the payout."            |
+| DO    | "You can cancel an order using `/orders`." |
+| DON'T | "Insert the ID for the shipment."            |
 
 ## END EVERY DOC WITH A PROMPT FOR THE READER'S AI MODEL
 
@@ -328,7 +328,7 @@ Paste this into any AI model, together with this document and the files it descr
 
 All rules for identifying and removing AI-generated writing patterns (em dashes, banned words, filler phrases, sentence structure) live in the **Write Like a Human** style guide:
 
-`_extras/style-guides/write-like-a-human/style-guide_write-like-a-human.md`
+`_knowledge/style-guides/write-like-a-human/style-guide_write-like-a-human.md`
 
 Apply that guide as a final editing pass on all documentation before publication.
 

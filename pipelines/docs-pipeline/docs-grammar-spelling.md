@@ -85,7 +85,7 @@ For every glossary term that appears in the doc's prose zones, check whether it 
 **Capitalization specifics from the glossary `usage.capitalization` field:**
 
 - Acronyms (e.g., `API`, `SDK`, `HTTP`): always fully uppercase
-- Title case terms (e.g., `Payment Method`, `Authentication Token`): capitalize in prose when used as a proper concept name; lowercase when used generically
+- Title case terms (e.g., `Order Status`, `Authentication Token`): capitalize in prose when used as a proper concept name; lowercase when used generically
 - PascalCase terms (e.g., `ProductName`, `ApiClient`): always PascalCase, never spaced or lowercased
 - API field names (e.g., `field_name`, `amount`): always in backticks
 

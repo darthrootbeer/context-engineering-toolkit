@@ -4,7 +4,7 @@ The overview is the customer's entry point to a guide set. It explains what the 
 
 ## What This Document Is
 
-The overview document is not one of the four Diataxis content types. It is a The Product-specific entry point that sits above the guide set. Every multi-doc guide set must have one.
+The overview document is not one of the four Diataxis content types. It is an Acme Orders-specific entry point that sits above the guide set. Every multi-doc guide set must have one.
 
 It can draw from any Diataxis type (a paragraph of explanation here, a conceptual diagram there, a brief prerequisite list) to help the reader understand the guide and orient themselves within it. There is no single prescribed form. The only hard rule is its function: it is the first thing a customer reads, and it explains all the Diataxis pieces that sit alongside it.
 
@@ -42,13 +42,13 @@ docs/{Category}/
 
 Required pattern: `[Product/Feature] [Guide Type]`
 
-Good: "AcmePay Integration Guide", "HSA/FSA Payment Guide", "Backend-to-Backend Integration Guide"
-Bad: "Introduction to AcmePay", "Getting Started with AcmePay", "AcmePay Overview" (too vague or instructional)
+Good: "Acme Orders Integration Guide", "Prepaid Orders Guide", "Backend-to-Backend Integration Guide"
+Bad: "Introduction to Acme Orders", "Getting Started with Acme Orders", "Acme Orders Overview" (too vague or instructional)
 
 ### Required Sections (always present, always in this order)
 
 1. **Lead paragraph**. One to two sentences. What this guide covers at the highest level and why it exists. No section heading.
-2. **## Audience**. Who this guide is written for. One to two sentences. Name the role (e.g. "payment engineers and product managers") and any assumed baseline (e.g. "who have integrated benefits-program with The Product").
+2. **## Audience**. Who this guide is written for. One to two sentences. Name the role (e.g. "integration engineers and product managers") and any assumed baseline (e.g. "who have already created an Acme Orders account").
 3. **## Prerequisites**. What the reader needs before starting. One to two sentences or a short bullet list. Be specific.
 4. **## What's in this guide**. A bullet list of every document in the guide set. Each bullet: `**[Linked doc title]**. One sentence describing what that doc covers.`
 
@@ -67,9 +67,9 @@ Each entry must:
 
 Example:
 ```markdown
-- **[Understanding AcmePay Payments](./acmepay-payments.md)**. How AcmePay differs from dollar-based payment methods: the item-based voucher model, the payment lifecycle, and straddle rules.
-- **[How to Integrate AcmePay with The Product](./acmepay-integration.md)**. Step-by-step instructions for each phase of the integration: syncing APL data, retrieving benefits, building the cart, capturing payment, and processing refunds.
-- **[AcmePay API Reference](./acmepay-api-reference.md)**. Complete endpoint specifications, capture action codes, error codes, transaction limits, and receipt requirements.
+- **[Understanding the Acme Orders Lifecycle](./acme-orders-lifecycle.md)**. How an order moves from draft to paid: the order lifecycle, invoice matching, and cancellation rules.
+- **[How to Integrate Acme Orders](./acme-orders-integration.md)**. Step-by-step instructions for each phase of the integration: syncing customers, creating an order, generating an invoice, and canceling an order.
+- **[Acme Orders API Reference](./acme-orders-api-reference.md)**. Complete endpoint specifications, status codes, error codes, rate limits, and invoice requirements.
 ```
 
 ## Core Content Rules
@@ -95,13 +95,13 @@ Example:
 - Direct and efficient. Every sentence earns its place.
 - No marketing language, no filler phrases
 
-Good: "Your AcmePay integration builds on your existing benefits-program integration."
-Bad: "Welcome to the AcmePay Integration Guide! We're excited to help you get started."
+Good: "Your Acme Orders integration builds on your existing customer sync."
+Bad: "Welcome to the Acme Orders Integration Guide! We're excited to help you get started."
 
 ### Language
 
 - One sentence per idea
-- Prefer concrete over abstract: "payment engineers" not "technical users"
+- Prefer concrete over abstract: "integration engineers" not "technical users"
 - Audience and Prerequisites sections can use bullets if there are multiple discrete items; otherwise prose
 
 ## Common Mistakes

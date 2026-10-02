@@ -22,6 +22,18 @@ If a single path is provided that looks like a workspace (contains `docs/input/`
 
 ---
 
+## Constants
+
+```
+WORKSPACE_ROOT=~/projects
+SHARED_CONFIG_DIR={SHARED_CONFIG_DIR}
+```
+
+- `WORKSPACE_ROOT` is the folder where workspaces are created. Change it if you want them somewhere else.
+- `SHARED_CONFIG_DIR` is optional. It can point at a folder of your own shared tools (for example a schema or a diagram generator). If the value is empty or still reads `{SHARED_CONFIG_DIR}`, treat it as unset and skip every step that needs it.
+
+---
+
 ## Pipeline Overview
 
 ```
@@ -53,7 +65,7 @@ TICKET_ID = first argument (e.g., TICKET-1801)
 SLUG = second argument (e.g., webhooks)
 TICKET_NUM = numeric portion of TICKET_ID
 PROJECT_NAME = "workspace_doc-{TICKET_NUM}_{SLUG}"
-PROJECT_PATH = ~/projects/{PROJECT_NAME}
+PROJECT_PATH = {WORKSPACE_ROOT}/{PROJECT_NAME}      # WORKSPACE_ROOT is defined in the Constants section below
 ```
 
 ### 0b. Check for existing workspace
@@ -66,8 +78,8 @@ If `PROJECT_PATH` already exists:
 5. Skip to the workspace summary below.
 
 If `PROJECT_PATH` does not exist:
-1. Run the full `/docs-workspace-setup` process: create directory, git init, directory tree, shared resource symlinks, CLAUDE.md, README.md, .gitignore.
-2. Search `{YOUR_DOCS_REPO_PATH}` for a file matching the slug and copy it to `docs/input/`.
+1. Run the full `/docs-workspace-setup` process: create directory, git init, directory tree, copy of `_knowledge/`, CLAUDE.md, README.md, .gitignore.
+2. If `{YOUR_DOCS_REPO_PATH}` is configured (it does not start with `{`), search it for a file matching the slug and copy it to `docs/input/`. Otherwise tell the user to copy the source doc into `docs/input/` by hand.
 
 ### 0c. Workspace summary
 
@@ -104,15 +116,15 @@ If both exist:
 
 **Follow the complete `/docs-diataxis-audit` process** (`docs-diataxis-audit.md`). Read that skill file and execute all steps. Do not abbreviate or skip steps.
 
-The audit skill produces three mandatory outputs — all three must exist before Stage 1 is complete:
+The audit skill produces two mandatory outputs and one optional output. The report and the mapping must exist before Stage 1 is complete:
 
 1. **Audit report** (`{GUIDE_NAME}_audit-report.md`) — full analysis with content breakdown, boundary violations, and restructuring recommendations
-2. **JSON mapping** (`{GUIDE_NAME}_mapping.json`) — section-level mapping with hash IDs following the schema at `_shared/schemas/diataxis-audit-mapping/schema.json`
-3. **SVG visualizations** (`{GUIDE_NAME}_00-overview.svg`, `{GUIDE_NAME}_01-*.svg`, ...) — generated via `node _shared/tools/diataxis-mapper/generate-svg.js --multi`
+2. **JSON mapping** (`{GUIDE_NAME}_mapping.json`) — section-level mapping with hash IDs following the structure in the audit skill
+3. **SVG visualizations** (`{GUIDE_NAME}_00-overview.svg`, `{GUIDE_NAME}_01-*.svg`, ...) — optional, generated only if the optional diagram tool in `{SHARED_CONFIG_DIR}` is installed
 
-`{GUIDE_NAME}` is the slug from the workspace folder name (e.g., `configure-webhooks` from `workspace-doc-1318-configure-webhooks`). All output files in the workspace (except `docs/input/`) must be prefixed with this guide name.
+`{GUIDE_NAME}` is the slug from the workspace folder name (e.g., `configure-webhooks` from `workspace_doc-1318_configure-webhooks`). All output files in the workspace (except `docs/input/`) must be prefixed with this guide name.
 
-**Do not proceed to the audit summary until all three outputs exist.** If SVG generation fails, note the error but still require the report and mapping before continuing.
+**Do not proceed to the audit summary until the report and the mapping exist.** The SVGs are optional: if they are skipped or fail, note it and continue.
 
 After the audit, determine the split recommendation:
 - **No split needed** — the doc is cleanly one Diataxis type

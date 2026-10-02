@@ -166,8 +166,9 @@ Then show "Files changed:" list.
 
 ### 10. Linear actions
 
-If `LINEAR_TICKET_ID` was found and PR is merged, output both blocks as plain markdown (no code block):
+If `LINEAR_TICKET_ID` was found and PR is merged, output both blocks below as plain markdown (no code block around your output). The fence here only keeps the template links from rendering as links in this file:
 
+```text
 ─────────────────────────────────────────────────────
 💬 Want to add a comment to [TICKET-XXXX]({YOUR_ISSUE_TRACKER}/TICKET-XXXX)?
 
@@ -179,6 +180,7 @@ Reply "yes" to post it, or edit the draft above.
 
 🔔 Don't forget to mark [TICKET-XXXX]({YOUR_ISSUE_TRACKER}/TICKET-XXXX) as Done if it isn't already.
 ─────────────────────────────────────────────────────
+```
 
 If no ticket found or PR is not merged: skip silently.
 

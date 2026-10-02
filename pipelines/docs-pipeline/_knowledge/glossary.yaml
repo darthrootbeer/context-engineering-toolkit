@@ -50,12 +50,12 @@ terms:
   # Add your product-specific terms below this line.
   # Example:
   #
-  # - canonical: PaymentIntent
+  # - canonical: OrderDraft
   #   docs_facing: true
   #   aliases:
-  #     - payment intent
-  #     - payment-intent
+  #     - order draft
+  #     - order-draft
   #   usage:
-  #     capitalization: PascalCase when referring to the API object. Lowercase in generic prose ("the payment intent was created").
+  #     capitalization: PascalCase when referring to the API object. Lowercase in generic prose ("the order draft was created").
   #     mistakes:
-  #       - '"payment intent"' → '"PaymentIntent"': Use PascalCase for the API object name.
+  #       - '"order draft"' → '"OrderDraft"': Use PascalCase for the API object name.

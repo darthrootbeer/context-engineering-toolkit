@@ -1,6 +1,6 @@
 # Illustration Style Guide
 
-Rules for when and how to use illustrations in The Product documentation. Content TBD.
+Rules for when and how to use illustrations in Acme Orders documentation. Content TBD.
 
 ## Style Guides
 

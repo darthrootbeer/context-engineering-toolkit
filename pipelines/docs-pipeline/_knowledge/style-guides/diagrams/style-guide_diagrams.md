@@ -1,6 +1,6 @@
 # Diagram Style Guide
 
-Rules for when and how to use diagrams in The Product documentation. Mermaid is the default rendering engine. All diagrams are written inline in markdown code blocks.
+Rules for when and how to use diagrams in Acme Orders documentation. Mermaid is the default rendering engine. All diagrams are written inline in markdown code blocks.
 
 ## When to use a diagram
 
@@ -8,7 +8,7 @@ A diagram earns its place when it communicates something that prose alone strugg
 
 **Strong candidates (use a diagram):**
 - Three or more parties exchanging messages across steps, especially with async handoffs, redirects, or timing constraints
-- Branching decisions where a wrong path has real consequences (wrong API call, settlement error, item decline)
+- Branching decisions where a wrong path has real consequences (wrong API call, fulfillment error, rejected order)
 - A process with named states that transition based on conditions or events
 - Timing constraints or ordering dependencies that are easy to miss in prose
 
@@ -23,9 +23,9 @@ A diagram earns its place when it communicates something that prose alone strugg
 
 | Content pattern | Mermaid type | When to use |
 |---|---|---|
-| Multiple parties exchanging messages | `sequenceDiagram` | API call flows, payment capture sequences, webhook delivery chains |
+| Multiple parties exchanging messages | `sequenceDiagram` | API call flows, order creation sequences, webhook delivery chains |
 | Branching decisions with outcomes | `flowchart TD` | Decision trees, validation flows, error handling paths |
-| Named states with transitions | `stateDiagram-v2` | Payment lifecycles, order status flows, onboarding stages |
+| Named states with transitions | `stateDiagram-v2` | Invoice lifecycles, order status flows, onboarding stages |
 | Math, allocation, or comparison | Annotated table (not Mermaid) | Proration calculations, discount allocation, feature comparison |
 
 When in doubt between a flowchart and a sequence diagram: if the emphasis is on who does what, use a sequence diagram. If the emphasis is on what happens next, use a flowchart.
@@ -57,18 +57,18 @@ Use `rect` blocks with `rgb()` background colors to separate logical phases. Thi
 ```mermaid
 sequenceDiagram
     participant App as Your App
-    participant The Product
+    participant API as Acme Orders
 
     rect rgb(219, 234, 254)
-        Note over App, The Product: Phase 1 — Setup
-        App->>The Product: Create session
-        The Product-->>App: Session token
+        Note over App, API: Phase 1 — Setup
+        App->>API: Create session
+        API-->>App: Session token
     end
 
     rect rgb(209, 250, 229)
-        Note over App, The Product: Phase 2 — Payment
-        App->>The Product: Capture payment
-        The Product-->>App: Payment result
+        Note over App, API: Phase 2 — Order
+        App->>API: Create order
+        API-->>App: Order result
     end
 ```
 
@@ -76,7 +76,7 @@ Participant aliases: use short, readable names. `App as Your App` not `App as Yo
 
 Failure notation: use `--x` (dashed with X) for explicit connection breaks or failures. Add a `Note` explaining what failed and why.
 
-Timing constraints: use `Note over` to call out expiration windows, validity periods, or ordering dependencies (e.g., "Session ref valid until pin_expires_at").
+Timing constraints: use `Note over` to call out expiration windows, validity periods, or ordering dependencies (e.g., "Session token valid until expires_at").
 
 ### State diagrams
 
@@ -105,7 +105,7 @@ Use these semantic color classes consistently within a guide set. Not every diag
 |---|---|---|---|
 | Setup / configuration | `#dbeafe` | `#2563eb` | setup |
 | Session / context | `#e0e7ff` | `#4f46e5` | session |
-| Payment / success | `#d1fae5` | `#059669` | payment |
+| Order / success | `#d1fae5` | `#059669` | order |
 | Decision / branch | `#fef3c7` | `#d97706` | decision |
 | Neutral / delivery | `#f3f4f6` | `#6b7280` | delivery |
 | Warning / error | `#fee2e2` | `#dc2626` | warning |
@@ -115,17 +115,17 @@ Apply with `classDef` and `class` in flowcharts:
 ```mermaid
 flowchart TD
     A[Create session] --> B{Valid?}
-    B -->|Yes| C[Process payment]
+    B -->|Yes| C[Process order]
     B -->|No| D[Return error]
 
     classDef setup fill:#dbeafe,stroke:#2563eb
     classDef decision fill:#fef3c7,stroke:#d97706
-    classDef payment fill:#d1fae5,stroke:#059669
+    classDef order fill:#d1fae5,stroke:#059669
     classDef warning fill:#fee2e2,stroke:#dc2626
 
     class A setup
     class B decision
-    class C payment
+    class C order
     class D warning
 ```
 
@@ -142,9 +142,9 @@ Every diagram needs prose around it. A diagram without context is a puzzle.
 One to two sentences explaining what the reader is about to see and why it matters. Frame it as "here's the thing you need to understand" not "the following diagram shows."
 
 ```markdown
-The payment capture flow involves three parties. Your app creates a session,
-the customer enters their PIN in the browser, and The Product authorizes the
-payment with the benefits-card network.
+The order creation flow involves three parties. Your app creates a session,
+the customer confirms the order in the browser, and Acme Orders validates the
+order with the invoicing service.
 ```
 
 ### Title
@@ -170,14 +170,14 @@ A diagram that requires horizontal scrolling on a standard viewport has failed.
 For math, proration, or allocation scenarios, use a worked-example table with column headers for each category and rows for each line item. Include a totals row. Add a brief annotation below explaining the formula or logic.
 
 ```markdown
-| Item | AcmePay eligible | Amount | AcmePay covers | Customer pays |
+| Item | Discount eligible | Amount | Discount applied | Customer pays |
 |---|---|---|---|---|
-| Milk (1 gal) | Yes | $4.50 | $4.50 | $0.00 |
-| Chips | No | $3.99 | $0.00 | $3.99 |
-| **Total** | | **$8.49** | **$4.50** | **$3.99** |
+| Notebook | Yes | $4.50 | $0.50 | $4.00 |
+| Pen set | No | $3.99 | $0.00 | $3.99 |
+| **Total** | | **$8.49** | **$0.50** | **$7.99** |
 
-AcmePay benefits apply to eligible items first. The remaining balance is charged
-to the customer's selected payment method.
+Discounts apply to eligible items first. The remaining balance is added to the
+customer's invoice.
 ```
 
 ## Process artifacts

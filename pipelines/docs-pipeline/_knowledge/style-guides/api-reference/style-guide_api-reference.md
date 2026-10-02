@@ -5,8 +5,8 @@
 - Use sentence case for descriptions
 - Use backticks for inline code: field names, parameters, schema keys
 - Pluralize code terms by placing “s” outside backticks unless plural exists in API
-  - `PaymentMethod`s
-  - not `PaymentMethods`
+  - `Invoice`s
+  - not `Invoices`
 - Use fenced code blocks with language hints (`json`, `bash`)
 - Use tables for parameters and schemas
 - Use bullet lists for constraints or options
@@ -23,14 +23,14 @@
 | Authentication token | `Authentication token` |
 | Redirect URL         | `Redirect URL`         |
 | Customer ID          | `customer_id`          |
-| Merchant ID          | `merchant_id`          |
+| Order ID             | `order_id`             |
 
 - Examples:
 
 | Usage | Example                                                       |
 | ----- | ------------------------------------------------------------- |
-| Do    | Use the `merchant_id` field to identify the merchant account. |
-| Don’t | Use the merchant ID to identify the merchant account.         |
+| Do    | Use the `order_id` field to identify the order.               |
+| Don’t | Use the order ID to identify the order.                      |
 
 ## Error Message Structure
 
@@ -41,9 +41,9 @@
 
 | Usage | Example                                                                                            |
 | ----- | -------------------------------------------------------------------------------------------------- |
-| Do    | `Invalid merchant_id` — The provided `merchant_id` does not exist. Verify the value and try again. |
+| Do    | `Invalid order_id` — The provided `order_id` does not exist. Verify the value and try again. |
 | Do    | `Expired session` — The session has expired. Create a new session and retry the request.           |
-| Don’t | Invalid merchant ID — This merchant ID is wrong.                                                   |
+| Don’t | Invalid order ID — This order ID is wrong.                                                   |
 | Don’t | Session expired. Please try again.                                                                 |
 
 ## Example Ordering and Content
@@ -87,9 +87,9 @@
 
 | Usage | Example                                                         |
 | ----- | --------------------------------------------------------------- |
-| Do    | A POST request to `/transactions` creates a new transaction.    |
+| Do    | A POST request to `/orders` creates a new order.                 |
 | Do    | Tokens expire after 24 hours. Refresh them before they do.      |
-| Don’t | Let's now go ahead and try issuing a refund!                    |
+| Don’t | Let's now go ahead and try creating an order!                  |
 | Don’t | Developers may want to consider refreshing tokens occasionally. |
 
 ## Avoid Marketing or Sales Language
@@ -99,9 +99,9 @@
 
 | Usage | Example                                                            |
 | ----- | ------------------------------------------------------------------ |
-| Do    | You can use this endpoint to check a card's balance.               |
-| Do    | This endpoint returns the transaction ID for a successful request. |
-| Don’t | Our powerful API makes payments a breeze!                          |
+| Do    | You can use this endpoint to check an order's status.             |
+| Do    | This endpoint returns the order ID for a successful request.       |
+| Don’t | Our powerful API makes ordering a breeze!                          |
 | Don’t | Unlock the full potential of your integration.                     |
 
 ## Reader Assumptions
@@ -139,22 +139,22 @@ Example:
 
 | Usage | Example                                                                                                               |
 | ----- | --------------------------------------------------------------------------------------------------------------------- |
-| Do    | Retrieves the status of a transaction by its `transaction_id`. Requires merchant authentication.                      |
-| Don’t | This endpoint will let you check the transaction status when you have the transaction ID and merchant authentication. |
+| Do    | Retrieves the status of an order by its `order_id`. Requires API authentication.                                       |
+| Don’t | This endpoint will let you check the order status when you have the order ID and API authentication.             |
 
 ### Parameter Description
 
 | Usage | Example                                    |
 | ----- | ------------------------------------------ |
-| Do    | The `amount` of the transaction, in cents. |
-| Don’t | Amount for the transaction.                |
+| Do    | The `total` of the order, in cents.         |
+| Don’t | Total for the order.                        |
 
 ### Error Message
 
 | Usage | Example                                                                                            |
 | ----- | -------------------------------------------------------------------------------------------------- |
-| Do    | `Invalid merchant_id` — The provided `merchant_id` does not exist. Verify the value and try again. |
-| Don’t | Invalid merchant ID — This merchant ID is wrong.                                                   |
+| Do    | `Invalid order_id` — The provided `order_id` does not exist. Verify the value and try again. |
+| Don’t | Invalid order ID — This order ID is wrong.                                                   |
 
 ### Terminology Consistency
 

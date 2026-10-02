@@ -43,7 +43,7 @@ Integrate SAML 2.0 single sign-on for enterprise customers.
 
 ## Prerequisites
 
-- Admin access to The Product dashboard
+- Admin access to Acme Orders dashboard
 - SAML metadata from identity provider
 
 ## When to use this
@@ -85,7 +85,7 @@ Include when common problems predictable, errors have specific solutions, or use
 
 ### Error: "Invalid SAML response"
 
-**Cause**: Clock skew between IdP and The Product servers
+**Cause**: Clock skew between IdP and Acme Orders servers
 **Solution**: Ensure NTP configured. Max clock skew: 60 seconds.
 ```
 

@@ -1,0 +1,25 @@
+# Workspace .gitignore (copied in by /docs-workspace-setup)
+
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+
+# Local environment and secrets
+.env
+.env.*
+
+# Logs and scratch files
+*.log
+tmp/
+scratch/
+
+# Node tooling, if you use it
+node_modules/
+
+# Optional shared config link (created by /docs-workspace-setup when SHARED_CONFIG_DIR is set)
+_shared

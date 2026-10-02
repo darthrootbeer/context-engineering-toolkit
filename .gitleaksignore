@@ -1,0 +1,3 @@
+# Placeholder token in a sample curl command (Authorization: Bearer YOUR_API_KEY), docs-pipeline sample doc.
+# It is a fake value in a made-up example, not a credential. The line sits in an earlier commit of PR 30, which cannot be rewritten.
+445b46ad65f98f2e34928eaf9340d5417edcde79:pipelines/docs-pipeline/sample/acme-orders-cancellations.md:curl-auth-header:22

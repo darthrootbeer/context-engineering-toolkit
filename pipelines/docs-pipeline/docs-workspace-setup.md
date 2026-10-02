@@ -1,6 +1,6 @@
 ---
 name: docs-workspace-setup
-description: Create or reuse a documentation workspace for a Diataxis guide audit and improvement. Sets up the project directory, TOOLBOX symlinks, CLAUDE.md, directory tree, and Obsidian note.
+description: Create or reuse a documentation workspace for a Diataxis guide audit and improvement. Sets up the project directory, a copy of the knowledge files, CLAUDE.md, the directory tree, and an optional project note.
 argument-hint: <ticket-id> <slug>
 ---
 
@@ -21,9 +21,16 @@ The user provided: $ARGUMENTS
 ## Constants
 
 ```
-TOOLBOX=~/projects/TOOLBOX
-VAULT={YOUR_VAULT_PATH}
+WORKSPACE_ROOT=~/projects
+PIPELINE_DIR={YOUR_PIPELINE_DIR}
+SHARED_CONFIG_DIR={SHARED_CONFIG_DIR}
+NOTES_DIR={NOTES_DIR}
 ```
+
+- `WORKSPACE_ROOT` is the folder where workspaces are created. Change it if you want them somewhere else.
+- `PIPELINE_DIR` is the absolute path of the `docs-pipeline` folder that holds `_knowledge/` and `workspace-gitignore.template`. The install steps in `SETUP.md` fill it in for you.
+- `SHARED_CONFIG_DIR` and `NOTES_DIR` are optional. `SHARED_CONFIG_DIR` can point at a folder of your own shared tools and agent instructions. `NOTES_DIR` can point at a notes folder (for example an Obsidian vault) where a project note is written. If a value is empty or still reads `{SHARED_CONFIG_DIR}` or `{NOTES_DIR}`, treat it as unset and skip every step that needs it.
+- If `PIPELINE_DIR` still reads `{YOUR_PIPELINE_DIR}`, or `{PIPELINE_DIR}/_knowledge/` does not exist, stop: `"PIPELINE_DIR is not set. Set it to the docs-pipeline folder (see SETUP.md, Install)."`
 
 ---
 
@@ -34,7 +41,7 @@ TICKET_ID = $ARGUMENTS[0]              # e.g., TICKET-1801
 SLUG = $ARGUMENTS[1]                   # e.g., webhooks
 TICKET_NUM = numeric portion of TICKET_ID  # e.g., 1801
 PROJECT_NAME = "workspace_doc-{TICKET_NUM}_{SLUG}"
-PROJECT_PATH = ~/projects/{PROJECT_NAME}
+PROJECT_PATH = {WORKSPACE_ROOT}/{PROJECT_NAME}
 ```
 
 Normalize: lowercase ticket prefix in folder name (`doc-` not `DOC-`), slug in kebab-case. No spaces anywhere in the folder name — use underscores as separators.
@@ -45,7 +52,7 @@ Normalize: lowercase ticket prefix in folder name (`doc-` not `DOC-`), slug in k
   2. Verify the directory tree exists (`docs/input/`, `docs/output/`, etc.). Create any missing subdirectories.
   3. Check if a source doc exists in `docs/input/`. If yes, print the filename. If no, print: `"No source doc in docs/input/ yet."`
   4. Check if an audit exists in `docs/output/_process/diataxis-audit/`. If yes, print: `"Audit already completed."` If no, print: `"No audit yet."`
-  5. Skip to Step 10 (print summary) — do not recreate files, symlinks, or Obsidian notes.
+  5. Skip to Step 10 (print summary) — do not recreate files, links, or project notes.
 
 ---
 
@@ -63,9 +70,10 @@ Create guide workspace:
 This will:
   - Create project directory with docs tree
   - git init
-  - Add 5 TOOLBOX symlinks
+  - Copy the _knowledge/ folder from PIPELINE_DIR
+  - Link SHARED_CONFIG_DIR as _shared (only if it is set)
   - Create CLAUDE.md, README.md, .gitignore
-  - Create Obsidian project note
+  - Create a project note (only if NOTES_DIR is set)
 
 Proceed? (y/n)
 ```
@@ -96,19 +104,23 @@ mkdir -p "{PROJECT_PATH}/docs/output/docs"
 
 ---
 
-## Step 5 — Create TOOLBOX symlinks (5 symlinks)
+## Step 5 — Copy the knowledge files and link the optional shared folder
 
-For each symlink, skip if it already exists.
+The skills read `./_knowledge/` relative to the workspace, so the workspace needs its own copy.
 
-| In project | Points to |
-|---|---|
-| `AGENTS.md` | `{TOOLBOX}/AGENTS.md` |
-| `_shared/` | `{TOOLBOX}/_shared` |
-| `.cursor/rules/` | `{TOOLBOX}/.cursor/rules` |
-| `.cursor/commands/` | `{TOOLBOX}/.cursor/commands` |
-| `.cursor/plans/` | `{TOOLBOX}/.cursor/plans` |
+```bash
+cp -R "{PIPELINE_DIR}/_knowledge" "{PROJECT_PATH}/_knowledge"
+```
 
-Create `.cursor/` directory first: `mkdir -p "{PROJECT_PATH}/.cursor"`
+Skip if `{PROJECT_PATH}/_knowledge` already exists. Never overwrite it.
+
+**Optional shared folder.** Only if `SHARED_CONFIG_DIR` is set and the folder exists:
+
+```bash
+ln -s "{SHARED_CONFIG_DIR}" "{PROJECT_PATH}/_shared"
+```
+
+Skip if `{PROJECT_PATH}/_shared` already exists. If `SHARED_CONFIG_DIR` is unset, skip this whole link and print: `"No shared config folder set, skipping _shared link."`
 
 ---
 
@@ -116,7 +128,7 @@ Create `.cursor/` directory first: `mkdir -p "{PROJECT_PATH}/.cursor"`
 
 ### CLAUDE.md
 
-Write `{PROJECT_PATH}/CLAUDE.md`:
+Write `{PROJECT_PATH}/CLAUDE.md`. If `{YOUR_TICKET_URL}` still reads as a placeholder (it starts with `{`), write the ticket line as the plain ticket ID with no link. The `.gitignore` template already excludes the optional `_shared` link, so no `.git/info/exclude` is needed:
 
 ```markdown
 # Guide Workspace — {TICKET_ID}: {SLUG}
@@ -131,7 +143,7 @@ Documentation workspace for auditing and restructuring the {SLUG} guide using th
 
 **Commit after every step.** Each step produces trackable output; commit it so diffs are reviewable.
 
-**Parallel sessions:** Ben often runs two Claude terminals on the same workspace. Before starting any stage, run `git log --oneline | head -5` to check for commits from the other session. If a stage is already committed, skip it.
+**Parallel sessions:** If you run two sessions on the same workspace, check what the other one has done first. Before starting any stage, run `git log --oneline | head -5` to check for commits from the other session. If a stage is already committed, skip it.
 
 1. Place source doc in `docs/input/` → commit
 2. Run `/docs-diataxis-audit docs/input/{source-filename}.md` → commit
@@ -139,13 +151,14 @@ Documentation workspace for auditing and restructuring the {SLUG} guide using th
 4. Run `/docs-style-check-structure docs/output/docs/` for structural style compliance → commit
 5. Run `/docs-style-check-voice docs/output/docs/` for voice/tone/formatting → commit
 6. Run `/docs-style-check-human docs/output/docs/` for AI pattern cleanup → commit
-7. Run `/docs-grammar-spelling docs/output/docs/` for grammar, spelling, and terminology → commit
-8. Run `/docs-visuals-review docs/output/docs/` for visual aid recommendations → commit
-9. Run `/docs-links-review docs/output/docs/` for cross-link check → commit
-10. Run `/docs-sme-review docs/output/docs/` for domain accuracy and reader journey → commit
-11. Run `/docs-changes-list` to generate editorial record → commit
-12. Run `/docs-decision-checkpoint` to resolve all recommendations → commit
-13. Run `/docs-publish docs/output [target-path]` to create branch + PR
+7. Run `/docs-readability-check docs/output/docs/` for reading level and dense sentences → commit
+8. Run `/docs-grammar-spelling docs/output/docs/` for grammar, spelling, and terminology → commit
+9. Run `/docs-visuals-review docs/output/docs/` for visual aid recommendations → commit
+10. Run `/docs-links-review docs/output/docs/` for cross-link check → commit
+11. Run `/docs-sme-review docs/output/docs/` for domain accuracy and reader journey → commit
+12. Run `/docs-changes-list` to generate editorial record → commit
+13. Run `/docs-decision-checkpoint` to resolve all recommendations → commit
+14. Run `/docs-publish docs/output [target-path]` to create branch + PR
 
 ## Structure
 
@@ -161,14 +174,15 @@ docs/
     docs/                             # Final split output docs
 ```
 
-## Shared Resources
+## Knowledge files
 
-Access via `_shared/` symlink (points to `TOOLBOX/_shared/`):
+Copied into this workspace from the pipeline folder:
 
 - Style guides: `_knowledge/style-guides/`
 - Glossary: `_knowledge/glossary.yaml`
-- Tools: `_shared/tools/`
-- Audit log: `_shared/log/audit.log`
+- Product knowledge base: `_knowledge/product-kb/`
+
+If a shared config folder was set, it is linked as `_shared/`.
 ```
 
 ### README.md
@@ -183,38 +197,22 @@ Write `{PROJECT_PATH}/README.md`:
 
 ### .gitignore
 
-Copy from `{TOOLBOX}/_shared/templates/.gitignore`.
-
-### .git/info/exclude
-
-Write `{PROJECT_PATH}/.git/info/exclude`:
-
-```
-# TOOLBOX symlinks
-.cursor/
-_shared
-AGENTS.md
-```
+Copy `{PIPELINE_DIR}/workspace-gitignore.template` to `{PROJECT_PATH}/.gitignore`. Skip if `.gitignore` already exists.
 
 ---
 
-## Step 7 — Create Obsidian project note
+## Step 7 — Create the project note (optional)
 
-Check if `{VAULT}/projects/{PROJECT_NAME}.md` exists. If it does, skip.
+Skip this whole step if `NOTES_DIR` is unset, and print: `"No notes folder set, skipping project note."`
+
+Check if `{NOTES_DIR}/{PROJECT_NAME}.md` exists. If it does, skip.
 
 If it doesn't, write:
 
 ```markdown
 ---
-tags:
-  - project
-  - active
 created: {today YYYY-MM-DD}
 updated: {today YYYY-MM-DD}
-github: ""
-readme: "{PROJECT_PATH}/README.md"
-related: []
-proj-ids: []
 ticket: {TICKET_ID}
 ---
 
@@ -224,48 +222,19 @@ ticket: {TICKET_ID}
 
 ## Links
 
-- **README:** `= this.readme`
+- **README:** {PROJECT_PATH}/README.md
 - **Ticket:** [{TICKET_ID}]({YOUR_TICKET_URL}/{TICKET_ID})
-- **Related:** `= this.related`
 
 ## Changelog
 
-- {today YYYY-MM-DD} — Created via /docs-workspace-setup.
-
----
-
-#### Board Tasks
-
-```dataviewjs
-const ids = dv.current().file.frontmatter["proj-ids"] || [];
-if (!ids.length) { dv.paragraph("*No linked tasks.*"); return; }
-
-const board = await dv.io.load("_tracking/project-board.md");
-const lines = board.split("\n");
-const open = [], done = [];
-
-for (const id of ids) {
-    const line = lines.find(l => l.includes(`] ${id}:`));
-    if (!line) continue;
-    const isDone = /^\s*- \[x\]/i.test(line);
-    const title = line
-        .replace(/^\s*-\s*\[.\]\s*/, "")
-        .replace(/\s*→\s*\[\[.*?\]\].*$/, "")
-        .trim();
-    (isDone ? done : open).push(`${id} — ${title}`);
-}
-
-if (open.length) { dv.paragraph("**Open**"); dv.list(open); }
-if (done.length) { dv.paragraph("**Closed**"); dv.list(done.map(t => `~~${t}~~`)); }
-if (!open.length && !done.length) { dv.paragraph("*No tasks found for: " + ids.join(", ") + "*"); }
-` `` `
+- {today YYYY-MM-DD}: Created via /docs-workspace-setup.
 ```
 
 ---
 
 ## Step 8 — Copy source doc (optional auto-fetch)
 
-Search `{YOUR_DOCS_REPO_PATH}` for a file matching the slug:
+If `{YOUR_DOCS_REPO_PATH}` still reads as a placeholder (it starts with `{`), skip this step and print: `"No docs repo configured. Copy the source doc into docs/input/ manually."` Otherwise search `{YOUR_DOCS_REPO_PATH}` for a file matching the slug:
 
 ```bash
 find {YOUR_DOCS_REPO_PATH} -name "{SLUG}.md" -type f
@@ -281,12 +250,14 @@ If found, copy it to `{PROJECT_PATH}/docs/input/`. If not found, print:
 **Important:** Do not use `cd && git`. Use `git -C` with absolute paths. Each command is a separate tool call.
 
 ```bash
-git -C "{PROJECT_PATH}" add CLAUDE.md README.md .gitignore
+git -C "{PROJECT_PATH}" add CLAUDE.md README.md .gitignore _knowledge
 ```
 
 ```bash
 git -C "{PROJECT_PATH}" commit -m "docs: scaffold guide workspace for {TICKET_ID}"
 ```
+
+If the commit fails because git does not know who you are, stop and print: `"Set your git identity first: git config --global user.name and user.email. Then re-run."`
 
 ---
 
@@ -301,14 +272,12 @@ Done.
     - CLAUDE.md
     - README.md
     - .gitignore
-    - .git/info/exclude
 
-  Symlinks:
-    - AGENTS.md        → TOOLBOX
-    - _shared/         → TOOLBOX
-    - .cursor/rules/   → TOOLBOX
-    - .cursor/commands/ → TOOLBOX
-    - .cursor/plans/   → TOOLBOX
+  Knowledge files:
+    - _knowledge/      (copied from {PIPELINE_DIR})
+
+  Links:
+    - _shared/         → {SHARED_CONFIG_DIR} (only if set)
 
   Directories:
     - docs/input/
@@ -318,7 +287,7 @@ Done.
     - docs/output/_process/visual-audit/diagrams/
     - docs/output/docs/
 
-  Obsidian: {VAULT}/projects/{PROJECT_NAME}.md
+  Project note: {NOTES_DIR}/{PROJECT_NAME}.md (only if NOTES_DIR is set)
 
 Next step: copy the source doc into docs/input/ and run `/docs-pipeline` or `/docs-diataxis-audit`.
 ```
@@ -328,8 +297,5 @@ Next step: copy the source doc into docs/input/ and run `/docs-pipeline` or `/do
 ## Notes
 
 - All operations are idempotent — safe to re-run
-- TOOLBOX path: `~/projects/TOOLBOX`
-- Obsidian vault: set `VAULT` constant at the top to your vault path
 - Never overwrite existing files
-- No MISTAKES_TO_AVOID.md symlink (retired)
 - **Bash safety:** Never use `cd &&` or compound commands. Use absolute paths and `git -C`. One command per Bash tool call.

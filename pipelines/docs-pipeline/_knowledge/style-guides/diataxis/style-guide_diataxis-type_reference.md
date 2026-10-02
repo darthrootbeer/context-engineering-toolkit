@@ -40,7 +40,7 @@ Avoid: "How to use...", "Understanding...", "Getting started..."
 
 ## Content Templates
 
-**API Endpoint**: Title `## POST /v1/merchants` → Description (1 line) → **Request** (headers, body params table) → **Response** (success code + object, error codes) → **Example** (minimal curl/code)
+**API Endpoint**: Title `## POST /v1/orders` → Description (1 line) → **Request** (headers, body params table) → **Response** (success code + object, error codes) → **Example** (minimal curl/code)
 
 **Function/Method**: Title `## calculateTotal()` → Description → **Syntax** (signature) → **Parameters** (table or inline: name, type, required, description+constraints+defaults) → **Returns** (type + description) → **Throws** (error types + conditions) → **Example**
 
@@ -48,7 +48,7 @@ Avoid: "How to use...", "Understanding...", "Getting started..."
 
 **Error Code**: Title `## E_CODE_NAME` → Code | HTTP | Category → Description → Causes (list) → Resolution (list) → Related codes
 
-**Object/Model**: Title `## Merchant Object` → Description → **Attributes** table (attribute, type, description+constraints) → **Example** (JSON)
+**Object/Model**: Title `## Order Object` → Description → **Attributes** table (attribute, type, description+constraints) → **Example** (JSON)
 
 **Enumeration**: Title `## Status` → Table (value, description) → Type | Used in (inline)
 
@@ -56,7 +56,7 @@ Avoid: "How to use...", "Understanding...", "Getting started..."
 
 **Voice**: Third person, neutral, present tense. Technical precision over readability. No imperative/opinions/recommendations.
 
-- ✅ "Returns Merchant object" ❌ "This will return..."
+- ✅ "Returns Order object" ❌ "This will return..."
 - ✅ "Throws TypeError if not array" ❌ "Make sure items is an array"
 
 **Requirements**: Exhaustive (ALL params/values/errors/constraints), Precise (exact types/constraints/defaults), Consistent (format/ordering/terminology)
@@ -70,7 +70,7 @@ Avoid: "How to use...", "Understanding...", "Getting started..."
 **Exclude**: Instructions ("First, do X..."), explanations (why/how internally), advice ("We recommend..."), tutorials, problem-solving
 
 - ❌ "To authenticate, first obtain API key, then include in header" → ✅ "Authentication requires Bearer token in Authorization header"
-- ❌ "We use idempotency keys to prevent duplicate charges" → ✅ "Idempotency-Key (string, optional): Prevents duplicates. Max 255 chars. 24hr cache"
+- ❌ "We use idempotency keys to prevent duplicate orders" → ✅ "Idempotency-Key (string, optional): Prevents duplicates. Max 255 chars. 24hr cache"
 
 ## Formatting
 
@@ -89,11 +89,11 @@ Avoid: "How to use...", "Understanding...", "Getting started..."
 
 ## Common Mistakes
 
-- ❌ "To create a merchant, send POST..." → ✅ "POST /v1/merchants creates merchant"
+- ❌ "To create an order, send POST..." → ✅ "POST /v1/orders creates order"
 - ❌ "Webhooks work by sending HTTP..." → ✅ "Webhook endpoints receive POST requests"
 - ❌ Document only "important" params → ✅ Document ALL params
 - ❌ "String. Keep it short." → ✅ "String. Max 255 chars. Pattern: ^[A-Za-z0-9_-]+$"
-- ❌ "We recommend async/await" → ✅ "Returns Promise<Merchant>"
+- ❌ "We recommend async/await" → ✅ "Returns Promise<Order>"
 
 ## Template
 

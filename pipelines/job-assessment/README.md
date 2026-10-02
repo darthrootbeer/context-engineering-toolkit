@@ -76,13 +76,13 @@ No production machine-learning or retrieval (RAG) work is claimed. This is promp
 
 ## Verified
 
-Run on 2026-10-01 from a fresh `git clone` of this repo at commit `17a49ce`, in a new virtual environment with Python 3.11, on macOS:
+Run on 2026-10-01 from a fresh `git clone` of this repo, checked out at the commit just before the one that wrote this block (the hash is left out because a squash merge replaces it), in a new virtual environment with Python 3.11.11, on macOS:
 
 ```text
 $ python3 -m pytest -q -p no:cacheprovider
 SKIPPED [1] tests/live/test_live_assessment.py:97: live tests are off: set JA_LIVE=1 to run them (they call a model and cost money)
 SKIPPED [1] tests/live/test_live_intake.py:38: live tests are off: set JA_LIVE=1 to run them (they call a model and cost money)
-461 passed, 2 skipped in 24.85s
+542 passed, 2 skipped in 25.73s
 $ python3 scripts/validate_profile.py --fixture fixtures/robin-sample/career-profile.yaml
 validate_profile: clean, 0 warning(s) in career-profile.yaml
 $ python3 scripts/validate_profile.py fixtures/broken-profile.yaml; echo "exit=$?"
@@ -93,7 +93,7 @@ ASSESSMENT: fixtures/postings/03-unlisted-pay-perks.md
 🚦 VERDICT: Apply with reservations
 ```
 
-Clone, install and all of the above took 31 seconds, and left the clone with no changed files. CI repeats the same steps in a fresh clone on every pull request (the `clean-clone` job) and runs the tests on Ubuntu and macOS with Python 3.10 and 3.12. The test count grows over time; the [CI runs](https://github.com/darthrootbeer/context-engineering-toolkit/actions) show the current one.
+Clone, install and all of the above took about 30 seconds, and left the clone with no changed files. CI repeats the same steps in a fresh clone on every pull request (the `clean-clone` job) and runs the tests on Ubuntu and macOS with Python 3.10 and 3.12. The test count grows over time; the [CI runs](https://github.com/darthrootbeer/context-engineering-toolkit/actions) show the current one.
 
 The ten prompts in `prompts/` were each run on Claude Sonnet and Claude Haiku, once per prompt per model, and graded by a Claude model (Claude Opus for the first round, Claude Sonnet 5.5 for the re-runs of prompts 03, 04, 05 and 06) against a written good-answer list that was written before each run. No claim is made that a person re-graded the answers, and one run is not a pass rate. Sonnet passed all ten. Haiku passed seven and partly passed three: "Fix errors", where it still suggests values the file does not allow, "Customize to my background", where it sometimes skipped reading an entry back and once offered an example that was the answer itself, and "Find gaps", where it missed some planted gaps. Prompt 05 was tested on a second, held-out profile whose gaps the prompt does not name: Sonnet found 6 of 6 and Haiku 5 of 6. Five prompts were rewritten after a failed or partial run (prompt 05 twice), and every earlier run is kept in [`tests/prompt-runs/earlier-versions/`](tests/prompt-runs/earlier-versions/), with the grades in [`tests/prompt-runs/GRADES.md`](tests/prompt-runs/GRADES.md).
 

@@ -1,6 +1,8 @@
 <!-- FICTIONAL EXAMPLE DATA. Not a real person. Saved by tests/prompt-runs/run_prompts.py -->
 # Prompt run: Fix errors, on sonnet
 
+Note: the pay figures in this record were changed after the run to fictional ones. Nothing else was edited; the scores and verdicts are as recorded.
+
 - Prompt file: `prompts/06-fix-errors.txt`
 - Date: 2026-10-01. Model alias `sonnet`, which ran as `claude-sonnet-5-5` (Claude Code can add a small helper model call of its own).
 - Turns: 1. Cost: $0.03 (the simulated user's calls are not included).
@@ -53,22 +55,22 @@ Your options:
 
 ## 3. `comp`
 
-**Cause:** The pay numbers must satisfy `floor <= min <= open_ask <= target <= stretch_ceiling`. Here `min` (130000) is above `open_ask` (125000).
+**Cause:** The pay numbers must satisfy `floor <= min <= open_ask <= target <= stretch_ceiling`. Here `min` (98000) is above `open_ask` (85000).
 
 **Path:** `comp.min` and `comp.open_ask`.
 
-Which number is wrong is your call. Either lower `min` to 125000 or less (and keep it at or above the floor of 90000), or raise `open_ask` to at least 130000 (and keep it at or below the target of 140000).
+Which number is wrong is your call. Either lower `min` to 85000 or less (and keep it at or above the floor of 75000), or raise `open_ask` to at least 98000 (and keep it at or below the target of 100000).
 
 ```yaml
 # before
-  min: 130000
-  open_ask: 125000
+  min: 98000
+  open_ask: 85000
 # after (fix one of the two)
-  min: <your value, between 90000 and open_ask>
-  open_ask: 125000
+  min: <your value, between 75000 and open_ask>
+  open_ask: 85000
 # or
-  min: 130000
-  open_ask: <your value, between 130000 and 140000>
+  min: 98000
+  open_ask: <your value, between 98000 and 100000>
 ```
 
 ## 4. `evidence[1].proof`

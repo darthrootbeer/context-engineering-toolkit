@@ -29,8 +29,8 @@ PROFILE = {
     "named_exceptions": [
         {"company": "Placeholder Labs", "block_id": "non_remote", "why": "One-off.", "added": "2026-10-01"},
     ],
-    "comp": {"currency": "USD", "floor": 90000, "min": 110000, "open_ask": 125000,
-             "target": 140000, "stretch_ceiling": 170000},
+    "comp": {"currency": "USD", "floor": 75000, "min": 80000, "open_ask": 85000,
+             "target": 100000, "stretch_ceiling": 175000},
     "culture": {
         "perks": [{"id": "unlimited_pto", "label": "Unlimited PTO", "kind": "big"},
                   {"id": "offsites", "label": "Regular offsites", "kind": "nice"}],

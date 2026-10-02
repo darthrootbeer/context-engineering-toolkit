@@ -1,6 +1,8 @@
 <!-- FICTIONAL EXAMPLE DATA. Not a real person. Saved by tests/prompt-runs/run_prompts.py -->
 # Prompt run: Run on my first posting, on haiku
 
+Note: the pay figures in this record were changed after the run to fictional ones. Nothing else was edited; the scores and verdicts are as recorded.
+
 - Prompt file: `prompts/03-run-first-posting.txt`
 - Date: 2026-10-01. Model alias `haiku`, which ran as `claude-haiku-4-5-20251001` (Claude Code can add a small helper model call of its own).
 - Turns: 1. Cost: $0.12 (the simulated user's calls are not included).
@@ -115,15 +117,15 @@ Proceeding with the full read.
     "tiers": [
       {
         "label": "Region B",
-        "min": 125000,
-        "max": 150000,
-        "quote": "Base pay range for Region B: $125,000 to $150,000."
+        "min": 100000,
+        "max": 104000,
+        "quote": "Base pay range for Region B: $100,000 to $104,000."
       },
       {
         "label": "Region A",
-        "min": 140000,
-        "max": 170000,
-        "quote": "Region A: $140,000 to $170,000."
+        "min": 102000,
+        "max": 118000,
+        "quote": "Region A: $102,000 to $118,000."
       }
     ]
   },
@@ -192,7 +194,7 @@ Proceeding with the full read.
 
 **Fit: 10** — All four requirements rated strong or better; autonomy reads positive; no avoidance conflicts.
 
-**Comp: 8** — Region B top pay ($150k) falls between your open ask (125k) and target (140k), per the scoring rules.
+**Comp: 8** — Region B top pay ($104k) falls between your open ask (85k) and target (100k), per the scoring rules.
 
 **Qualifications: 9** — You have 9 years against their 7-year ask; OpenAPI and docs-as-code are backed. Go is a known gap for this lane; costs 1 point.
 

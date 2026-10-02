@@ -47,19 +47,19 @@
     "tiers": [
       {
         "label": "Region A",
-        "min": 105000,
-        "max": 120000,
-        "quote": "Region A: $105,000 to $120,000."
+        "min": 82000,
+        "max": 98000,
+        "quote": "Region A: $82,000 to $98,000."
       },
       {
         "label": "Everywhere else",
-        "min": 85000,
-        "max": 100000,
-        "quote": "Everywhere else: $85,000 to $100,000."
+        "min": 72000,
+        "max": 78000,
+        "quote": "Everywhere else: $72,000 to $78,000."
       }
     ],
     "tier_used": "Everywhere else",
-    "top": 100000,
+    "top": 78000,
     "other_pay_noted": []
   },
   "culture": {

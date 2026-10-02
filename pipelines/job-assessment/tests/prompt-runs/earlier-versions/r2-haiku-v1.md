@@ -1,6 +1,8 @@
 <!-- FICTIONAL EXAMPLE DATA. Not a real person. Saved by tests/prompt-runs/run_prompts.py -->
 # Prompt run: Customize the rubric (assessment/README.md), on haiku
 
+Note: the pay figures in this record were changed after the run to fictional ones. Nothing else was edited; the scores and verdicts are as recorded.
+
 - Prompt file: `prompts/r2-customize-rubric.txt`
 - Date: 2026-10-01. Model alias `haiku`, which ran as `claude-haiku-4-5-20251001` (Claude Code can add a small helper model call of its own).
 - Turns: 6. Cost: $0.33 (the simulated user's calls are not included).
@@ -137,11 +139,11 @@ named_exceptions:
   - {company: Lanternfield Example Co., block_id: non_remote, why: "Robin lives a ten minute walk from this office and would go in.", added: "2026-10-01"}
 comp:
   currency: USD
-  floor: 90000
-  min: 110000
-  open_ask: 125000
-  target: 140000
-  stretch_ceiling: 170000
+  floor: 75000
+  min: 80000
+  open_ask: 85000
+  target: 100000
+  stretch_ceiling: 175000
 culture:
   perks:
     - {id: unlimited_pto, label: Unlimited PTO, kind: big}

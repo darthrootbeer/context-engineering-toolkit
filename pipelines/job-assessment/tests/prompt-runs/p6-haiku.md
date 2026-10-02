@@ -1,6 +1,8 @@
 <!-- FICTIONAL EXAMPLE DATA. Not a real person. Saved by tests/prompt-runs/run_prompts.py -->
 # Prompt run: Fix errors, on haiku
 
+Note: the pay figures in this record were changed after the run to fictional ones. Nothing else was edited; the scores and verdicts are as recorded.
+
 - Prompt file: `prompts/06-fix-errors.txt`
 - Date: 2026-10-01. Model alias `haiku`, which ran as `claude-haiku-4-5-20251001` (Claude Code can add a small helper model call of its own).
 - Turns: 1. Cost: $0.03 (the simulated user's calls are not included).
@@ -49,25 +51,25 @@ evidence_ids: [<existing-evidence-id>]  # e.g., ev-placeholder-docs-ci
 ---
 
 # Problem 3: comp
-**Cause:** The compensation values are not in ascending order—min (130000) exceeds open_ask (125000). The correct order must be: floor ≤ min ≤ open_ask ≤ target ≤ stretch_ceiling.
+**Cause:** The compensation values are not in ascending order—min (98000) exceeds open_ask (85000). The correct order must be: floor ≤ min ≤ open_ask ≤ target ≤ stretch_ceiling.
 
 **Location:** `comp.min` and `comp.open_ask`
 
 **Fix:** Reorder the pay values:
 ```yaml
 # Before
-floor: 90000
-min: 130000
-open_ask: 125000
-target: 140000
-stretch_ceiling: 170000
+floor: 75000
+min: 98000
+open_ask: 85000
+target: 100000
+stretch_ceiling: 175000
 
 # After
-floor: 90000
+floor: 75000
 min: <your value>
 open_ask: <your value>
-target: 140000
-stretch_ceiling: 170000
+target: 100000
+stretch_ceiling: 175000
 ```
 
 ---

@@ -101,8 +101,8 @@ The split follows Modestino, Shoag and Ballance (*Review of Economics and Statis
 | 12+ years of technical writing experience. | experience | likely filter |
 | Fluent in DITA XML and a component content management system. | skill | likely real |
 | Experience documenting iOS and Android SDKs. | skill | likely real |
-| Region A: $105,000 to $120,000. | skill | likely real |
-| Everywhere else: $85,000 to $100,000. | skill | likely real |
+| Region A: $82,000 to $98,000. | skill | likely real |
+| Everywhere else: $72,000 to $78,000. | skill | likely real |
 
 ---
 
@@ -142,6 +142,6 @@ Driftmark sells training courses for a software product. We are a friendly team 
 
 ## Pay
 
-- Region A: $105,000 to $120,000.
-- Everywhere else: $85,000 to $100,000.
+- Region A: $82,000 to $98,000.
+- Everywhere else: $72,000 to $78,000.
 

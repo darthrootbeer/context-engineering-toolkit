@@ -1,6 +1,8 @@
 <!-- FICTIONAL EXAMPLE DATA. Not a real person. Saved by tests/prompt-runs/run_prompts.py -->
 # Prompt run: Test the scoring with the fixture, on haiku
 
+Note: the pay figures in this record were changed after the run to fictional ones. Nothing else was edited; the scores and verdicts are as recorded.
+
 - Prompt file: `prompts/04-test-scoring.txt`
 - Date: 2026-10-01. Model alias `haiku`, which ran as `claude-haiku-4-5-20251001` (Claude Code can add a small helper model call of its own).
 - Turns: 1. Cost: $0.06 (the simulated user's calls are not included).
@@ -30,7 +32,7 @@ I'll work through each posting systematically, applying the scoring rules from A
 - Autonomy: "positive" → 0
 - **10 - 1 = 9**
 
-**Comp:** Pay listed. Region B tier: max $150,000. Robin's target is $140,000. $150,000 ≥ target → **10**
+**Comp:** Pay listed. Region B tier: max $104,000. Robin's target is $78,000. $104,000 ≥ target → **10**
 
 **Qualifications:** Start at 10.
 - Years: 7+ required, Robin has 9 → 0
@@ -58,7 +60,7 @@ I'll work through each posting systematically, applying the scoring rules from A
 - Avoid skills: `video_tutorials` (core) -1, `localization_pm` (core) -1, capped at 2 total → -2
 - **10 - 1 - 2 = 7**
 
-**Comp:** Pay listed. Robin's location "Region B" doesn't match any tier. Falls back to "Everywhere else" tier: max $100,000. Robin's floor is $90,000, min is $110,000. $100,000 ≥ floor but below min → **3**
+**Comp:** Pay listed. Robin's location "Region B" doesn't match any tier. Falls back to "Everywhere else" tier: max $78,000. Robin's floor is $75,000, min is $80,000. $78,000 ≥ floor but below min → **3**
 
 **Qualifications:** Start at 10.
 - Years: 12+ required, Robin has 9 → -2

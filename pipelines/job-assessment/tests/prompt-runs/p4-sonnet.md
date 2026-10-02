@@ -1,6 +1,8 @@
 <!-- FICTIONAL EXAMPLE DATA. Not a real person. Saved by tests/prompt-runs/run_prompts.py -->
 # Prompt run: Test the scoring with the fixture, on sonnet
 
+Note: the pay figures in this record were changed after the run to fictional ones. Nothing else was edited; the scores and verdicts are as recorded.
+
 - Prompt file: `prompts/04-test-scoring.txt`
 - Date: 2026-10-01. Model alias `sonnet`, which ran as `claude-sonnet-5-5` (Claude Code can add a small helper model call of its own).
 - Turns: 1. Cost: $0.12 (the simulated user's calls are not included).
@@ -23,7 +25,7 @@ I did all three by hand from the findings files, the profile and ARCHITECTURE.md
 | Score | Arithmetic | Result |
 |---|---|---|
 | Fit | 10. `ai_forward` (strong must-have) rated strong: 0. `docs_as_code` (strong) rated strong: 0. `ci_for_docs` (soft) rated weak: -1. `solo_ownership` is a bonus: 0. Autonomy net positive: 0. No avoid-core skills: 0. | **9** |
-| Comp | The tier is Region B, matching Robin's location label. Top is 150,000, which is at or above the target of 140,000. | **10** |
+| Comp | The tier is Region B, matching Robin's location label. Top is 104,000, which is at or above the target of 78,000. | **10** |
 | Qualifications | 10. Asks for 7 years and Robin has 9: 0. Known gap `go_lang`: -1. No self-score gaps. No style mismatch. | **9** |
 | Culture | 5. Unlimited PTO (big) +2, learning budget (big) +2, meetups (nice) +1, "definition of done" (strong positive) +1. That is 11, capped at 10. | **10** |
 
@@ -39,7 +41,7 @@ I did all three by hand from the findings files, the profile and ARCHITECTURE.md
 | Score | Arithmetic | Result |
 |---|---|---|
 | Fit | 10. `expert_access` (strong) fair: 0. `tooling_voice` (strong) fair: 0. `style_guide` (soft) poor: -1. Autonomy unknown: 0. Avoid-core skills are `video_tutorials` and `localization_pm`, -1 each, which is within the cap of 2: -2. 10 - 1 - 2 = 7. | **7** |
-| Comp | No tier label contains "Region B", so the code uses the "Everywhere else" tier. Top is 100,000, which is at or above the floor of 90,000 but below the min of 110,000. | **3** |
+| Comp | No tier label contains "Region B", so the code uses the "Everywhere else" tier. Top is 78,000, which is at or above the floor of 75,000 but below the min of 80,000. | **3** |
 | Qualifications | 10. Asks for 12 years and Robin has 9: -2, once. Known gaps `dita_xml` and `mobile_sdk`: -2. Nothing else. 10 - 2 - 2 = 6. | **6** |
 | Culture | 5. No perks, phrases, flags or hustle language. | **5** |
 
@@ -76,5 +78,5 @@ The scores would not have changed this outcome: Comp is 3 (so 4c would also appl
 
 Three steps could have gone differently:
 - **01 Culture:** the raw sum is 11, so the cap at 10 matters.
-- **02 Comp:** it only lands on 3 if you pick the "Everywhere else" tier, which is what Interpretation 7 says to do when no tier names Region B. Using Region A's top of 120,000 would give 8.
+- **02 Comp:** it only lands on 3 if you pick the "Everywhere else" tier, which is what Interpretation 7 says to do when no tier names Region B. Using Region A's top of 98,000 would give 8.
 - **02 Fit:** it needs the avoid-skills cap of 2 applied across both listed skills, with no stacking beyond that.

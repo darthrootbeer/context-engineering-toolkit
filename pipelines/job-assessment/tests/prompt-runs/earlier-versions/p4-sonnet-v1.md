@@ -1,6 +1,8 @@
 <!-- FICTIONAL EXAMPLE DATA. Not a real person. Saved by tests/prompt-runs/run_prompts.py -->
 # Prompt run: Test the scoring with the fixture, on sonnet
 
+Note: the pay figures in this record were changed after the run to fictional ones. Nothing else was edited; the scores and verdicts are as recorded.
+
 - Prompt file: `prompts/04-test-scoring.txt`
 - Date: 2026-10-01. Model alias `sonnet`, which ran as `claude-sonnet-5-5` (Claude Code can add a small helper model call of its own).
 - Turns: 1. Cost: $0.12 (the simulated user's calls are not included).
@@ -23,7 +25,7 @@ I worked all three from the rules and findings first, then compared against `exp
 | Score | Arithmetic | Result |
 |---|---|---|
 | Fit | 10. `ai_forward` (strong, rated strong): 0. `docs_as_code` (strong, rated strong): 0. `ci_for_docs` (soft, rated weak): -1. `solo_ownership` is a bonus: 0. Autonomy is net positive: 0. No avoided skills. 10 - 1 = 9. | **9** |
-| Comp | Robin's label is Region B, so the Region B tier is used (not the model's choice, but the same). Top is $150,000, which is at or above the $140,000 target. | **10** |
+| Comp | Robin's label is Region B, so the Region B tier is used (not the model's choice, but the same). Top is $104,000, which is at or above the $78,000 target. | **10** |
 | Qualifications | 10. The posting asks for 7 years and Robin has 9: 0. `go_lang` is a known gap: -1. Robin's self-score of 1 on Go is the same skill, so it counts once: 0. No working-style mismatch. 10 - 1 = 9. | **9** |
 | Culture | 5. `unlimited_pto` (big): +2. `learning_budget` (big): +2. `offsites` (nice): +1. "definition of done" (strong positive phrase): +1. 5 + 2 + 2 + 1 + 1 = 11, clamped to the cap of 10. | **10** |
 
@@ -39,7 +41,7 @@ I worked all three from the rules and findings first, then compared against `exp
 | Score | Arithmetic | Result |
 |---|---|---|
 | Fit | 10. `expert_access` (strong, fair): 0. `tooling_voice` (strong, fair): 0. `style_guide` (soft, poor): -1. Autonomy unknown: 0. Avoided skills that are core daily work: `video_tutorials` -1 and `localization_pm` -1, which is -2 and within the cap of 2. 10 - 1 - 2 = 7. | **7** |
-| Comp | No tier label contains "Region B", so the "Everywhere else" tier is used. Top is $100,000: at or above the $90,000 floor, below the $110,000 min. | **3** |
+| Comp | No tier label contains "Region B", so the "Everywhere else" tier is used. Top is $78,000: at or above the $75,000 floor, below the $80,000 min. | **3** |
 | Qualifications | 10. 12 years asked against Robin's 9: -2 (once). Known gaps `dita_xml` and `mobile_sdk`: -2. No self-score gaps. 10 - 2 - 2 = 6. | **6** |
 | Culture | 5. No perks, phrases, flags or negatives. | **5** |
 

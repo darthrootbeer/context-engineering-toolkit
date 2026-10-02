@@ -1,6 +1,8 @@
 <!-- FICTIONAL EXAMPLE DATA. Not a real person. Saved by tests/prompt-runs/run_prompts.py -->
 # Prompt run: Fix errors, on sonnet
 
+Note: the pay figures in this record were changed after the run to fictional ones. Nothing else was edited; the scores and verdicts are as recorded.
+
 - Prompt file: `prompts/06-fix-errors.txt`
 - Date: 2026-10-01. Model alias `sonnet`, which ran as `claude-sonnet-5-5` (Claude Code can add a small helper model call of its own).
 - Turns: 1. Cost: $0.04 (the simulated user's calls are not included).
@@ -43,20 +45,20 @@ evidence_ids: [ev-placeholder-release-notes]
 ```
 
 ## 3. `comp`: `min` is above `open_ask`
-**Cause:** The order must be `floor <= min <= open_ask <= target <= stretch_ceiling`, but `min` is 130000 and `open_ask` is 125000.
+**Cause:** The order must be `floor <= min <= open_ask <= target <= stretch_ceiling`, but `min` is 98000 and `open_ask` is 85000.
 **Choices:** The number is your decision. Change one of the two:
-- Lower `min` to a value from 90000 (`floor`) to 125000.
-- Raise `open_ask` to a value from 130000 to 140000 (`target`).
+- Lower `min` to a value from 75000 (`floor`) to 85000.
+- Raise `open_ask` to a value from 98000 to 100000 (`target`).
 
 ```yaml
 # before
-min: 130000
-open_ask: 125000
-# after (option A: you pick min, 90000–125000)
+min: 98000
+open_ask: 85000
+# after (option A: you pick min, 75000–85000)
 min: <your value>
-open_ask: 125000
-# after (option B: you pick open_ask, 130000–140000)
-min: 130000
+open_ask: 85000
+# after (option B: you pick open_ask, 98000–100000)
+min: 98000
 open_ask: <your value>
 ```
 

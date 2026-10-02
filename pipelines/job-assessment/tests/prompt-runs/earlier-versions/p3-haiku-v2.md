@@ -1,6 +1,8 @@
 <!-- FICTIONAL EXAMPLE DATA. Not a real person. Saved by tests/prompt-runs/run_prompts.py -->
 # Prompt run: Run on my first posting, on haiku
 
+Note: the pay figures in this record were changed after the run to fictional ones. Nothing else was edited; the scores and verdicts are as recorded.
+
 - Prompt file: `prompts/03-run-first-posting.txt`
 - Date: 2026-10-01. Model alias `haiku`, which ran as `claude-haiku-4-5-20251001` (Claude Code can add a small helper model call of its own).
 - Turns: 1. Cost: $0.10 (the simulated user's calls are not included).
@@ -125,15 +127,15 @@ Now I'll read the posting systematically and write the findings.
     "tiers": [
       {
         "label": "Region B",
-        "min": 125000,
-        "max": 150000,
-        "quote": "Base pay range for Region B: $125,000 to $150,000."
+        "min": 100000,
+        "max": 104000,
+        "quote": "Base pay range for Region B: $100,000 to $104,000."
       },
       {
         "label": "Region A",
-        "min": 140000,
-        "max": 170000,
-        "quote": "Region A: $140,000 to $170,000."
+        "min": 102000,
+        "max": 118000,
+        "quote": "Region A: $102,000 to $118,000."
       }
     ],
     "tier_used": null,
@@ -219,7 +221,7 @@ Now I'll read the posting systematically and write the findings.
 
 **Fit: 10** – All four must-haves (AI-forward, docs-as-code, CI automation, ownership) rate strong or better; you'd have real autonomy over tools and priorities.
 
-**Comp: 8** – Region B tops out at $150,000, above your minimum ($110,000) but below your target ($140,000).
+**Comp: 8** – Region B tops out at $104,000, above your minimum ($80,000) but below your target ($100,000).
 
 **Qualifications: 9** – You exceed the 7 years required, your API docs work matches the OpenAPI requirement (ev-northwind-api-rebuild), your CI pipeline matches the build automation they need (ev-placeholder-ci-checks), and your docs-as-code pipeline matches their current setup (ev-placeholder-docs-pipeline). Only gap: reading Go code is self-score 1, not load-bearing for daily work.
 

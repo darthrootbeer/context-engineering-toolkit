@@ -148,7 +148,7 @@ Copperline makes writing tools for software teams. We are a remote company with 
 
 ## Pay and benefits
 
-- Base pay range for Region B: $125,000 to $150,000. Region A: $140,000 to $170,000.
+- Base pay range for Region B: $100,000 to $104,000. Region A: $102,000 to $118,000.
 - Unlimited paid time off, with a three-week minimum we ask everyone to take.
 - A $3,000 yearly learning budget.
 - Two team meetups a year.

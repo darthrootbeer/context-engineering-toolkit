@@ -111,6 +111,30 @@ def check(findings, posting_text, posting_lane, profile):
             return False
         return True
 
+    def objects(value, path):
+        """The object entries of a list. A non-list or a non-object entry is a problem."""
+        if value is None:
+            return []
+        if not isinstance(value, list):
+            add(path, "must be a list.")
+            return []
+        kept = []
+        for i, entry in enumerate(value):
+            if isinstance(entry, dict):
+                kept.append((i, entry))
+            else:
+                add(f"{path}[{i}]", "must be an object, not a plain value such as a string.")
+        return kept
+
+    def section(value, path):
+        """A findings section that must be an object. Anything else counts as empty."""
+        if value in (None, {}, [], ""):
+            return {}
+        if not isinstance(value, dict):
+            add(path, "must be an object.")
+            return {}
+        return value
+
     if not isinstance(findings, dict):
         return ["findings: the file is not a JSON object."]
 
@@ -131,7 +155,7 @@ def check(findings, posting_text, posting_lane, profile):
     requirement_ids = {r.get("id") for r in lane.get("requirements") or []}
 
     # Hard block.
-    block = findings.get("hard_block") or {}
+    block = section(findings.get("hard_block"), "hard_block")
     if block.get("tripped"):
         if block.get("id") not in blocks:
             add("hard_block.id", f'"{block.get("id")}" is not a hard block in the profile.')
@@ -141,18 +165,21 @@ def check(findings, posting_text, posting_lane, profile):
                 f'no named exception for "{block.get("id")}" exists in the profile.')
 
     # Job-type override.
-    override = findings.get("job_type_override") or {}
+    override = section(findings.get("job_type_override"), "job_type_override")
     if override.get("fired"):
         if not override.get("skill"):
             add("job_type_override.skill", "fired but names no skill.")
         quotes = override.get("quotes") or []
-        if not quotes:
+        if not isinstance(quotes, list):
+            add("job_type_override.quotes", "must be a list.")
+            quotes = []
+        elif not quotes:
             add("job_type_override.quotes", "fired but quotes nothing from the posting.")
         for i, q in enumerate(quotes):
             quote_ok(f"job_type_override.quotes[{i}]", q)
 
     # Requirement ratings. Silence is Unknown. Anything else needs a quote.
-    for i, item in enumerate(findings.get("requirements") or []):
+    for i, item in objects(findings.get("requirements"), "requirements"):
         path = f"requirements[{i}]"
         rating = str(item.get("rating", "")).lower()
         if rating not in RATINGS:
@@ -170,10 +197,13 @@ def check(findings, posting_text, posting_lane, profile):
                 "a read on autonomy rests only on generic phrases. The posting is silent, so rate it unknown.")
 
     # Autonomy read.
-    autonomy = findings.get("autonomy") or {}
+    autonomy = section(findings.get("autonomy"), "autonomy")
     if autonomy.get("net") in ("negative", "mixed"):
         quotes = autonomy.get("quotes") or []
-        if not quotes:
+        if not isinstance(quotes, list):
+            add("autonomy.quotes", "must be a list.")
+            quotes = []
+        elif not quotes:
             add("autonomy.quotes", "a read on autonomy quotes nothing from the posting.")
         found = [q for i, q in enumerate(quotes) if quote_ok(f"autonomy.quotes[{i}]", q)]
         if found and all(_generic_only(q) for q in found):
@@ -181,13 +211,13 @@ def check(findings, posting_text, posting_lane, profile):
                 "the autonomy read rests only on generic phrases. The posting is silent, so it is unknown, not negative.")
 
     # Culture: every change needs a quote.
-    culture = findings.get("culture") or {}
-    for i, perk in enumerate(culture.get("perks") or []):
+    culture = section(findings.get("culture"), "culture")
+    for i, perk in objects(culture.get("perks"), "culture.perks"):
         if perk.get("perk_id") not in perks:
             add(f"culture.perks[{i}].perk_id", f'"{perk.get("perk_id")}" is not a perk in the profile.')
         quote_ok(f"culture.perks[{i}].quote", perk.get("quote"))
     for key in ("strong_positive_phrases", "hustle", "negative_phrases", "soft_flags_tripped"):
-        for i, entry in enumerate(culture.get(key) or []):
+        for i, entry in objects(culture.get(key), f"culture.{key}"):
             quote_ok(f"culture.{key}[{i}].quote", entry.get("quote"))
     low = culture.get("low_time_off")
     if isinstance(low, dict):
@@ -196,11 +226,14 @@ def check(findings, posting_text, posting_lane, profile):
         add("culture.low_time_off", "has no quote from the posting.")
 
     # Qualifications: every claim points at real, usable evidence.
-    qual = findings.get("qualifications") or {}
-    for i, match in enumerate(qual.get("matches") or []):
+    qual = section(findings.get("qualifications"), "qualifications")
+    for i, match in objects(qual.get("matches"), "qualifications.matches"):
         path = f"qualifications.matches[{i}]"
         quote_ok(f"{path}.requirement_quote", match.get("requirement_quote"))
         ids = match.get("evidence_ids") or []
+        if not isinstance(ids, list):
+            add(f"{path}.evidence_ids", "must be a list of evidence ids.")
+            ids = []
         if not ids:
             add(f"{path}.evidence_ids", "a match with no evidence behind it. Write it as unproven instead.")
         for ev_id in ids:
@@ -211,7 +244,7 @@ def check(findings, posting_text, posting_lane, profile):
                 add(f"{path}.evidence_ids", f'"{ev_id}" is marked do_not_use and cannot back a claim.')
             elif entry.get("authorship") == "OTHER-AUTHOR":
                 add(f"{path}.evidence_ids", f'"{ev_id}" is work someone else wrote and cannot back a claim.')
-    for i, item in enumerate(qual.get("unproven") or []):
+    for i, item in objects(qual.get("unproven"), "qualifications.unproven"):
         path = f"qualifications.unproven[{i}]"
         if item.get("skill_id") not in skills:
             add(f"{path}.skill_id", f'"{item.get("skill_id")}" is not a skill in the profile.')
@@ -245,7 +278,13 @@ def main(argv=None):
         print(f"check_findings: could not read inputs: {exc}", file=sys.stderr)
         return 2
     meta, text = split_posting(raw)
-    problems = check(findings, text, meta.get("lane"), profile)
+    try:
+        problems = check(findings, text, meta.get("lane"), profile)
+    except (AttributeError, TypeError, KeyError) as exc:
+        # A shape this script does not know how to name. Still a bad findings
+        # file, so say so in one line and stop with the "problems found" code.
+        print(f"check_findings: the findings file has a shape this check cannot read ({exc}).")
+        return 1
     for line in problems:
         print(line)
     if problems:

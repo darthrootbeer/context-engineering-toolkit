@@ -18,11 +18,11 @@ hard_blocks:
     match_hints: [sports betting, casino]
 comp:
   currency: USD
-  floor: 90000
-  min: 130000
-  open_ask: 125000
-  target: 140000
-  stretch_ceiling: 170000
+  floor: 75000
+  min: 98000
+  open_ask: 85000
+  target: 100000
+  stretch_ceiling: 175000
 culture:
   perks:
     - {id: unlimited_pto, label: Unlimited PTO, kind: big}

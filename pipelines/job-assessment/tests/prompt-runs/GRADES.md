@@ -14,7 +14,7 @@ PASS means every item on the good-answer list held. PARTIAL means the main goal 
 | Prompt | File | Sonnet | Haiku | Record |
 |---|---|---|---|---|
 | Understand and teach | `01-understand-and-teach.txt` | PASS | PASS | `p1-*.md` |
-| Customize to my background (build my central file) | `02-customize.txt` | P2-SONNET | P2-HAIKU | `p2-*.md` |
+| Customize to my background (build my central file) | `02-customize.txt` | PASS | PASS (version 2 of the text was PARTIAL, see below) | `p2-*.md` |
 | Run on my first posting | `03-run-first-posting.txt` | PASS | PASS (an earlier run of the same text failed the quote check, see below) | `p3-*.md` |
 | Test the scoring with the fixture | `04-test-scoring.txt` | PASS | PASS | `p4-*.md` |
 | Find gaps in my central file | `05-find-gaps.txt` | PASS | PASS | `p5-*.md` |
@@ -43,8 +43,7 @@ Good answer: one question per turn; never suggests an answer or invents a fact; 
 - **Change:** the prompt now says the model cannot run commands, must never claim to have written anything, and must show the `add_entry.py` command for the user to run. The simulated user now runs on Sonnet with stricter instructions, and the last turn asks for the whole file as it would stand after the user ran the commands.
 - **Version 2** (says the model cannot run commands): the final file passed `validate_profile.py` for both models, with one expected warning (no perks yet). Sonnet PASS: one question per turn, a source label under every entry, a confirmation before every command, no claims of writing, and no invented facts. It covered stage 0 and the first employer in the 24 turns allowed. Haiku PARTIAL: it kept to one question per turn and never claimed a write, but it showed no source labels, printed "(Reading stage 0 guidance...)" for a file it did not have, and asked one two-part question in stage 1. Records: `earlier-versions/p2-*-v2.md`.
 - **Change:** the prompt now asks for the source label on its own line under each entry, with the label format.
-
-V3-PLACEHOLDER
+- **Version 3** (published): PASS on both. The final file passed `validate_profile.py` for both, with one expected warning (no perks yet). Both showed a source label under every entry, asked one question per turn, never claimed a write, and gave the `add_entry.py` commands for the user to run. Within the 24 turns both covered stage 0 and the first employer. Stage 2, where accomplishments get `proof` labels, was not reached in any version, so the `proof: unchecked` rule was not exercised by this prompt test. The live intake run in `../intake-transcript.md` does cover it. Notes: Haiku skipped the stage 0 question about documents to read first and saved the whole `person` section in one command at the end of the stage, which the stage 0 instructions allow. An earlier attempt at this version stopped with empty replies when the account hit a usage limit; it was rerun in full.
 
 ### 03 Run on my first posting
 

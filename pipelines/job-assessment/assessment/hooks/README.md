@@ -63,4 +63,4 @@ Paste this into any AI model, together with this document and `assessment-email-
 I'm attaching assessment/hooks/README.md and assessment-email-template-guard.sh. Explain what this hook blocks, what it lets through, and how to add it to my Claude Code settings. A good answer names every check the README lists and the exit code that blocks.
 ```
 
-**Tested on:** Claude Sonnet and Claude Haiku, 2026-10-01. Results for every prompt are in `../../tests/prompt-runs/GRADES.md`.
+**Tested on:** Claude Sonnet and Claude Haiku through the Claude Code command line, 2026-10-01. Both models passed. Every run, every rewrite and every grade is in `../../tests/prompt-runs/GRADES.md`.

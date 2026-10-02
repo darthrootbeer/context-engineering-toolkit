@@ -84,4 +84,4 @@ I'm attaching the output of a failed command from this tool (the validator, the 
 I'm attaching assessment/README.md, ARCHITECTURE.md and my career-profile.yaml. Help me change which perks count as big or nice and which phrases count as hustle, one question at a time, and show the YAML change for each. Do not change the verdict rules.
 ```
 
-**Tested on:** Claude Sonnet and Claude Haiku, 2026-10-01. Results for every prompt are in `../tests/prompt-runs/GRADES.md`.
+**Tested on:** Claude Sonnet and Claude Haiku through the Claude Code command line, 2026-10-01. Sonnet passed all 4 prompts here. Haiku passed 3 and partly passed "Fix errors" (it still suggests values the file does not allow). Every run, every rewrite and every grade is in `../tests/prompt-runs/GRADES.md`.

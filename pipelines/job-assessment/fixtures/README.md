@@ -54,4 +54,4 @@ Paste this into any AI model, together with `../ARCHITECTURE.md`, Robin's profil
 I'm attaching ARCHITECTURE.md, fixtures/robin-sample/career-profile.yaml, the three postings in fixtures/postings/ and their files in fixtures/findings/. For each posting, apply the scoring rules by hand to its findings file. Show the arithmetic for Fit, Comp, Qualifications and Culture, round each the way ARCHITECTURE.md says, then apply the verdict rules in order and name the rule that decided it. Only after all three answers are written, open fixtures/expected.yaml, compare, and list every mismatch with the step where your arithmetic and the file disagree. A good answer matches all three verdicts and all twelve scores.
 ```
 
-**Tested on:** Claude Sonnet and Claude Haiku, 2026-10-01. Results for every prompt are in `../tests/prompt-runs/GRADES.md`.
+**Tested on:** Claude Sonnet and Claude Haiku through the Claude Code command line, 2026-10-01. Both models passed. Every run, every rewrite and every grade is in `../tests/prompt-runs/GRADES.md`.

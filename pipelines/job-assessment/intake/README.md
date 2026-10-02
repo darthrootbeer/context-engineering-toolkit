@@ -62,4 +62,4 @@ I'm attaching intake/SKILL.md and intake/templates/career-profile.template.yaml.
 I'm attaching the 'What the validator checks' section of ARCHITECTURE.md and my career-profile.yaml. Find the weak spots the validator cannot catch: skills scored 3 or higher that rest on thin evidence, unchecked evidence a posting would lean on, evidence with no dates, must-haves or hard blocks with no reason, and lanes whose requirements look copied from each other. For each, give the exact YAML path, why it matters for scoring, and one question you would ask me to fix it. Do not fill any gap yourself. A good answer on fixtures/gappy-profile.yaml finds all three planted gaps.
 ```
 
-**Tested on:** Claude Sonnet and Claude Haiku, 2026-10-01. Results for every prompt are in `../tests/prompt-runs/GRADES.md`.
+**Tested on:** Claude Sonnet and Claude Haiku through the Claude Code command line, 2026-10-01. Both models passed both prompts here. Every run, every rewrite and every grade is in `../tests/prompt-runs/GRADES.md`.

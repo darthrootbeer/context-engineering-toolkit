@@ -225,4 +225,4 @@ I'm attaching the output of a failed command from this tool (the validator, the 
 I'm attaching ARCHITECTURE.md from a job assessment tool. Read its scoring and verdict rules. List every place where two careful readers could score the same posting differently, quote the rule, and propose one sentence that removes the ambiguity. Each sentence only clarifies: it keeps every number, band, cap and rule order exactly as the Scoring rules and Verdict rules tables state them, so check each sentence against those tables before you write it. If you think a rule itself is wrong, say so in a separate list instead of changing it. A good answer covers every item listed under Interpretations and does not invent new rules.
 ```
 
-**Tested on:** Claude Sonnet and Claude Haiku, 2026-10-01. Results for every prompt are in `tests/prompt-runs/GRADES.md`.
+**Tested on:** Claude Sonnet and Claude Haiku through the Claude Code command line, 2026-10-01. Sonnet passed all 4 prompts here. Haiku passed 3 and partly passed "Fix errors" (it still suggests values the file does not allow). Every run, every rewrite and every grade is in `tests/prompt-runs/GRADES.md`.

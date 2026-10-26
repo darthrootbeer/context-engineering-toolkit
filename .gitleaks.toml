@@ -1,5 +1,7 @@
-# Extends the default gitleaks rules and allows one thing only: the fake
-# placeholder YOUR_API_KEY used in a sample curl command. It is not a credential.
+# Extends the default gitleaks rules and allows two things only: the fake
+# placeholder YOUR_API_KEY used in a sample curl command, and the browser
+# storage label ja-skills-survey-v1 in an earlier version of the skills survey
+# page. Neither is a credential.
 # Matching on the placeholder text (not a commit hash) keeps it working
 # after squash merges, which create new commit hashes.
 title = "context-engineering-toolkit"
@@ -8,5 +10,5 @@ title = "context-engineering-toolkit"
 useDefault = true
 
 [allowlist]
-description = "Placeholder API key in documentation examples"
-regexes = ['''YOUR_API_KEY''']
+description = "Placeholder API key in documentation examples, and a browser storage label"
+regexes = ['''YOUR_API_KEY''', '''ja-skills-survey-v1''']

@@ -3,11 +3,16 @@
 
 Run from anywhere:  python3 pipelines/docs-pipeline/tests/check_pipeline.py
 
-It needs no model and no network. It checks four things:
+It needs no model and no network. It checks six things:
 1. Every `./_knowledge/...` path a skill file names exists in this folder.
 2. Every skill file has the frontmatter name the install loop relies on.
 3. No file mentions a private tool, home path, or leftover setup.
 4. The sample doc, the .gitignore template and the product knowledge starters ship.
+5. The orchestrator names every stage skill, so no stage can be dropped from the chain unnoticed.
+6. Every stage summary in the orchestrator ends with a "Proceed to ..." checkpoint, so no stage hands off without the human deciding to continue.
+
+The checkpoint is a prompt to the person running the pipeline, not code that blocks a stage.
+This script checks that the checkpoints are written; it cannot check that a model obeys them.
 
 Exit code 0 means clean, 1 means problems were printed.
 """
@@ -62,6 +67,26 @@ for rel in ["sample/acme-orders-cancellations.md", "workspace-gitignore.template
         problems.append(f"missing shipped file: {rel}")
 if not (READABILITY / "README.md").is_file():
     problems.append("missing skills/docs-readability-check/README.md")
+
+# 5. orchestrator names every stage skill
+ORCH = HERE / "docs-pipeline.md"
+orch_text = ORCH.read_text(encoding="utf-8")
+for f in skill_files:
+    if f.name in {"docs-pipeline.md", "docs-workspace-setup.md"}:
+        continue
+    name = "docs-readability-check" if f.name == "SKILL.md" else f.stem
+    if f"/{name}" not in orch_text:
+        problems.append(f"docs-pipeline.md: never calls /{name}")
+
+# 6. every stage summary ends with a checkpoint
+sections = re.split(r"(?m)^(?=#{2,3} Stage )", orch_text)
+for sec in sections:
+    heading = sec.split("\n", 1)[0]
+    if not heading.startswith("#"):
+        continue
+    ends_stage = re.search(r"(?i)complete|written", heading) or re.match(r"### Stage 4[a-c]", heading)
+    if ends_stage and "Proceed to" not in sec:
+        problems.append(f"docs-pipeline.md: '{heading.lstrip('# ')}' has no 'Proceed to' checkpoint")
 
 if problems:
     print(f"check_pipeline: {len(problems)} problem(s)")

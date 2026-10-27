@@ -38,6 +38,20 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+  docs-checks:
+    name: docs checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+      - run: pip install pyyaml
+      - name: The docs pipeline is complete and every stage ends in a checkpoint
+        run: python3 pipelines/docs-pipeline/tests/check_pipeline.py
+      - name: Code examples in the Markdown docs parse
+        run: python3 .github/scripts/check_examples.py
+
   tests:
     name: tests (${{ matrix.os }}, python ${{ matrix.python }})
     runs-on: ${{ matrix.os }}
